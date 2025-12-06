@@ -1,0 +1,50 @@
+package com.yuo.kaguya.Data;
+
+import com.yuo.kaguya.Item.DanmakuShotItem;
+import com.yuo.kaguya.Item.KaguyaSword;
+import com.yuo.kaguya.Item.ModItems;
+import com.yuo.kaguya.RlUtil;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.client.model.generators.ItemModelProvider;
+import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.RegistryObject;
+
+import java.util.Objects;
+
+public class ModItemModelProvider extends ItemModelProvider {
+    public ModItemModelProvider(PackOutput output, String modid, ExistingFileHelper existingFileHelper) {
+        super(output, modid, existingFileHelper);
+    }
+
+    @Override
+    protected void registerModels() {
+        for (RegistryObject<Item> entry : ModItems.ITEMS.getEntries()) {
+            Item item = entry.get();
+            if (item instanceof DanmakuShotItem){
+                this.shotItemModel(getRes(item));
+            }else if (item instanceof KaguyaSword){
+                this.handItemModel(getRes(item));
+            }else this.basicItem(item);
+        }
+
+    }
+
+    public ResourceLocation getRes(Item item){
+        return Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+    }
+
+    public void shotItemModel(ResourceLocation item){
+        this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", RlUtil.fa("item/shot/" + item.getPath()))
+                .texture("layer1", RlUtil.fa("item/shot/" + item.getPath() + "_2"));
+    }
+
+    public void handItemModel(ResourceLocation item){
+        this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/handheld"))
+                .texture("layer0", RlUtil.fa("item/" + item.getPath()));
+    }
+}

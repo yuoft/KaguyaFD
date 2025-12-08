@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -28,7 +29,7 @@ public class ModTabs {
 			.icon(() -> ModItems.hisouSword.get().getDefaultInstance())
 			.displayItems((parameters, output) -> {
 				for (RegistryObject<Item> entry : ModItems.ITEMS.getEntries()) {
-					if (entry.get() instanceof KaguyaSword || entry.get() instanceof KaguyaArmor){
+					if (entry.get() instanceof SwordItem || entry.get() instanceof KaguyaArmor){
 						output.accept(new ItemStack(entry.get()));
 					}
 				}
@@ -50,8 +51,8 @@ public class ModTabs {
 			.icon(() -> ModItems.heartShot.get().getDefaultInstance())
 			.displayItems((parameters, output) -> {
 				for (RegistryObject<Item> entry : ModItems.ITEMS.getEntries()) {
-					if (entry.get() instanceof DanmakuShotItem){
-						output.accept(new ItemStack(entry.get()));
+					if (entry.get() instanceof DanmakuShotItem danmakuShotItem){
+						output.accept(entry.get());
 					}
 				}
 

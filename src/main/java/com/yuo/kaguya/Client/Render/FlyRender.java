@@ -32,11 +32,12 @@ public class FlyRender extends EntityRenderer<DanmakuButterfly> {
     public void render(DanmakuButterfly danmaku, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int i) {
         super.render(danmaku, entityYaw, partialTicks, poseStack, bufferSource, i);
         int tickCount = danmaku.tickCount;
-        double a = 0.5d;
-        float mul = 45f * Mth.sin(tickCount / 90f * Mth.PI); //旋转角度
+        double a = 0.225d;
+        float mul = 45f * Mth.sin(tickCount / 22.5f * Mth.PI); //旋转角度
+        DanmakuColor color = danmaku.getColor();
 
         poseStack.pushPose();
-        poseStack.translate(0, 1, 0);
+        poseStack.translate(0, 0.1, 0);
         poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
         poseStack.mulPose(Axis.XP.rotationDegrees(45f));
         poseStack.mulPose(Axis.YP.rotationDegrees(mul));
@@ -46,16 +47,18 @@ public class FlyRender extends EntityRenderer<DanmakuButterfly> {
         PoseStack.Pose poseStackLast = poseStack.last();
         Matrix4f pose = poseStackLast.pose();
         Matrix3f normal = poseStackLast.normal();
+        GL11.glDepthMask(false);
+        GL11.glDisable(GL11.GL_CULL_FACE);//両面描画
 
-        vertex(buffer, pose, normal, -a, a, 0, 0, i);
-        vertex(buffer, pose, normal, -a, -a, 0, 1, i);
-        vertex(buffer, pose, normal, a, -a, 1, 1, i);
-        vertex(buffer, pose, normal, a, a, 1, 0, i);
+        vertex(buffer, pose, normal, -a, a, color,0, 0, i);
+        vertex(buffer, pose, normal, -a, -a,  color,0, 1, i);
+        vertex(buffer, pose, normal, a, -a,  color,1, 1, i);
+        vertex(buffer, pose, normal, a, a,  color,1, 0, i);
 
         poseStack.popPose();
 
         poseStack.pushPose();
-        poseStack.translate(0, 1, 0);
+        poseStack.translate(0, 0.1, 0);
         poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
         poseStack.mulPose(Axis.XP.rotationDegrees(45f));
         poseStack.mulPose(Axis.YP.rotationDegrees(-mul)); //对称旋转
@@ -65,15 +68,15 @@ public class FlyRender extends EntityRenderer<DanmakuButterfly> {
         Matrix4f pose0 = poseStackLast0.pose();
         Matrix3f normal0 = poseStackLast0.normal();
 
-        vertex(buffer0, pose0, normal0, -a, a, 0, 0, i);
-        vertex(buffer0, pose0, normal0, -a, -a, 0, 1, i);
-        vertex(buffer0, pose0, normal0, a, -a, 1, 1, i);
-        vertex(buffer0, pose0, normal0, a, a, 1, 0, i);
+        vertex(buffer0, pose0, normal0, -a, a,  color,0, 0, i);
+        vertex(buffer0, pose0, normal0, -a, -a,  color,0, 1, i);
+        vertex(buffer0, pose0, normal0, a, -a,  color,1, 1, i);
+        vertex(buffer0, pose0, normal0, a, a,  color,1, 0, i);
         poseStack.popPose();
     }
 
-    private static void vertex(VertexConsumer bufferIn, Matrix4f pose, Matrix3f normal, double x, double y, double texU, double texV, int packedLight) {
-        bufferIn.vertex(pose, (float) x, (float) y, 0.0F).color(255, 255, 255, 255).uv((float) texU, (float) texV).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
+    private static void vertex(VertexConsumer bufferIn, Matrix4f pose, Matrix3f normal, double x, double y, DanmakuColor color, double texU, double texV, int packedLight) {
+        bufferIn.vertex(pose, (float) x, (float) y, 0.0F).color(color.getRed(), color.getGreen(), color.getBlue(), 255).uv((float) texU, (float) texV).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
     }
 
     /** 蝶弾 */

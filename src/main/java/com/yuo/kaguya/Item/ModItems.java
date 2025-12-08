@@ -1,5 +1,7 @@
 package com.yuo.kaguya.Item;
 
+import com.yuo.kaguya.Entity.DanmakuType;
+import com.yuo.kaguya.Item.Weapon.YuyukoFan;
 import com.yuo.kaguya.Kaguya;
 import net.minecraft.world.item.ArmorItem.Type;
 import net.minecraft.world.item.ArmorMaterials;
@@ -46,7 +48,7 @@ public class ModItems {
 	public static RegistryObject<Item> roukanSword = ITEMS.register("roukan_sword", () -> new KaguyaSword(Tiers.DIAMOND));
 	public static RegistryObject<Item> toyosatomimiSword = ITEMS.register("toyosatomimi_sword", () -> new KaguyaSword(Tiers.DIAMOND));
 	public static RegistryObject<Item> yuukaParasol = ITEMS.register("yuuka_parasol", () -> new KaguyaSword(Tiers.DIAMOND));
-	public static RegistryObject<Item> yuyukoOugi = ITEMS.register("yuyuko_ougi", () -> new KaguyaSword(Tiers.DIAMOND));
+	public static RegistryObject<Item> yuyukoOugi = ITEMS.register("yuyuko_ougi", YuyukoFan::new);
 
 	public static RegistryObject<Item> closedThirdEye = ITEMS.register("closed_third_eye", KaguyaPrpo::new);
 	public static RegistryObject<Item> cursedDecoyDoll = ITEMS.register("cursed_decoy_doll", KaguyaPrpo::new);
@@ -67,25 +69,25 @@ public class ModItems {
 	public static RegistryObject<Item> ibukihyou = ITEMS.register("ibukihyou", () -> new KaguyaFood(KaguyaFood.ibukihyou));
 	public static RegistryObject<Item> koyasugai = ITEMS.register("koyasugai", () -> new KaguyaFood(KaguyaFood.koyasugai));
 
-	public static RegistryObject<Item> arrowShot = ITEMS.register("arrow_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> bigBightShot = ITEMS.register("big_bight_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> bigShot = ITEMS.register("big_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> butterflyShot = ITEMS.register("butterfly_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> circleShot = ITEMS.register("circle_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> crystalShot = ITEMS.register("crystal_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> heartShot = ITEMS.register("heart_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> knifeShot = ITEMS.register("knife_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> kunaiShot = ITEMS.register("kunai_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> lightShot = ITEMS.register("light_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> mediumShot = ITEMS.register("medium_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> ovalShot = ITEMS.register("oval_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> riceShot = ITEMS.register("rice_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> scaleShot = ITEMS.register("scale_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> smallShot = ITEMS.register("small_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> smallStarShot = ITEMS.register("small_star_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> starShot = ITEMS.register("star_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> talismanShot = ITEMS.register("talisman_shot", DanmakuShotItem::new);
-	public static RegistryObject<Item> tinyShot = ITEMS.register("tiny_shot", DanmakuShotItem::new);
+	public static RegistryObject<Item> arrowShot = ITEMS.register("arrow_shot", () -> new DanmakuShotItem(DanmakuType.TINY_BALL));
+	public static RegistryObject<Item> bigBightShot = ITEMS.register("big_bight_shot", () -> new DanmakuShotItem(DanmakuType.TINY_BALL));
+	public static RegistryObject<Item> bigShot = ITEMS.register("big_shot", () -> new DanmakuShotItem(DanmakuType.BIG_BALL));
+	public static RegistryObject<Item> butterflyShot = ITEMS.register("butterfly_shot", () -> new DanmakuShotItem(DanmakuType.BUTTER_FLY));
+	public static RegistryObject<Item> circleShot = ITEMS.register("circle_shot", () -> new DanmakuShotItem(DanmakuType.RING_BALL));
+	public static RegistryObject<Item> crystalShot = ITEMS.register("crystal_shot",() -> new DanmakuShotItem(DanmakuType.TINY_BALL));
+	public static RegistryObject<Item> heartShot = ITEMS.register("heart_shot",() -> new DanmakuShotItem(DanmakuType.TINY_BALL));
+	public static RegistryObject<Item> knifeShot = ITEMS.register("knife_shot", () -> new DanmakuShotItem(DanmakuType.TINY_BALL));
+	public static RegistryObject<Item> kunaiShot = ITEMS.register("kunai_shot", () -> new DanmakuShotItem(DanmakuType.TINY_BALL));
+	public static RegistryObject<Item> lightShot = ITEMS.register("light_shot", () -> new DanmakuShotItem(DanmakuType.TINY_BALL));
+	public static RegistryObject<Item> mediumShot = ITEMS.register("medium_shot", () -> new DanmakuShotItem(DanmakuType.MEDIUM_BALL));
+	public static RegistryObject<Item> ovalShot = ITEMS.register("oval_shot", () -> new DanmakuShotItem(DanmakuType.TINY_BALL));
+	public static RegistryObject<Item> riceShot = ITEMS.register("rice_shot", () -> new DanmakuShotItem(DanmakuType.TINY_BALL));
+	public static RegistryObject<Item> scaleShot = ITEMS.register("scale_shot", () -> new DanmakuShotItem(DanmakuType.TINY_BALL));
+	public static RegistryObject<Item> smallShot = ITEMS.register("small_shot", () -> new DanmakuShotItem(DanmakuType.SMALL_BALL));
+	public static RegistryObject<Item> smallStarShot = ITEMS.register("small_star_shot", () -> new DanmakuShotItem(DanmakuType.TINY_BALL));
+	public static RegistryObject<Item> starShot = ITEMS.register("star_shot", () -> new DanmakuShotItem(DanmakuType.TINY_BALL));
+	public static RegistryObject<Item> talismanShot = ITEMS.register("talisman_shot", () -> new DanmakuShotItem(DanmakuType.TINY_BALL));
+	public static RegistryObject<Item> tinyShot = ITEMS.register("tiny_shot",() -> new DanmakuShotItem(DanmakuType.TINY_BALL));
 
 //	public static RegistryObject<BlockItem> customSapling = ITEMS.register("custom_sapling",
 //			() -> new CustomSapling(OreCropBlocks.customSapling.get(), GROUP));

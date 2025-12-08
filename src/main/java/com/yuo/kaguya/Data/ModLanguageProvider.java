@@ -1,5 +1,6 @@
 package com.yuo.kaguya.Data;
 
+import com.yuo.kaguya.Item.DanmakuShotItem;
 import com.yuo.kaguya.Item.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
@@ -14,7 +15,9 @@ public class ModLanguageProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         for (RegistryObject<Item> entry : ModItems.ITEMS.getEntries()) {
-            this.add(entry.get(), "lang");
+//            if (entry.get() instanceof DanmakuShotItem){
+                this.add(entry.get(), "");
+//            }
         }
 
     }

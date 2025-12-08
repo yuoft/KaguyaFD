@@ -40,7 +40,7 @@ public class DanmakuRender extends EntityRenderer<DanmakuBase> {
 
         // 依据类型颜色开始定位材质位置（材质块都是 32 * 32 大小）
         double startU = 32 * color.ordinal();
-        double startV = 32 * type.ordinal();
+        double startV = 32 * type.getId();
 
         poseStack.pushPose();
         poseStack.translate(0, 0.1, 0);

@@ -11,6 +11,6 @@ public class ModEntityTypes {
 
     public static final RegistryObject<EntityType<DanmakuBase>> DANMAKU = ENTITY_TYPES.register("danmaku",
             () -> DanmakuBase.TYPE);
-    public static final RegistryObject<EntityType<DanmakuButterfly>> HEART_SHOT = ENTITY_TYPES.register("heart_shot",
+    public static final RegistryObject<EntityType<DanmakuButterfly>> HEART_SHOT = ENTITY_TYPES.register("danmaku_fly",
             () -> DanmakuButterfly.TYPE);
 }

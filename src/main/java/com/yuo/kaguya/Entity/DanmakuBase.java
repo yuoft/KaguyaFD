@@ -20,7 +20,8 @@ public class DanmakuBase extends ThrowableItemProjectile {
     public static final EntityType<DanmakuBase> TYPE = EntityType.Builder.<DanmakuBase>of(DanmakuBase::new, MobCategory.MISC)
             .sized(0.25F, 0.25F).clientTrackingRange(6).updateInterval(10).noSave().build("danmaku");
 
-    protected static final int MAX_TICKS_EXISTED = 200; //生命周期
+    protected int MAX_TICKS_EXISTED; //生命周期
+    protected static final int DEF_MAX_TICKS_EXISTED = 200; //生命周期
     protected static final EntityDataAccessor<Integer> DANMAKU_TYPE = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.INT); //弹幕类型--圆，方，星。。。
     protected static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.INT); //弹幕颜色
     protected static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.FLOAT); //弹幕攻击伤害
@@ -40,10 +41,12 @@ public class DanmakuBase extends ThrowableItemProjectile {
 
     public DanmakuBase(double x, double y, double z, Level level) {
         this(TYPE, x, y, z, level);
+        this.setMaxTicksExisted(200);
     }
 
     public DanmakuBase(Level level, LivingEntity living) {
         this(TYPE, level, living);
+        this.setMaxTicksExisted(200);
     }
 
     @Override
@@ -59,7 +62,7 @@ public class DanmakuBase extends ThrowableItemProjectile {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(DANMAKU_TYPE, DanmakuType.PELLET.ordinal());
+        this.entityData.define(DANMAKU_TYPE, DanmakuType.TINY_BALL.ordinal());
         this.entityData.define(COLOR, DanmakuColor.RED.ordinal());
         this.entityData.define(DAMAGE, 1.0f);
         this.entityData.define(GRAVITY, 0f); //默认无重力
@@ -77,7 +80,7 @@ public class DanmakuBase extends ThrowableItemProjectile {
     @Override
     public void tick() {
         super.tick();
-        if (this.tickCount % MAX_TICKS_EXISTED == 0) {
+        if (this.tickCount % getMAX_TICKS_EXISTED() == 0) {
             this.discard();
         }
     }
@@ -91,6 +94,14 @@ public class DanmakuBase extends ThrowableItemProjectile {
     public DanmakuBase setGravityVelocity(float gravity) {
         this.entityData.set(GRAVITY, gravity);
         return this;
+    }
+
+    public void setMaxTicksExisted(int ticksExisted) {
+        MAX_TICKS_EXISTED = ticksExisted;
+    }
+
+    public int getMAX_TICKS_EXISTED() {
+        return MAX_TICKS_EXISTED == 0 ? DEF_MAX_TICKS_EXISTED : MAX_TICKS_EXISTED;
     }
 
     public DanmakuType getDanmakuType() {

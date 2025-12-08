@@ -4,20 +4,21 @@ import java.util.Random;
 
 public enum DanmakuColor {
     // 各种颜色
-    RED(0xff0000),
-    ORANGE(0xff7f00),
-    YELLOW(0xfeff00),
-    LIME(0x7fff00),
-    LIGHT_GREEN(0x00ff00),
-    GREEN(0x00ff7f),
-    CYAN(0x1dfeff),
-    LIGHT_BLUE(0x007fff),
-    BLUE(0x0000ff),
-    PURPLE(0x7f00ff),
-    MAGENTA(0xff00fe),
-    PINK(0xff007f),
-    GRAY(0x8c8c8c);
+    RED(0xff0000, "red"),
+    ORANGE(0xff7f00, "orange"),
+    YELLOW(0xfeff00, "yellow"),
+    LIME(0x7fff00, "lime"),
+    LIGHT_GREEN(0x00ff00, "light_green"),
+    GREEN(0x00ff7f, "green"),
+    CYAN(0x1dfeff, "cyan"),
+    LIGHT_BLUE(0x007fff, "light_blue"),
+    BLUE(0x0000ff, "blue"),
+    PURPLE(0x7f00ff, "purple"),
+    MAGENTA(0xff00fe, "magenta"),
+    PINK(0xff007f, "pink"),
+    GRAY(0x8c8c8c, "gray");
 
+    private final String name;
     private final int rgb;
     private final int red;
     private final int green;
@@ -26,7 +27,8 @@ public enum DanmakuColor {
     private final int floatGreen;
     private final int floatBlue;
 
-    DanmakuColor(int color) {
+    DanmakuColor(int color, String name) {
+        this.name = name;
         this.rgb = color;
         this.red = color >> 16 & 255;
         this.green = color >> 8 & 255;
@@ -34,6 +36,19 @@ public enum DanmakuColor {
         this.floatRed = this.red / 255;
         this.floatGreen = this.green / 255;
         this.floatBlue = this.blue / 255;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public static DanmakuColor getColor(String colorName) {
+        for (DanmakuColor color : DanmakuColor.values()) {
+            if (color.getName().equals(colorName)) {
+                return color;
+            }
+        }
+        return random(new Random());
     }
 
     public static DanmakuColor getColor(int index) {

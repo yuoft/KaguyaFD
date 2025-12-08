@@ -12,10 +12,12 @@ import org.joml.Vector3f;
  * 各种类型弹幕的不同发射方式
  */
 public class DanmakuShootHelper {
-    private static final float VAL_DEF = 1.0f;
-    private static final float INA_DEF = 1.0f;
+    private static final float VAL_DEF = 1.0f; //默认发射初速度
+    private static final float INA_DEF = .1f; //默认发射偏移量
+    private static final float ZERO = .0f;
     private static final DanmakuColor COLOR_DEF = DanmakuColor.GREEN;
-    private static final DanmakuType TYPE_DEF = DanmakuType.PELLET;
+    private static final DanmakuType TYPE_DEF = DanmakuType.TINY_BALL;
+    private static final int MAX_SIZE = 100; //单次发射的最大弹幕数量
 
     /**
      * 直线发射弹幕--圆形
@@ -28,8 +30,8 @@ public class DanmakuShootHelper {
     /**
      * 直线发射弹幕--蝶形
      */
-    public static void shootDanmakuButterfly(Level level, LivingEntity living){
-        shootDanmakuButterfly(level, living, VAL_DEF, INA_DEF, COLOR_DEF);
+    public static void shootDanmakuFly(Level level, LivingEntity living){
+        shootDanmakuFly(level, living, VAL_DEF, INA_DEF, COLOR_DEF);
     }
 
     /**
@@ -42,7 +44,7 @@ public class DanmakuShootHelper {
      */
     public static void shootDanmaku(Level level, LivingEntity living, float vel, float ina, DanmakuColor color, DanmakuType type){
         DanmakuBase shot = new DanmakuBase(level, living);
-        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), 0.0F, vel, ina);
+        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
         shot.setDanmakuType(type);
         shot.setColor(color);
         addEntityAndSound(level, living, shot);
@@ -55,9 +57,9 @@ public class DanmakuShootHelper {
      * @param ina 误差
      * @param color 颜色
      */
-    public static void shootDanmakuButterfly(Level level, LivingEntity living, float vel, float ina, DanmakuColor color){
+    public static void shootDanmakuFly(Level level, LivingEntity living, float vel, float ina, DanmakuColor color){
         DanmakuButterfly shot = new DanmakuButterfly(level, living);
-        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), 0.0F, vel, ina);
+        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
         shot.setColor(color);
         addEntityAndSound(level, living, shot);
     }
@@ -68,7 +70,18 @@ public class DanmakuShootHelper {
      */
     public static void fanShapedShotDanmaku(Level level, LivingEntity living, int size){
         for(int i = 0; i < size; i++){
-            fanShapedShotDanmakuOne(level, living, getFanShapedAngle(i, size,size % 2 == 0));
+            DanmakuBase shot = new DanmakuBase(level, living);
+            shot.setDanmakuType(TYPE_DEF);
+            shot.setColor(COLOR_DEF);
+            fanShapedShotDanmakuOne(level, living, shot, getFanShapedAngle(i, size));
+        }
+    }
+
+    public static void fanShapedShotDanmakuFly(Level level, LivingEntity living, int size){
+        for(int i = 0; i < size; i++){
+            DanmakuButterfly shot = new DanmakuButterfly(level, living);
+            shot.setColor(COLOR_DEF);
+            fanShapedShotDanmakuOne(level, living, shot, getFanShapedAngle(i, size));
         }
     }
 
@@ -76,16 +89,13 @@ public class DanmakuShootHelper {
      * 水平扇形单次发射弹幕-- 圆形
      * @param angle 角度
      */
-    public static void fanShapedShotDanmakuOne(Level level, LivingEntity living, float angle){
-        DanmakuBase shot = new DanmakuBase(level, living);
-        shot.setDanmakuType(TYPE_DEF);
-        shot.setColor(COLOR_DEF);
+    public static void fanShapedShotDanmakuOne(Level level, LivingEntity living, DanmakuBase danmaku, float angle){
         Vec3 upVector = living.getUpVector(1.0F);
         Quaternionf quaternion = (new Quaternionf()).setAngleAxis(angle * 0.017453292F, upVector.x, upVector.y, upVector.z);
         Vec3 vector3d = living.getViewVector(1.0F);
         Vector3f vec = vector3d.toVector3f().rotate(quaternion);
-        shot.shoot(vec.x(), vec.y(), vec.z(), VAL_DEF, INA_DEF);
-        addEntityAndSound(level, living, shot);
+        danmaku.shoot(vec.x(), vec.y(), vec.z(), VAL_DEF, INA_DEF);
+        addEntityAndSound(level, living, danmaku);
     }
 
     /**
@@ -98,13 +108,13 @@ public class DanmakuShootHelper {
     }
 
     /**
-     * 获取水平扇形角度
-     * @param i 序数
+     * 获取扇形角度 120°角
+     * @param i 序数 0:0 1:-1 2:1 3:-2 4:2 偶数则去0项
      * @param size 总数
-     * @param flag 是否偏向左边
      * @return 角度
      */
-    private static float getFanShapedAngle(int i, int size, boolean flag){
-        return flag ?  -(45f - i * 4.5f): (i - size) * 4.5f;
+    private static float getFanShapedAngle(int i, int size){
+        int m = i % 2 == 0 ? i / 2  + (size % 2 == 0 ? 1 : 0) : -(i / 2 + 1);
+        return (60f / size) * m;
     }
 }

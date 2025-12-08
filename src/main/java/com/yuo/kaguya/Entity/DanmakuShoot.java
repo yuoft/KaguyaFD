@@ -17,7 +17,7 @@ public final class DanmakuShoot {
     private LivingEntity thrower = null;
     private LivingEntity target = null;
     private DanmakuColor color = DanmakuColor.RED;
-    private DanmakuType type = DanmakuType.PELLET;
+    private DanmakuType type = DanmakuType.TINY_BALL;
     private int impedingLevel = 0;
     private float gravity = 0.01f;
     private float damage = 1.0f;

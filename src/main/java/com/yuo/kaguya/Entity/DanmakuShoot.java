@@ -36,12 +36,12 @@ public final class DanmakuShoot {
         Preconditions.checkNotNull(thrower);
         Preconditions.checkNotNull(target);
         if (!world.isClientSide) {
-            DanmakuBase danmaku = new DanmakuBase(world, thrower)
-                    .setDamage(damage).setGravityVelocity(gravity)
-                    .setDanmakuType(type).setColor(color);
-            float offset = 0.3f / target.getBbHeight();
-            danmaku.shoot(target.getX() - thrower.getX(), target.getY() - thrower.getY() - offset, target.getZ() - thrower.getZ(), velocity, inaccuracy);
-            world.addFreshEntity(danmaku);
+//            DanmakuBase danmaku = new DanmakuBase(world, thrower)
+//                    .setDamage(damage).setGravityVelocity(gravity)
+//                    .setDanmakuType(type).setColor(color);
+//            float offset = 0.3f / target.getBbHeight();
+//            danmaku.shoot(target.getX() - thrower.getX(), target.getY() - thrower.getY() - offset, target.getZ() - thrower.getZ(), velocity, inaccuracy);
+//            world.addFreshEntity(danmaku);
         }
         world.playSound(null, thrower.getX(), thrower.getY(), thrower.getZ(), SoundEvents.SNOWBALL_THROW, thrower.getSoundSource(), 1.0f, 0.8f);
     }
@@ -61,11 +61,11 @@ public final class DanmakuShoot {
                 Vec3 v1 = v.yRot((float) yaw);
                 yaw = yaw + addYaw;
 
-                DanmakuBase danmaku = new DanmakuBase(world, thrower)
-                        .setDamage(damage).setGravityVelocity(gravity)
-                        .setDanmakuType(type).setColor(color);
-                danmaku.shoot(v1.x, v1.y, v1.z, velocity, inaccuracy);
-                world.addFreshEntity(danmaku);
+//                DanmakuBase danmaku = new DanmakuBase(world, thrower)
+//                        .setDamage(damage).setGravityVelocity(gravity)
+//                        .setDanmakuType(type).setColor(color);
+//                danmaku.shoot(v1.x, v1.y, v1.z, velocity, inaccuracy);
+//                world.addFreshEntity(danmaku);
             }
         }
         world.playSound(null, thrower.getX(), thrower.getY(), thrower.getZ(), SoundEvents.SNOWBALL_THROW, thrower.getSoundSource(), 1.0f, 0.8f);

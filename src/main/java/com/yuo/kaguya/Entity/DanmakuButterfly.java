@@ -21,10 +21,14 @@ public class DanmakuButterfly extends DanmakuBase {
         this.setMaxTicksExisted(MAX_TICKS_EXISTED);
     }
 
-    public DanmakuButterfly(Level level, LivingEntity living) {
+    public DanmakuButterfly(Level level, LivingEntity living, DanmakuType danmakuType, DanmakuColor danmakuColor) {
         super(TYPE, level, living);
+        this.danmakuType = danmakuType;
+        this.danmakuColor = danmakuColor;
+        this.setDanmakuType(this.danmakuType);
+        this.setColor(this.danmakuColor);
+        this.setGravityVelocity(0);
         this.setMaxTicksExisted(MAX_TICKS_EXISTED);
-        this.setDamage(10.f);
     }
 
     @Override

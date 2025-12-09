@@ -8,11 +8,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,14 +28,12 @@ public class DanmakuShotItem extends Item {
     public static final String NBT_DANMAKU_NUMBER = "DanmakuNumber";
     private final DanmakuType danmakuType;
     private DanmakuColor danmakuColor;
-    private final float danmakuDamage;
     private final int danmakuNumber;
 
     public DanmakuShotItem(DanmakuType type) {
         super(new Properties().stacksTo(64));
         this.danmakuType = type;
         this.danmakuColor = GRAY;
-        this.danmakuDamage = 1.0f;
         this.danmakuNumber = 1;
     }
 
@@ -47,7 +43,7 @@ public class DanmakuShotItem extends Item {
         CompoundTag tag = new CompoundTag();
         tag.putString(NBT_DANMAKU_TYPE, danmakuType.getName());
         tag.putString(NBT_DANMAKU_COLOR, danmakuColor.getName());
-        tag.putFloat(NBT_DANMAKU_DAMAGE, this.danmakuDamage);
+        tag.putFloat(NBT_DANMAKU_DAMAGE, danmakuType.getDamage());
         tag.putInt(NBT_DANMAKU_NUMBER, this.danmakuNumber);
         return stack;
     }
@@ -80,6 +76,8 @@ public class DanmakuShotItem extends Item {
             case BUTTER_FLY -> DanmakuShootHelper.shootDanmakuFly(world, player, VAL_DEF, INA_DEF, danmakuColor);
             default -> DanmakuShootHelper.shootDanmaku(world, player);
         }
+
+        player.getCooldowns().addCooldown(this, 10);
         if (!player.isCreative()) {
             stack.shrink(1);
         }
@@ -94,7 +92,7 @@ public class DanmakuShotItem extends Item {
         if (type.isEmpty()){
             tag.putString(NBT_DANMAKU_TYPE, danmakuType.getName());
             tag.putString(NBT_DANMAKU_COLOR, GRAY.getName());
-            tag.putFloat(NBT_DANMAKU_DAMAGE, danmakuDamage);
+            tag.putFloat(NBT_DANMAKU_DAMAGE, danmakuType.getDamage());
             tag.putInt(NBT_DANMAKU_NUMBER, danmakuNumber);
             stack.setTag(tag);
         }

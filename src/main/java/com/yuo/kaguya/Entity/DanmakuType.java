@@ -4,20 +4,21 @@ import java.util.Random;
 
 public enum DanmakuType {
     // 点圆弹,
-    TINY_BALL(0.6d, 0,"tiny_ball"),
+    TINY_BALL(0.6d, 0,0.5f,"tiny_ball"),
     // 小圆弹
-    SMALL_BALL(0.3d, 1,"small_ball"),
+    SMALL_BALL(0.3d, 1,1.0f,"small_ball"),
     // 中圆弹
-    MEDIUM_BALL(0.5d, 1,"medium_ball"),
+    MEDIUM_BALL(0.5d, 1,1.5f,"medium_ball"),
     // 大圆弹
-    BIG_BALL(0.5d, 3,"big_ball"),
+    BIG_BALL(0.5d, 3,2.0f,"big_ball"),
     // 环圆弹
-    RING_BALL(0.6d, 2,"ring_ball"),
+    RING_BALL(0.6d, 2,2.5f,"ring_ball"),
     // 蝴蝶
-    BUTTER_FLY(0.6d, 0,"button_fly"),;
+    BUTTER_FLY(0.6d, 0,5f,"button_fly"),;
 
     private final double size;
-    private final int id; //纹理位置序数
+    private final int resId; //纹理位置序数
+    private final float damage;
     private final String name;
 
     /**
@@ -25,9 +26,10 @@ public enum DanmakuType {
      *
      * @param size 弹幕渲染放大缩小倍数
      */
-    DanmakuType(double size,int id, String name) {
+    DanmakuType(double size,int resId, float damage, String name) {
         this.size = size;
-        this.id = id;
+        this.resId = resId;
+        this.damage = damage;
         this.name = name;
     }
 
@@ -54,8 +56,12 @@ public enum DanmakuType {
         return name;
     }
 
-    public int getId() {
-        return id;
+    public int getResId() {
+        return resId;
+    }
+
+    public float getDamage() {
+        return damage;
     }
 
     public static DanmakuType getType(String name) {

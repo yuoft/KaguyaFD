@@ -17,6 +17,7 @@ public class DanmakuShootHelper {
     private static final float ZERO = .0f;
     private static final DanmakuColor COLOR_DEF = DanmakuColor.GREEN;
     private static final DanmakuType TYPE_DEF = DanmakuType.TINY_BALL;
+    private static final DanmakuType FLY_DEF = DanmakuType.BUTTER_FLY;
     private static final int MAX_SIZE = 100; //单次发射的最大弹幕数量
 
     /**
@@ -43,10 +44,8 @@ public class DanmakuShootHelper {
      * @param type 类型
      */
     public static void shootDanmaku(Level level, LivingEntity living, float vel, float ina, DanmakuColor color, DanmakuType type){
-        DanmakuBase shot = new DanmakuBase(level, living);
+        DanmakuBase shot = new DanmakuBase(level, living, type, color);
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
-        shot.setDanmakuType(type);
-        shot.setColor(color);
         addEntityAndSound(level, living, shot);
     }
 
@@ -58,9 +57,8 @@ public class DanmakuShootHelper {
      * @param color 颜色
      */
     public static void shootDanmakuFly(Level level, LivingEntity living, float vel, float ina, DanmakuColor color){
-        DanmakuButterfly shot = new DanmakuButterfly(level, living);
+        DanmakuButterfly shot = new DanmakuButterfly(level, living, FLY_DEF, color);
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
-        shot.setColor(color);
         addEntityAndSound(level, living, shot);
     }
 
@@ -68,19 +66,16 @@ public class DanmakuShootHelper {
      * 水平扇形发射弹幕-- 圆形
      * @param size 数量
      */
-    public static void fanShapedShotDanmaku(Level level, LivingEntity living, int size){
+    public static void fanShapedShotDanmaku(Level level, LivingEntity living, int size, DanmakuType type, DanmakuColor color){
         for(int i = 0; i < size; i++){
-            DanmakuBase shot = new DanmakuBase(level, living);
-            shot.setDanmakuType(TYPE_DEF);
-            shot.setColor(COLOR_DEF);
+            DanmakuBase shot = new DanmakuBase(level, living, type, color);
             fanShapedShotDanmakuOne(level, living, shot, getFanShapedAngle(i, size));
         }
     }
 
-    public static void fanShapedShotDanmakuFly(Level level, LivingEntity living, int size){
+    public static void fanShapedShotDanmakuFly(Level level, LivingEntity living, int size, DanmakuColor color){
         for(int i = 0; i < size; i++){
-            DanmakuButterfly shot = new DanmakuButterfly(level, living);
-            shot.setColor(COLOR_DEF);
+            DanmakuButterfly shot = new DanmakuButterfly(level, living, FLY_DEF, color);
             fanShapedShotDanmakuOne(level, living, shot, getFanShapedAngle(i, size));
         }
     }

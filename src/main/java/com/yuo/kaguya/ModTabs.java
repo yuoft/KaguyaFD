@@ -15,10 +15,10 @@ public class ModTabs {
 	public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Kaguya.MOD_ID);
 	public static final RegistryObject<CreativeModeTab> Kaguya_TAB = TABS.register(Kaguya.MOD_ID + "_tab_item", () -> CreativeModeTab.builder()
 			.title(Component.translatable("itemGroup.tab.kaguya.item"))
-			.icon(() -> ModItems.aja_red_stone.get().getDefaultInstance())
+			.icon(() -> ModItems.extend.get().getDefaultInstance())
 			.displayItems((parameters, output) -> {
 				for (RegistryObject<Item> entry : ModItems.ITEMS.getEntries()) {
-					if (entry.get() instanceof KaguyaItem || entry.get() instanceof KaguyaFood){
+					if (entry.get() instanceof KaguyaMaterialItem || entry.get() instanceof KaguyaFood){
 						output.accept(new ItemStack(entry.get()));
 					}
 				}

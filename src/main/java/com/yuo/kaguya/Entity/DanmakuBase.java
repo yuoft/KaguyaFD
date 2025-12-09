@@ -22,6 +22,8 @@ public class DanmakuBase extends ThrowableItemProjectile {
 
     protected int MAX_TICKS_EXISTED; //生命周期
     protected static final int DEF_MAX_TICKS_EXISTED = 200; //生命周期
+    protected DanmakuType danmakuType;
+    protected DanmakuColor danmakuColor;
     protected static final EntityDataAccessor<Integer> DANMAKU_TYPE = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.INT); //弹幕类型--圆，方，星。。。
     protected static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.INT); //弹幕颜色
     protected static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.FLOAT); //弹幕攻击伤害
@@ -44,8 +46,14 @@ public class DanmakuBase extends ThrowableItemProjectile {
         this.setMaxTicksExisted(200);
     }
 
-    public DanmakuBase(Level level, LivingEntity living) {
+    public DanmakuBase(Level level, LivingEntity living, DanmakuType danmakuType, DanmakuColor danmakuColor) {
         this(TYPE, level, living);
+        this.danmakuType = danmakuType;
+        this.danmakuColor = danmakuColor;
+        this.setDanmakuType(this.danmakuType);
+        this.setColor(this.danmakuColor);
+        this.setDamage(this.danmakuType.getDamage());
+        this.setGravityVelocity(0);
         this.setMaxTicksExisted(200);
     }
 
@@ -63,8 +71,8 @@ public class DanmakuBase extends ThrowableItemProjectile {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DANMAKU_TYPE, DanmakuType.TINY_BALL.ordinal());
-        this.entityData.define(COLOR, DanmakuColor.RED.ordinal());
-        this.entityData.define(DAMAGE, 1.0f);
+        this.entityData.define(COLOR, DanmakuColor.GREEN.ordinal());
+        this.entityData.define(DAMAGE, DanmakuType.TINY_BALL.getDamage());
         this.entityData.define(GRAVITY, 0f); //默认无重力
     }
 

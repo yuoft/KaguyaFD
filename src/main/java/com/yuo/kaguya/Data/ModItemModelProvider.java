@@ -1,7 +1,7 @@
 package com.yuo.kaguya.Data;
 
 import com.yuo.kaguya.Item.DanmakuShotItem;
-import com.yuo.kaguya.Item.KaguyaSword;
+import com.yuo.kaguya.Item.KaguyaMaterialItem;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.RlUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -32,6 +32,8 @@ public class ModItemModelProvider extends ItemModelProvider {
                 this.handItemModel(getRes(item));
             }else if (item instanceof BlockItem){
 
+            }else if (item instanceof KaguyaMaterialItem){
+                this.materialItemModel(getRes(item));
             }else this.basicItem(item);
         }
 
@@ -50,5 +52,10 @@ public class ModItemModelProvider extends ItemModelProvider {
     public void handItemModel(ResourceLocation item){
         this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/handheld"))
                 .texture("layer0", RlUtil.fa("item/" + item.getPath()));
+    }
+
+    public void materialItemModel(ResourceLocation item){
+        this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", RlUtil.fa("item/material/" + item.getPath()));
     }
 }

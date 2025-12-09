@@ -18,11 +18,9 @@ public class DataGenEvent {
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
         ExistingFileHelper fileHelper = event.getExistingFileHelper();
-        if (b){
-            generator.addProvider(true, new ModDataRecipes(output));
-        }
+        generator.addProvider(b, new ModDataRecipes(output));
 //        generator.addProvider(true, new ModLanguageProvider(output, Kaguya.MOD_ID, "en_us"));
-        generator.addProvider(true, new ModItemModelProvider(output, Kaguya.MOD_ID, fileHelper));
-        generator.addProvider(true, new ModBlockStateProvider(output, Kaguya.MOD_ID, fileHelper));
+        generator.addProvider(b0, new ModItemModelProvider(output, Kaguya.MOD_ID, fileHelper));
+        generator.addProvider(b0, new ModBlockStateProvider(output, Kaguya.MOD_ID, fileHelper));
     }
 }

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "xxy",
+    "xzy",
+    "xyy"
+  ],
+  "key": {
+    "x": {
+      "item": "minecraft:redstone_block"
+    },
+    "y": {
+      "item": "minecraft:quartz_block"
+    },
+    "z": {
+      "item": "minecraft:ender_eye"
+    }
+  },
+  "result": {
+    "item": "kaguya:onmyoudama",
+    "count": 10
+  }
+}

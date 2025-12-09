@@ -60,8 +60,8 @@ public class DanmakuShotItem extends Item {
         if (!color.isEmpty()){
             float damage = tag.getFloat(NBT_DANMAKU_DAMAGE);
             int number = tag.getInt(NBT_DANMAKU_NUMBER);
-            components.add(Component.translatable("info.kaguya.danmaku_shot_item.type", type));
-            components.add(Component.translatable("info.kaguya.danmaku_shot_item.color", color));
+            components.add(Component.translatable("info.kaguya.danmaku_shot_item.type").append(Component.translatable("info.kaguya.type." + type)));
+            components.add(Component.translatable("info.kaguya.danmaku_shot_item.color").append(Component.translatable("info.kaguya.color." + color)));
             components.add(Component.translatable("info.kaguya.danmaku_shot_item.damage", damage));
             components.add(Component.translatable("info.kaguya.danmaku_shot_item.number", number));
         }
@@ -71,11 +71,13 @@ public class DanmakuShotItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         String type = stack.getOrCreateTag().getString(NBT_DANMAKU_TYPE);
+        String color = stack.getOrCreateTag().getString(NBT_DANMAKU_COLOR);
         DanmakuType danmakuType = getType(type);
+        DanmakuColor danmakuColor = DanmakuColor.getColor(color);
         switch (danmakuType) {
             case TINY_BALL, SMALL_BALL, MEDIUM_BALL, BIG_BALL, RING_BALL ->
-                    DanmakuShootHelper.shootDanmaku(world, player, VAL_DEF, INA_DEF, GREEN, danmakuType);
-            case BUTTER_FLY -> DanmakuShootHelper.shootDanmakuFly(world, player, VAL_DEF, INA_DEF, GREEN);
+                    DanmakuShootHelper.shootDanmaku(world, player, VAL_DEF, INA_DEF, danmakuColor, danmakuType);
+            case BUTTER_FLY -> DanmakuShootHelper.shootDanmakuFly(world, player, VAL_DEF, INA_DEF, danmakuColor);
             default -> DanmakuShootHelper.shootDanmaku(world, player);
         }
         if (!player.isCreative()) {
@@ -91,7 +93,7 @@ public class DanmakuShotItem extends Item {
         String type = tag.getString(NBT_DANMAKU_TYPE);
         if (type.isEmpty()){
             tag.putString(NBT_DANMAKU_TYPE, danmakuType.getName());
-            tag.putString(NBT_DANMAKU_COLOR, GREEN.getName());
+            tag.putString(NBT_DANMAKU_COLOR, GRAY.getName());
             tag.putFloat(NBT_DANMAKU_DAMAGE, danmakuDamage);
             tag.putInt(NBT_DANMAKU_NUMBER, danmakuNumber);
             stack.setTag(tag);

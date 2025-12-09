@@ -94,7 +94,7 @@ public class DanmakuShootHelper {
         Quaternionf quaternion = (new Quaternionf()).setAngleAxis(angle * 0.017453292F, upVector.x, upVector.y, upVector.z);
         Vec3 vector3d = living.getViewVector(1.0F);
         Vector3f vec = vector3d.toVector3f().rotate(quaternion);
-        danmaku.shoot(vec.x(), vec.y(), vec.z(), VAL_DEF, INA_DEF);
+        danmaku.shoot(vec.x(), vec.y(), vec.z(), 0.25f, INA_DEF);
         addEntityAndSound(level, living, danmaku);
     }
 

@@ -1,11 +1,14 @@
 package com.yuo.kaguya.Item;
 
+import com.yuo.kaguya.Block.ModBlocks;
 import com.yuo.kaguya.Entity.DanmakuType;
 import com.yuo.kaguya.Item.Weapon.YuyukoFan;
 import com.yuo.kaguya.Kaguya;
 import net.minecraft.world.item.ArmorItem.Type;
 import net.minecraft.world.item.ArmorMaterials;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.Tiers;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -89,7 +92,7 @@ public class ModItems {
 	public static RegistryObject<Item> talismanShot = ITEMS.register("talisman_shot", () -> new DanmakuShotItem(DanmakuType.TINY_BALL));
 	public static RegistryObject<Item> tinyShot = ITEMS.register("tiny_shot",() -> new DanmakuShotItem(DanmakuType.TINY_BALL));
 
-//	public static RegistryObject<BlockItem> customSapling = ITEMS.register("custom_sapling",
-//			() -> new CustomSapling(OreCropBlocks.customSapling.get(), GROUP));
+	public static RegistryObject<BlockItem> danmakuCraft = ITEMS.register("danmaku_craft",
+			() -> new BlockItem(ModBlocks.danmakuCraft.get(), new Properties()));
 
 }

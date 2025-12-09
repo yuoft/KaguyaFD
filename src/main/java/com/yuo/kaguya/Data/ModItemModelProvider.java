@@ -7,6 +7,7 @@ import com.yuo.kaguya.RlUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -29,6 +30,8 @@ public class ModItemModelProvider extends ItemModelProvider {
                 this.shotItemModel(getRes(item));
             }else if (item instanceof SwordItem){
                 this.handItemModel(getRes(item));
+            }else if (item instanceof BlockItem){
+
             }else this.basicItem(item);
         }
 

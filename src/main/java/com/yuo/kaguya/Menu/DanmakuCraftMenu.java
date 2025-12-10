@@ -25,10 +25,10 @@ public class DanmakuCraftMenu extends AbstractContainerMenu {
         this.player = inventory.player;
         this.level = inventory.player.level();
 
-        int m;  //升级材料
-        for (m = 0; m < 3; ++m) {
-            this.addSlot(new Slot(tile, m, 88, 17 + m * 18));
-        }
+        //升级材料
+        this.addSlot(new Slot(tile, 0, 88, 17));
+        this.addSlot(new DanmakuColorSlot(tile, 1, 88, 35));
+        this.addSlot(new DanmakuPPotionSlot(tile, 2, 88, 53));
 
         this.addSlot(new DanmakuSlot(tile, 3, 110, 17)); //待升级弹幕
         this.addSlot(new ResultSlot(player, tile, 4, 146, 35)); //输出

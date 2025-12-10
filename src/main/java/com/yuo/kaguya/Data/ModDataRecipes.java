@@ -83,6 +83,10 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', Items.PAPER).define('y', Items.LAPIS_BLOCK).define('z', Items.NETHER_WART)
                 .pattern("xyy").pattern("yzy").pattern("yyx")
                 .unlockedBy("has_item", has(ModItems.ibukihyou.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.danmakuCraft.get(), 1)
+                .define('x', ModItems.danmakuMaterial.get()).define('y', Items.CRAFTING_TABLE)
+                .pattern("xxx").pattern("xyx").pattern("xxx")
+                .unlockedBy("has_item", has(ModItems.danmakuCraft.get())).save(consumer);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.crystalShot.get(), 4)
                 .define('x', ModItems.danmakuMaterial.get())

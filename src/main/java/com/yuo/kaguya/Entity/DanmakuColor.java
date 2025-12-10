@@ -51,6 +51,15 @@ public enum DanmakuColor {
         return random(new Random());
     }
 
+    public static DanmakuColor getColor(String colorName, boolean flag) {
+        for (DanmakuColor color : DanmakuColor.values()) {
+            if (color.getName().equals(colorName)) {
+                return color;
+            }
+        }
+        return flag ? null : random(new Random());
+    }
+
     public static DanmakuColor getColor(int index) {
         if (index < 0 || index >= values().length) {
             return RED;

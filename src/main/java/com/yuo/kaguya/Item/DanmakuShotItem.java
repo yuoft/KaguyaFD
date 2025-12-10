@@ -107,7 +107,16 @@ public class DanmakuShotItem extends Item {
     }
 
     public static void setDanmakuColor(ItemStack stack, DanmakuColor color) {
+        if (color == null) return;
         ((DanmakuShotItem) stack.getItem()).danmakuColor = color;
         stack.getOrCreateTag().putString(NBT_DANMAKU_COLOR, color.getName());
+    }
+
+    public static void setDanmakuDamage(ItemStack stack, float damage) {
+        if (damage == 0) return;
+        CompoundTag tag = stack.getOrCreateTag();
+        float oldDamage = tag.getFloat(NBT_DANMAKU_DAMAGE);
+        tag.putFloat(NBT_DANMAKU_DAMAGE, oldDamage + damage);
+        stack.setTag(tag);
     }
 }

@@ -2,6 +2,7 @@ package com.yuo.kaguya.Tile;
 
 import com.yuo.kaguya.Entity.DanmakuColor;
 import com.yuo.kaguya.Item.DanmakuShotItem;
+import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Menu.DanmakuCraftMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
@@ -19,6 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.checkerframework.checker.units.qual.C;
 
 public class DanmakuCraftTile extends BaseContainerBlockEntity {
+    //0-无 1-染料格 2-p点 3-基础弹幕 4-输出
     private final NonNullList<ItemStack> stacks = NonNullList.withSize(5, ItemStack.EMPTY);
 
     public DanmakuCraftTile(BlockPos pos, BlockState state) {
@@ -28,19 +31,39 @@ public class DanmakuCraftTile extends BaseContainerBlockEntity {
     public static void serverTick(Level level, BlockPos pos, BlockState state, DanmakuCraftTile danmakuCraftTile) {
         ItemStack base = danmakuCraftTile.getItem(3);
         if (!base.isEmpty() && !danmakuCraftTile.isInputEmpty()) {
-            if (danmakuCraftTile.getItem(0).getItem() instanceof DyeItem dyeItem){
-                String name = dyeItem.getDyeColor().getName();
-                DanmakuColor color = DanmakuColor.getColor(name);
-                if (color != null) {
-                    ItemStack copy = base.copy();
-                    DanmakuShotItem.setDanmakuColor(copy, color);
-                    danmakuCraftTile.setItem(4, copy);
+            ItemStack copy = base.copy();
+            ItemStack dye = danmakuCraftTile.getItem(1);
+            ItemStack bigP = danmakuCraftTile.getItem(2);
 
-                    ItemStack stack = danmakuCraftTile.getItem(4);
-                }else danmakuCraftTile.setItem(4, ItemStack.EMPTY);
-
-            }else danmakuCraftTile.setItem(4, ItemStack.EMPTY);
+            if (dye.isEmpty() && bigP.isEmpty())
+                copy = ItemStack.EMPTY;
+            DanmakuColor color = getDyeItemColor(dye);
+            float damage = getPPtionDamage(bigP);
+            DanmakuShotItem.setDanmakuColor(copy, color);
+            DanmakuShotItem.setDanmakuDamage(copy, damage);
+            danmakuCraftTile.setItem(4, copy);
         }else danmakuCraftTile.setItem(4, ItemStack.EMPTY);
+    }
+
+    /**
+     * 获取染料对应弹幕颜色
+     */
+    private static DanmakuColor getDyeItemColor(ItemStack dye){
+        if (dye.getItem() instanceof DyeItem dyeItem){ //染料
+            String name = dyeItem.getDyeColor().getName();
+            return DanmakuColor.getColor(name, true);
+        }
+        return null;
+    }
+
+    /**
+     * 获取p点伤害
+     */
+    private static float getPPtionDamage(ItemStack bigP){
+        if (bigP.getItem() == ModItems.bigPotion.get()){ //p点
+            return 0.5f * bigP.getCount();
+        }
+        return 0;
     }
 
     @Override
@@ -108,7 +131,8 @@ public class DanmakuCraftTile extends BaseContainerBlockEntity {
      */
     public void clearInputContent(){
         for (int i = 0; i < 4; i++) {
-            stacks.get(i).shrink(1);
+            if (i == 2) stacks.set(i, ItemStack.EMPTY);
+            else stacks.get(i).shrink(1);
         }
     }
 }

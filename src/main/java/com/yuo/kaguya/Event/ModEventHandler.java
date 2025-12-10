@@ -39,12 +39,12 @@ public class ModEventHandler {
         BlockState state = event.getState();
         if (state.getBlock() instanceof LeavesBlock){
             LevelAccessor level = event.getLevel();
-            ItemStack useItem = event.getPlayer().getUseItem();
-            if (useItem.getItem() == ModItems.hisouSword.get()){
+            ItemStack useItem = event.getPlayer().getMainHandItem();
+            BlockPos pos = event.getPos();
+            if (useItem.getItem() == ModItems.hisouSword.get() && pos.getY() >= 128){
                 RandomSource random = level.getRandom();
-                BlockPos pos = event.getPos();
                 int looting = useItem.getEnchantmentLevel(Enchantments.MOB_LOOTING);
-                if (random.nextFloat() < 0.1f + looting * 0.1f){
+                if (random.nextFloat() < 0.15f + looting * 0.05f){
                     ItemEntity itemEntity = new ItemEntity(event.getPlayer().level(), pos.getX(), pos.getY() + 0.5d, pos.getZ(), new ItemStack(ModItems.heavenlyPeach.get()));
                     level.addFreshEntity(itemEntity);
                 }

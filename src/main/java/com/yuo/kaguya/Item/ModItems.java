@@ -3,6 +3,7 @@ package com.yuo.kaguya.Item;
 import com.yuo.kaguya.Block.ModBlocks;
 import com.yuo.kaguya.Entity.DanmakuType;
 import com.yuo.kaguya.Item.Weapon.HisouSword;
+import com.yuo.kaguya.Item.Weapon.SilverKnifeItem;
 import com.yuo.kaguya.Item.Weapon.YuyukoFan;
 import com.yuo.kaguya.Kaguya;
 import net.minecraft.world.item.ArmorItem.Type;
@@ -65,11 +66,17 @@ public class ModItems {
 	public static RegistryObject<Item> kappaWaterPistol = ITEMS.register("kappa_water_pistol", KaguyaPrpo::new);
 	public static RegistryObject<Item> tenguFan = ITEMS.register("tengu_fan", KaguyaPrpo::new);
 
+	//盔甲
 	public static RegistryObject<Item> hinezumi = ITEMS.register("hinezumi", () -> new KaguyaArmor(ArmorMaterials.DIAMOND, Type.HELMET));
 	public static RegistryObject<Item> kappaCap = ITEMS.register("kappa_cap", () -> new KaguyaArmor(ArmorMaterials.DIAMOND, Type.HELMET));
 	public static RegistryObject<Item> kerobou = ITEMS.register("kerobou", () -> new KaguyaArmor(ArmorMaterials.DIAMOND, Type.HELMET));
 	public static RegistryObject<Item> marisaHat = ITEMS.register("marisa_hat", () -> new KaguyaArmor(ArmorMaterials.DIAMOND, Type.HELMET));
 
+	//武器
+	public static RegistryObject<Item> silverKnifeWhite = ITEMS.register("silver_knife_white", SilverKnifeItem::new);
+	public static RegistryObject<Item> silverKnifeRed = ITEMS.register("silver_knife_red", SilverKnifeItem::new);
+	public static RegistryObject<Item> silverKnifeBlue = ITEMS.register("silver_knife_blue", SilverKnifeItem::new);
+	public static RegistryObject<Item> silverKnifeGreen = ITEMS.register("silver_knife_green", SilverKnifeItem::new);
 	public static RegistryObject<Item> deathScythe = ITEMS.register("death_scythe", () -> new KaguyaSword(Tiers.DIAMOND));
 	public static RegistryObject<Item> gungnir = ITEMS.register("gungnir", () -> new KaguyaSword(Tiers.DIAMOND));
 	public static RegistryObject<Item> hakureiOharaibou = ITEMS.register("hakurei_oharaibou", () -> new KaguyaSword(Tiers.DIAMOND));
@@ -85,7 +92,7 @@ public class ModItems {
 	public static RegistryObject<Item> yuukaParasol = ITEMS.register("yuuka_parasol", () -> new KaguyaSword(Tiers.DIAMOND));
 	public static RegistryObject<Item> yuyukoOugi = ITEMS.register("yuyuko_ougi", YuyukoFan::new);
 
-
+	//食物
 	public static RegistryObject<Item> heavenlyPeach = ITEMS.register("heavenly_peach", () -> new KaguyaFood(KaguyaFood.heavenlyPeach));
 	public static RegistryObject<Item> ibukihyou = ITEMS.register("ibukihyou", () -> new KaguyaFood(KaguyaFood.ibukihyou));
 	public static RegistryObject<Item> koyasugai = ITEMS.register("koyasugai", () -> new KaguyaFood(KaguyaFood.koyasugai));

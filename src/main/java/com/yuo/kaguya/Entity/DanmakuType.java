@@ -14,10 +14,12 @@ public enum DanmakuType {
     // 环圆弹
     RING_BALL(0.6d, 2,2.5f,"ring_ball"),
     // 蝴蝶
-    BUTTER_FLY(0.6d, 0,5f,"button_fly"),;
+    BUTTER_FLY(0.6d, -1,5f,"button_fly"),
+//    SILVER_KNIFE(0.6d, -1,2.5f,"silver_knife"),
+    ;
 
     private final double size;
-    private final int resId; //纹理位置序数
+    private final int resId; //纹理位置序数 -1--单独渲染
     private final float damage;
     private final String name;
 

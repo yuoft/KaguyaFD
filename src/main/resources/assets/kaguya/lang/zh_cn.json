@@ -65,6 +65,11 @@
 	"item.kaguya.yuuka_parasol": "幽香的阳伞",
 	"item.kaguya.yuyuko_ougi": "幽幽子的扇子",
 
+	"item.kaguya.silver_knife_white": "白色小刀",
+	"item.kaguya.silver_knife_red": "红色小刀",
+	"item.kaguya.silver_knife_blue": "蓝色小刀",
+	"item.kaguya.silver_knife_green": "绿色小刀",
+
 	"item.kaguya.arrow_shot": "箭弹",
 	"item.kaguya.big_light_shot": "大光弹",
 	"item.kaguya.big_shot": "大弹",
@@ -86,6 +91,13 @@
 	"item.kaguya.tiny_shot": "粒弹",
 
 	"block.kaguya.danmaku_craft": "弹幕工作台",
+
+	"entity.kaguya.danmaku": "弹幕",
+	"entity.kaguya.danmaku_fly": "蝶弹",
+	"entity.kaguya.silver_knife_white": "白色银质小刀",
+	"entity.kaguya.silver_knife_red": "红色银质小刀",
+	"entity.kaguya.silver_knife_blue": "蓝色银质小刀",
+	"entity.kaguya.silver_knife_green": "绿色银质小刀",
 
 	"container.kaguya.danmaku_craft": "弹幕工作台",
 

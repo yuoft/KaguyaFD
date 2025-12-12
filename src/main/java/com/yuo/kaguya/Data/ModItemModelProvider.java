@@ -1,8 +1,10 @@
 package com.yuo.kaguya.Data;
 
+import com.yuo.kaguya.Entity.SilverKnife;
 import com.yuo.kaguya.Item.DanmakuShotItem;
 import com.yuo.kaguya.Item.KaguyaMaterialItem;
 import com.yuo.kaguya.Item.ModItems;
+import com.yuo.kaguya.Item.Weapon.SilverKnifeItem;
 import com.yuo.kaguya.RlUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -28,8 +30,10 @@ public class ModItemModelProvider extends ItemModelProvider {
             Item item = entry.get();
             if (item instanceof DanmakuShotItem){
                 this.shotItemModel(getRes(item));
-            }else if (item instanceof SwordItem){
+            }else if (item instanceof SwordItem && !(item instanceof SilverKnifeItem)){
                 this.handItemModel(getRes(item));
+            }else if (item instanceof SilverKnifeItem){
+                this.weaponItemModel(getRes(item));
             }else if (item instanceof BlockItem){
 
             }else if (item instanceof KaguyaMaterialItem){
@@ -52,6 +56,11 @@ public class ModItemModelProvider extends ItemModelProvider {
     public void handItemModel(ResourceLocation item){
         this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/handheld"))
                 .texture("layer0", RlUtil.fa("item/" + item.getPath()));
+    }
+
+    public void weaponItemModel(ResourceLocation item){
+        this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/handheld"))
+                .texture("layer0", RlUtil.fa("item/weapon/" + item.getPath()));
     }
 
     public void materialItemModel(ResourceLocation item){

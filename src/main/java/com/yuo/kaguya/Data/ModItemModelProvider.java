@@ -9,6 +9,7 @@ import com.yuo.kaguya.RlUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
@@ -30,9 +31,7 @@ public class ModItemModelProvider extends ItemModelProvider {
             Item item = entry.get();
             if (item instanceof DanmakuShotItem){
                 this.shotItemModel(getRes(item));
-            }else if (item instanceof SwordItem && !(item instanceof SilverKnifeItem)){
-                this.handItemModel(getRes(item));
-            }else if (item instanceof SilverKnifeItem){
+            }else if (item instanceof SwordItem || item instanceof ArmorItem){
                 this.weaponItemModel(getRes(item));
             }else if (item instanceof BlockItem){
 

@@ -2,6 +2,10 @@ package com.yuo.kaguya.Item;
 
 import com.yuo.kaguya.Block.ModBlocks;
 import com.yuo.kaguya.Entity.DanmakuType;
+import com.yuo.kaguya.Item.Armor.FireRatRobe;
+import com.yuo.kaguya.Item.Armor.KappaHelmet;
+import com.yuo.kaguya.Item.Armor.MarisaHelmet;
+import com.yuo.kaguya.Item.Armor.SuwakoHelmet;
 import com.yuo.kaguya.Item.Weapon.HisouSword;
 import com.yuo.kaguya.Item.Weapon.SilverKnifeItem;
 import com.yuo.kaguya.Item.Weapon.YuyukoFan;
@@ -67,10 +71,10 @@ public class ModItems {
 	public static RegistryObject<Item> tenguFan = ITEMS.register("tengu_fan", KaguyaPrpo::new);
 
 	//盔甲
-	public static RegistryObject<Item> hinezumi = ITEMS.register("hinezumi", () -> new KaguyaArmor(ArmorMaterials.DIAMOND, Type.HELMET));
-	public static RegistryObject<Item> kappaCap = ITEMS.register("kappa_cap", () -> new KaguyaArmor(ArmorMaterials.DIAMOND, Type.HELMET));
-	public static RegistryObject<Item> kerobou = ITEMS.register("kerobou", () -> new KaguyaArmor(ArmorMaterials.DIAMOND, Type.HELMET));
-	public static RegistryObject<Item> marisaHat = ITEMS.register("marisa_hat", () -> new KaguyaArmor(ArmorMaterials.DIAMOND, Type.HELMET));
+	public static RegistryObject<Item> fireRatBobe = ITEMS.register("fire_rat_bobe", FireRatRobe::new);
+	public static RegistryObject<Item> kappaHead = ITEMS.register("kappa_head", KappaHelmet::new);
+	public static RegistryObject<Item> suwakoHead = ITEMS.register("suwako_head", SuwakoHelmet::new);
+	public static RegistryObject<Item> marisaHead = ITEMS.register("marisa_head", MarisaHelmet::new);
 
 	//武器
 	public static RegistryObject<Item> silverKnifeWhite = ITEMS.register("silver_knife_white", SilverKnifeItem::new);

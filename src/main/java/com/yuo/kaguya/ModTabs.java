@@ -3,10 +3,9 @@ package com.yuo.kaguya;
 import com.yuo.kaguya.Item.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -18,8 +17,9 @@ public class ModTabs {
 			.icon(() -> ModItems.extend.get().getDefaultInstance())
 			.displayItems((parameters, output) -> {
 				for (RegistryObject<Item> entry : ModItems.ITEMS.getEntries()) {
-					if (entry.get() instanceof KaguyaMaterialItem || entry.get() instanceof KaguyaFood){
-						output.accept(new ItemStack(entry.get()));
+					Item item = entry.get();
+					if (item instanceof KaguyaMaterialItem || item instanceof KaguyaFood || item instanceof BlockItem){
+						output.accept(new ItemStack(item));
 					}
 				}
 
@@ -29,8 +29,22 @@ public class ModTabs {
 			.icon(() -> ModItems.hisouSword.get().getDefaultInstance())
 			.displayItems((parameters, output) -> {
 				for (RegistryObject<Item> entry : ModItems.ITEMS.getEntries()) {
-					if (entry.get() instanceof SwordItem || entry.get() instanceof KaguyaArmor){
-						output.accept(new ItemStack(entry.get()));
+					Item item = entry.get();
+					if (item instanceof SwordItem || item instanceof ArmorItem){
+						if (item == ModItems.fireRatBobe.get()){
+							ItemStack stack = new ItemStack(item);
+							stack.enchant(Enchantments.FIRE_PROTECTION, 10);
+							output.accept(stack);
+						}else if (item == ModItems.marisaHead.get()){
+							ItemStack stack = new ItemStack(item);
+							stack.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 5);
+							output.accept(stack);
+						}else if (item == ModItems.suwakoHead.get()){
+							ItemStack stack = new ItemStack(item);
+							stack.enchant(Enchantments.THORNS, 10);
+							output.accept(stack);
+						}
+						else output.accept(new ItemStack(item));
 					}
 				}
 

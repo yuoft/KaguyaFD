@@ -21,7 +21,7 @@ import java.util.List;
 
 public class SilverKnifeItem extends SwordItem {
     public SilverKnifeItem() {
-        super(Tiers.IRON, 1, -2.4f, new Properties().stacksTo(64));
+        super(Tiers.IRON, -1, -2.0f, new Properties().stacksTo(64));
     }
 
     @Override

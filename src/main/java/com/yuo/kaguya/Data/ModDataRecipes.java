@@ -17,6 +17,7 @@ public class ModDataRecipes extends RecipeProvider {
 
     @Override
     protected void buildRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
+        //材料
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.bigPotion.get(), 1)
                 .define('x', ModItems.smallPotion.get())
                 .pattern("xxx").pattern("xxx").pattern("xxx")
@@ -87,7 +88,36 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', ModItems.danmakuMaterial.get()).define('y', Items.CRAFTING_TABLE)
                 .pattern("xxx").pattern("xyx").pattern("xxx")
                 .unlockedBy("has_item", has(ModItems.danmakuCraft.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.fireRatBobe.get(), 1)
+                .define('x', Items.BLAZE_POWDER).define('y', Items.DIAMOND).define('z', Items.LEATHER_CHESTPLATE)
+                .pattern("xyx").pattern("xzx").pattern("x x")
+                .unlockedBy("has_item", has(ModItems.fireRatBobe.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.kappaHead.get(), 1)
+                .define('x', Items.LILY_PAD).define('y', Items.WATER_BUCKET).define('z', Items.SLIME_BALL)
+                .define('m', Items.LEATHER_HELMET)
+                .pattern("xyx").pattern("zmz").pattern("   ")
+                .unlockedBy("has_item", has(ModItems.kappaHead.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.marisaHead.get(), 1)
+                .define('x', Items.OBSIDIAN).define('y', Items.WHITE_WOOL).define('z', Items.BLACK_WOOL)
+                .define('m', Items.DIAMOND_HELMET)
+                .pattern(" x ").pattern("ymy").pattern("zzz")
+                .unlockedBy("has_item", has(ModItems.marisaHead.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.suwakoHead.get(), 1)
+                .define('x', Items.ENDER_EYE).define('y', Items.LEATHER_HELMET)
+                .pattern("x x").pattern(" y ").pattern("   ")
+                .unlockedBy("has_item", has(ModItems.suwakoHead.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.silverKnifeWhite.get(), 1)
+                .define('x', Items.IRON_INGOT).define('y', Items.STICK)
+                .pattern(" x ").pattern("y  ").pattern("   ")
+                .unlockedBy("has_item", has(ModItems.silverKnifeWhite.get())).save(consumer);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.silverKnifeRed.get(), 1).requires(ModItems.silverKnifeWhite.get())
+                .requires(Items.RED_DYE).unlockedBy("has_item", has(ModItems.silverKnifeRed.get())).save(consumer);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.silverKnifeGreen.get(), 1).requires(ModItems.silverKnifeWhite.get())
+                .requires(Items.GREEN_DYE).unlockedBy("has_item", has(ModItems.silverKnifeGreen.get())).save(consumer);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.silverKnifeBlue.get(), 1).requires(ModItems.silverKnifeWhite.get())
+                .requires(Items.BLUE_DYE).unlockedBy("has_item", has(ModItems.silverKnifeBlue.get())).save(consumer);
 
+        //弹幕
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.crystalShot.get(), 4)
                 .define('x', ModItems.danmakuMaterial.get())
                 .pattern(" x ").pattern("xxx").pattern("   ")

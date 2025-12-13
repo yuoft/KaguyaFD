@@ -19,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.LeavesBlock;
@@ -26,6 +27,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,6 +36,19 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Kaguya.MOD_ID)
 public class ModEventHandler {
+
+    @SubscribeEvent
+    public static void onCraft(ItemCraftedEvent event){
+        ItemStack crafting = event.getCrafting();
+        Item item = crafting.getItem();
+        if (item == ModItems.fireRatBobe.get()){
+            crafting.enchant(Enchantments.FIRE_PROTECTION, 10);
+        }else if (item == ModItems.marisaHead.get()){
+            crafting.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 5);
+        }else if (item == ModItems.suwakoHead.get()){
+            crafting.enchant(Enchantments.THORNS, 10);
+        }
+    }
 
     @SubscribeEvent
     public static void onBlockBreak(BlockEvent.BreakEvent event){

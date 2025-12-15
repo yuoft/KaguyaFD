@@ -58,7 +58,7 @@ public class SilverKnifeItem extends Item {
 
     @Override
     public int getUseDuration(ItemStack stack) {
-        return 9000;
+        return 72000;
     }
 
     @Override

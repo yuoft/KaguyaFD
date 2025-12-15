@@ -6,6 +6,8 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.Tags.Blocks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
@@ -116,6 +118,14 @@ public class ModDataRecipes extends RecipeProvider {
                 .requires(Items.GREEN_DYE).unlockedBy("has_item", has(ModItems.silverKnifeGreen.get())).save(consumer);
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.silverKnifeBlue.get(), 1).requires(ModItems.silverKnifeWhite.get())
                 .requires(Items.BLUE_DYE).unlockedBy("has_item", has(ModItems.silverKnifeBlue.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.onbashira.get(), 1)
+                .define('x', Items.PAPER).define('y', ItemTags.LOGS)
+                .pattern("xyx").pattern(" y ").pattern(" y ")
+                .unlockedBy("has_item", has(ModItems.onbashira.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.toyosatomimiSword.get(), 1)
+                .define('x', Items.GLOWSTONE).define('y', Items.IRON_INGOT).define('z', Items.GOLD_INGOT)
+                .pattern("xyx").pattern("xyx").pattern("xzx")
+                .unlockedBy("has_item", has(ModItems.toyosatomimiSword.get())).save(consumer);
 
         //弹幕
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.crystalShot.get(), 4)

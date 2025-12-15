@@ -6,9 +6,8 @@ import com.yuo.kaguya.Item.Armor.FireRatRobe;
 import com.yuo.kaguya.Item.Armor.KappaHelmet;
 import com.yuo.kaguya.Item.Armor.MarisaHelmet;
 import com.yuo.kaguya.Item.Armor.SuwakoHelmet;
-import com.yuo.kaguya.Item.Weapon.HisouSword;
-import com.yuo.kaguya.Item.Weapon.SilverKnifeItem;
-import com.yuo.kaguya.Item.Weapon.YuyukoFan;
+import com.yuo.kaguya.Item.Prpo.RecoveryCharm;
+import com.yuo.kaguya.Item.Weapon.*;
 import com.yuo.kaguya.Kaguya;
 import net.minecraft.world.item.ArmorItem.Type;
 import net.minecraft.world.item.ArmorMaterials;
@@ -42,7 +41,7 @@ public class ModItems {
 
 	//道具
 	public static RegistryObject<Item> aja_red_stone = ITEMS.register("aja_red_stone", KaguyaPrpo::new);
-	public static RegistryObject<Item> byoukiheiyuMamori = ITEMS.register("byoukiheiyu_mamori", KaguyaPrpo::new);
+	public static RegistryObject<Item> byoukiheiyuMamori = ITEMS.register("byoukiheiyu_mamori", RecoveryCharm::new);
 	public static RegistryObject<Item> diffusionAmulet = ITEMS.register("diffusion_amulet", KaguyaPrpo::new);
 	public static RegistryObject<Item> hisyaku0 = ITEMS.register("hisyaku_0", KaguyaPrpo::new);
 	public static RegistryObject<Item> homingAmulet = ITEMS.register("homing_amulet", KaguyaPrpo::new);
@@ -90,9 +89,9 @@ public class ModItems {
 	public static RegistryObject<Item> icicleSword = ITEMS.register("icicle_sword", () -> new KaguyaSword(Tiers.DIAMOND));
 	public static RegistryObject<Item> kaigoStick0 = ITEMS.register("kaigo_stick_0", () -> new KaguyaSword(Tiers.DIAMOND));
 	public static RegistryObject<Item> laevateinn = ITEMS.register("laevateinn", () -> new KaguyaSword(Tiers.DIAMOND));
-	public static RegistryObject<Item> onbashira = ITEMS.register("onbashira", () -> new KaguyaSword(Tiers.DIAMOND));
+	public static RegistryObject<Item> onbashira = ITEMS.register("onbashira", Onbashira::new);
 	public static RegistryObject<Item> roukanSword = ITEMS.register("roukan_sword", () -> new KaguyaSword(Tiers.DIAMOND));
-	public static RegistryObject<Item> toyosatomimiSword = ITEMS.register("toyosatomimi_sword", () -> new KaguyaSword(Tiers.DIAMOND));
+	public static RegistryObject<Item> toyosatomimiSword = ITEMS.register("toyosatomimi_sword", SacredSword::new);
 	public static RegistryObject<Item> yuukaParasol = ITEMS.register("yuuka_parasol", () -> new KaguyaSword(Tiers.DIAMOND));
 	public static RegistryObject<Item> yuyukoOugi = ITEMS.register("yuyuko_ougi", YuyukoFan::new);
 

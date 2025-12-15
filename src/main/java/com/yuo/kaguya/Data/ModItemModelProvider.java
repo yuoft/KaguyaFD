@@ -31,7 +31,7 @@ public class ModItemModelProvider extends ItemModelProvider {
             Item item = entry.get();
             if (item instanceof DanmakuShotItem){
                 this.shotItemModel(getRes(item));
-            }else if (item instanceof SwordItem || item instanceof ArmorItem){
+            }else if (item instanceof SwordItem || item instanceof ArmorItem || item instanceof SilverKnifeItem){
                 this.weaponItemModel(getRes(item));
             }else if (item instanceof BlockItem){
 

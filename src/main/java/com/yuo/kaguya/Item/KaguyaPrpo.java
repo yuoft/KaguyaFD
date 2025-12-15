@@ -6,4 +6,8 @@ public class KaguyaPrpo extends Item {
     public KaguyaPrpo() {
         super(new Properties().stacksTo(1));
     }
+
+    public KaguyaPrpo(Properties properties) {
+        super(properties);
+    }
 }

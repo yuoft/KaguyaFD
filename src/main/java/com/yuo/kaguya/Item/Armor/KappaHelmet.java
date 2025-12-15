@@ -22,7 +22,7 @@ public class KappaHelmet extends ArmorItem {
     private static final UUID SWIM_SPEED_UUID = UUID.fromString("21d46f21-1076-10c4-ebd7-b5026c206d87");
 
     public KappaHelmet() {
-        super(ArmorMaterials.LEATHER, Type.HELMET, new Properties().stacksTo(1).durability(168));
+        super(ModArmorMaterials.KAPPA, Type.HELMET, new Properties().stacksTo(1).durability(168));
     }
 
     @Override

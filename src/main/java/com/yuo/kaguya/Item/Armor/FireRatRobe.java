@@ -10,7 +10,7 @@ import net.minecraft.world.level.Level;
 
 public class FireRatRobe extends ArmorItem {
     public FireRatRobe() {
-        super(ArmorMaterials.IRON, Type.CHESTPLATE, new Properties().stacksTo(1).durability(232).fireResistant());
+        super(ModArmorMaterials.FIRE_RAT, Type.CHESTPLATE, new Properties().stacksTo(1).durability(232).fireResistant());
     }
 
     @Override

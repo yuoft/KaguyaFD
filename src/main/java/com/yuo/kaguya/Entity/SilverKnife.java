@@ -1,5 +1,6 @@
 package com.yuo.kaguya.Entity;
 
+import com.yuo.kaguya.Item.ModItems;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -20,16 +21,19 @@ public class SilverKnife extends AbstractArrow{
     public static final EntityType<SilverKnife> TYPE_BLUE = EntityType.Builder.<SilverKnife>of(SilverKnife::new, MobCategory.MISC)
             .sized(0.25F, 0.25F).clientTrackingRange(6).updateInterval(10).noSave().build("silver_knife_blue");
     public static final EntityType<SilverKnife> TYPE_WHITE = EntityType.Builder.<SilverKnife>of(SilverKnife::new, MobCategory.MISC)
-            .sized(0.25F, 0.25F).clientTrackingRange(6).updateInterval(10).noSave().build("silver_knife_white");
+            .sized(0.25F, 0.25F).clientTrackingRange(6).updateInterval(10).build("silver_knife_white");
+    private final ItemStack item;
 
     public SilverKnife(EntityType<? extends AbstractArrow> entityType, Level level) {
         super(entityType, level);
+        this.item = ItemStack.EMPTY;
     }
 
-    public SilverKnife(EntityType<? extends AbstractArrow> entityType, LivingEntity living, Level level) {
+    public SilverKnife(EntityType<? extends AbstractArrow> entityType, LivingEntity living, Level level, ItemStack item) {
         super(entityType, living, level);
         this.setOwner(living);
         this.setBaseDamage(2.5d);
+        this.item = item.copy();
     }
 
     @Override
@@ -66,6 +70,7 @@ public class SilverKnife extends AbstractArrow{
     }
 
     //生存不消失
+    @Override
     public void tickDespawn() {
         if (this.pickup != Pickup.ALLOWED) {
             super.tickDespawn();
@@ -82,8 +87,20 @@ public class SilverKnife extends AbstractArrow{
     }
 
     @Override
+    protected boolean tryPickup(Player player) {
+        return super.tryPickup(player) || this.isNoPhysics() && this.ownedBy(player) && player.getInventory().add(this.getPickupItem());
+    }
+
+    @Override
     protected ItemStack getPickupItem() {
-        return null;
+        EntityType<?> type = this.getType();
+        if (type == TYPE_RED) {
+            return new ItemStack(ModItems.silverKnifeRed.get());
+        }else  if (type == TYPE_GREEN) {
+            return new ItemStack(ModItems.silverKnifeGreen.get());
+        }else  if (type == TYPE_BLUE) {
+            return new ItemStack(ModItems.silverKnifeBlue.get());
+        }else return new ItemStack(ModItems.silverKnifeWhite.get());
     }
 
     @Override

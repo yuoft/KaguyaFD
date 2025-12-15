@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuo.kaguya.Client.Model.SilverKnifeModel;
 import com.yuo.kaguya.Entity.SilverKnife;
-import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.RlUtil;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -15,14 +14,9 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 
 public class SilverKnifeWhiteRender extends EntityRenderer<SilverKnife> {
-    public static final ResourceLocation SILVER_KNIFE_RED = RlUtil.fa("textures/entity/silver_knife_red.png");
-    public static final ResourceLocation SILVER_KNIFE_GREEN = RlUtil.fa("textures/entity/silver_knife_green.png");
-    public static final ResourceLocation SILVER_KNIFE_BLUE = RlUtil.fa("textures/entity/silver_knife_blue.png");
-    public static final ResourceLocation SILVER_KNIFE = RlUtil.fa("textures/entity/silver_knife_white.png");
+    public static final ResourceLocation SILVER_KNIFE_WHITE = RlUtil.fa("textures/entity/silver_knife_white.png");
     private final SilverKnifeModel<SilverKnife> model;
 
     public SilverKnifeWhiteRender(EntityRendererProvider.Context context, ModelLayerLocation layer) {
@@ -43,6 +37,6 @@ public class SilverKnifeWhiteRender extends EntityRenderer<SilverKnife> {
 
     @Override
     public ResourceLocation getTextureLocation(SilverKnife silverKnife) {
-        return SILVER_KNIFE;
+        return SILVER_KNIFE_WHITE;
     }
 }

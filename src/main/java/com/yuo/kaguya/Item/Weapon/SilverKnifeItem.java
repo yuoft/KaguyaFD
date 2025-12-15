@@ -1,5 +1,7 @@
 package com.yuo.kaguya.Item.Weapon;
 
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import com.yuo.kaguya.Entity.SilverKnife;
 import com.yuo.kaguya.Item.ModItems;
 import net.minecraft.network.chat.Component;
@@ -9,7 +11,12 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow.Pickup;
 import net.minecraft.world.item.*;
@@ -19,9 +26,25 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class SilverKnifeItem extends SwordItem {
+public class SilverKnifeItem extends Item {
+    private final float attackDamage;
+    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+
     public SilverKnifeItem() {
-        super(Tiers.IRON, -1, -2.0f, new Properties().stacksTo(64));
+        super(new Properties().stacksTo(64));
+        this.attackDamage = 1.5f;
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", this.attackDamage, Operation.ADDITION));
+        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", -2.0f, Operation.ADDITION));
+        this.defaultModifiers = builder.build();
+    }
+
+    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
+        return slot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(slot);
+    }
+
+    public float getAttackDamage() {
+        return attackDamage;
     }
 
     @Override
@@ -35,7 +58,7 @@ public class SilverKnifeItem extends SwordItem {
 
     @Override
     public int getUseDuration(ItemStack stack) {
-        return 36000;
+        return 9000;
     }
 
     @Override
@@ -44,7 +67,7 @@ public class SilverKnifeItem extends SwordItem {
             int useDuration = this.getUseDuration(stack) - i;
             if (useDuration >= 10) {
                 if (!level.isClientSide) {
-                    SilverKnife silverKnife = new SilverKnife(getType(stack), player, level);
+                    SilverKnife silverKnife = new SilverKnife(getType(stack), player, level, stack);
                     silverKnife.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 1.0F);
                     if (player.getAbilities().instabuild) {
                         silverKnife.pickup = Pickup.CREATIVE_ONLY;
@@ -65,9 +88,7 @@ public class SilverKnifeItem extends SwordItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (stack.getDamageValue() >= stack.getMaxDamage() - 1) {
-            return InteractionResultHolder.fail(stack);
-        } else if (EnchantmentHelper.getRiptide(stack) > 0 && !player.isInWaterOrRain()) {
+        if (EnchantmentHelper.getRiptide(stack) > 0 && !player.isInWaterOrRain()) {
             return InteractionResultHolder.fail(stack);
         } else {
             player.startUsingItem(hand);

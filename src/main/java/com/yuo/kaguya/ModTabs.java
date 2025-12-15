@@ -1,6 +1,7 @@
 package com.yuo.kaguya;
 
 import com.yuo.kaguya.Item.*;
+import com.yuo.kaguya.Item.Weapon.SilverKnifeItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
@@ -30,7 +31,7 @@ public class ModTabs {
 			.displayItems((parameters, output) -> {
 				for (RegistryObject<Item> entry : ModItems.ITEMS.getEntries()) {
 					Item item = entry.get();
-					if (item instanceof SwordItem || item instanceof ArmorItem){
+					if (item instanceof SwordItem || item instanceof ArmorItem || item instanceof SilverKnifeItem){
 						if (item == ModItems.fireRatBobe.get()){
 							ItemStack stack = new ItemStack(item);
 							stack.enchant(Enchantments.FIRE_PROTECTION, 10);

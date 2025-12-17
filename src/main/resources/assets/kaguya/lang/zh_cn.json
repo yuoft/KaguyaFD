@@ -103,6 +103,7 @@
 
 	"container.kaguya.danmaku_craft": "弹幕工作台",
 
+	"info.kaguya.damage_source.danmaku": "%s被%s使用弹幕击杀",
 	"info.kaguya.hisou_sword": "当前气质：",
 	"info.kaguya.extend": "效果同不死图腾",
 	"info.kaguya.danmaku_shot_item.type": "弹幕类型：",

@@ -1,6 +1,7 @@
 package com.yuo.kaguya.Entity;
 
 import com.yuo.kaguya.Item.ModItems;
+import com.yuo.kaguya.Item.Weapon.DanmakuDamageTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -15,6 +16,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 
 public class DanmakuBase extends ThrowableItemProjectile {
@@ -85,9 +87,12 @@ public class DanmakuBase extends ThrowableItemProjectile {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         Entity entity = result.getEntity();
-        if (entity instanceof LivingEntity living) {
-            living.hurt(this.damageSources().generic(), this.entityData.get(DAMAGE));
-            this.discard();
+        if (entity instanceof LivingEntity target && this.getOwner() instanceof LivingEntity living) {
+            if (target.hurt(DanmakuDamageTypes.danmaku(living, target), this.entityData.get(DAMAGE))){
+                Vec3 vec3 = this.getDeltaMovement().scale(0.1);
+                living.knockback(vec3.x, vec3.y, vec3.z);
+                this.discard();
+            }
         }
     }
 

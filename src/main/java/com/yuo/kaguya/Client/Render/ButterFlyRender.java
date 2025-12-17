@@ -30,9 +30,8 @@ public class ButterFlyRender extends EntityRenderer<DanmakuButterfly> {
 
         poseStack.pushPose();
         poseStack.scale(0.25f, 0.25f, 0.25f);
-        poseStack.translate(0,3,0);
-        poseStack.mulPose(Axis.ZP.rotationDegrees(180f));
-        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - entityYaw));
+        poseStack.translate(0,-0.5f,0);
+        poseStack.mulPose(Axis.YP.rotationDegrees(-(180.0F - entityYaw)));
         // 设置模型动画
         this.model.setupAnim(butterfly, 0, 0, butterfly.tickCount + partialTicks, 0, 0);
         VertexConsumer vertexConsumer = bufferSource.getBuffer(this.model.renderType(getTextureLocation(butterfly)));

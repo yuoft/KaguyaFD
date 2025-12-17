@@ -73,7 +73,8 @@ public class DanmakuShotItem extends Item {
         switch (danmakuType) {
             case TINY_BALL, SMALL_BALL, MEDIUM_BALL, BIG_BALL, RING_BALL ->
                     DanmakuShootHelper.shootDanmaku(world, player, VAL_DEF, INA_DEF, danmakuColor, danmakuType);
-            case BUTTER_FLY -> DanmakuShootHelper.shootDanmakuFly(world, player, VAL_DEF, INA_DEF, danmakuColor);
+            case BUTTER_FLY -> DanmakuShootHelper.shootDanmakuFly(world, player, VAL_DEF / 2, INA_DEF, danmakuColor);
+            case ARROW_SHOT -> DanmakuShootHelper.shootDanmakuArrow(world, player, VAL_DEF, INA_DEF, danmakuColor);
             default -> DanmakuShootHelper.shootDanmaku(world, player);
         }
 

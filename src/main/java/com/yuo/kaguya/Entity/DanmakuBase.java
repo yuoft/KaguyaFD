@@ -13,6 +13,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.network.NetworkHooks;
 
@@ -54,7 +55,12 @@ public class DanmakuBase extends ThrowableItemProjectile {
         this.setColor(this.danmakuColor);
         this.setDamage(this.danmakuType.getDamage());
         this.setGravityVelocity(0);
-        this.setMaxTicksExisted(200);
+        this.setMaxTicksExisted(DEF_MAX_TICKS_EXISTED);
+    }
+
+    @Override
+    public AABB getBoundingBoxForCulling() {
+        return super.getBoundingBoxForCulling();
     }
 
     @Override

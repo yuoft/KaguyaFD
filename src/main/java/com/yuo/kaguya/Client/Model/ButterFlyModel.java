@@ -33,13 +33,13 @@ public class ButterFlyModel extends EntityModel<DanmakuButterfly> {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition leftWing = partdefinition.addOrReplaceChild("leftWing", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
+		PartDefinition leftWing = partdefinition.addOrReplaceChild("leftWing", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 16.0F));
 
-		PartDefinition left_r1 = leftWing.addOrReplaceChild("left_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-25.0F, -40.0F, 0.0F, 32.0F, 64.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-7.0F, 0.0F, -8.0F, -1.5708F, 0.0F, 0.0F));
+		PartDefinition left_r1 = leftWing.addOrReplaceChild("left_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-25.0F, -40.0F, 0.0F, 32.0F, 64.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-7.0F, 0.0F, -8.0F, 1.5708F, 0.0F, 0.0F));
 
-		PartDefinition rightWing = partdefinition.addOrReplaceChild("rightWing", CubeListBuilder.create(), PartPose.offset(1.0F, 24.0F, -8.0F));
+		PartDefinition rightWing = partdefinition.addOrReplaceChild("rightWing", CubeListBuilder.create(), PartPose.offset(1.0F, 24.0F, 8.0F));
 
-		PartDefinition right_r1 = rightWing.addOrReplaceChild("right_r1", CubeListBuilder.create().texOffs(0, 64).addBox(-31.0F, -40.0F, 0.0F, 32.0F, 64.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(30.0F, 0.0F, 0.0F, -1.5708F, 0.0F, 0.0F));
+		PartDefinition right_r1 = rightWing.addOrReplaceChild("right_r1", CubeListBuilder.create().texOffs(0, 64).addBox(-31.0F, -40.0F, 0.0F, 32.0F, 64.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(30.0F, 0.0F, 0.0F, 1.5708F, 0.0F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}

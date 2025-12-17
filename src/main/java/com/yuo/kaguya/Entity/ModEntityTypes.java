@@ -11,7 +11,7 @@ public class ModEntityTypes {
 
     public static final RegistryObject<EntityType<DanmakuBase>> DANMAKU = ENTITY_TYPES.register("danmaku",
             () -> DanmakuBase.TYPE);
-    public static final RegistryObject<EntityType<DanmakuButterfly>> HEART_SHOT = ENTITY_TYPES.register("danmaku_fly",
+    public static final RegistryObject<EntityType<DanmakuButterfly>> DANMAKU_FLY = ENTITY_TYPES.register("danmaku_fly",
             () -> DanmakuButterfly.TYPE);
     public static final RegistryObject<EntityType<SilverKnife>> SILVER_KNIFE_RED = ENTITY_TYPES.register("silver_knife_red",
             () -> SilverKnife.TYPE_RED);
@@ -21,4 +21,6 @@ public class ModEntityTypes {
             () -> SilverKnife.TYPE_BLUE);
     public static final RegistryObject<EntityType<SilverKnife>> SILVER_KNIFE_WHITE = ENTITY_TYPES.register("silver_knife_white",
             () -> SilverKnife.TYPE_WHITE);
+    public static final RegistryObject<EntityType<DanmakuArrow>> DANMAKU_ARROW = ENTITY_TYPES.register("danmaku_arrow",
+            () -> DanmakuArrow.TYPE);
 }

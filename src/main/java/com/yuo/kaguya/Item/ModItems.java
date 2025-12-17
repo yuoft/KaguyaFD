@@ -101,7 +101,7 @@ public class ModItems {
 	public static RegistryObject<Item> koyasugai = ITEMS.register("koyasugai", () -> new KaguyaFood(KaguyaFood.koyasugai));
 
 	//弹幕发射物品
-	public static RegistryObject<Item> arrowShot = ITEMS.register("arrow_shot", () -> new DanmakuShotItem(DanmakuType.TINY_BALL));
+	public static RegistryObject<Item> arrowShot = ITEMS.register("arrow_shot", () -> new DanmakuShotItem(DanmakuType.ARROW_SHOT));
 	public static RegistryObject<Item> bigLightShot = ITEMS.register("big_light_shot", () -> new DanmakuShotItem(DanmakuType.TINY_BALL));
 	public static RegistryObject<Item> bigShot = ITEMS.register("big_shot", () -> new DanmakuShotItem(DanmakuType.BIG_BALL));
 	public static RegistryObject<Item> butterflyShot = ITEMS.register("butterfly_shot", () -> new DanmakuShotItem(DanmakuType.BUTTER_FLY));

@@ -27,7 +27,7 @@ public class ClientProxy implements IProxy {
     @SubscribeEvent
     public void clientSetup(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            setKnifeProperty(ModItems.silverKnifeWhite.get());
+//            setKnifeProperty(ModItems.silverKnifeWhite.get());
             MenuScreens.register(ModMenuTypes.DANMAKU_CRAFT.get(), DanmakuCraftScreen::new);
         });
 //        ItemBlockRenderTypes.setRenderLayer(OreCropBlocks.customSapling.get(), RenderType.cutout());

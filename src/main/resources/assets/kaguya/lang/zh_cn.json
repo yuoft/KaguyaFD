@@ -95,6 +95,7 @@
 
 	"entity.kaguya.danmaku": "弹幕",
 	"entity.kaguya.danmaku_fly": "蝶弹",
+	"entity.kaguya.danmaku_arrow": "箭弹",
 	"entity.kaguya.silver_knife_white": "白色银质小刀",
 	"entity.kaguya.silver_knife_red": "红色银质小刀",
 	"entity.kaguya.silver_knife_blue": "蓝色银质小刀",
@@ -114,6 +115,7 @@
 	"info.kaguya.type.big_ball": "大弹",
 	"info.kaguya.type.ring_ball": "环弹",
 	"info.kaguya.type.button_fly": "蝶弹",
+	"info.kaguya.type.arrow_shot": "箭弹",
 	"info.kaguya.color.red": "红色",
 	"info.kaguya.color.orange": "橙色",
 	"info.kaguya.color.yellow": "黄色",

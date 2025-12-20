@@ -126,6 +126,19 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', Items.GLOWSTONE).define('y', Items.IRON_INGOT).define('z', Items.GOLD_INGOT)
                 .pattern("xyx").pattern("xyx").pattern("xzx")
                 .unlockedBy("has_item", has(ModItems.toyosatomimiSword.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.deathScythe.get(), 1)
+                .define('x', Items.IRON_INGOT).define('y', Items.SOUL_SAND)
+                .pattern("xxx").pattern(" y ").pattern("y  ")
+                .unlockedBy("has_item", has(ModItems.deathScythe.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.remorseRod.get(), 1)
+                .define('x', Items.INK_SAC).define('y', ItemTags.PLANKS).define('z', Items.BONE_MEAL)
+                .define('m', Items.STICK)
+                .pattern("xyz").pattern("xyz").pattern(" m ")
+                .unlockedBy("has_item", has(ModItems.remorseRod.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.roukanSword.get(), 1)
+                .define('x', Items.IRON_INGOT).define('y', ModItems.soulTorch.get()).define('z', Items.IRON_SWORD)
+                .pattern("  x").pattern("yx ").pattern("z  ")
+                .unlockedBy("has_item", has(ModItems.roukanSword.get())).save(consumer);
 
         //弹幕
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.crystalShot.get(), 4)

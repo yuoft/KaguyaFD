@@ -4,6 +4,7 @@ import com.yuo.kaguya.Entity.SilverKnife;
 import com.yuo.kaguya.Item.DanmakuShotItem;
 import com.yuo.kaguya.Item.KaguyaMaterialItem;
 import com.yuo.kaguya.Item.ModItems;
+import com.yuo.kaguya.Item.Weapon.RemorseRod;
 import com.yuo.kaguya.Item.Weapon.SilverKnifeItem;
 import com.yuo.kaguya.RlUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -32,7 +33,8 @@ public class ModItemModelProvider extends ItemModelProvider {
             if (item instanceof DanmakuShotItem){
                 this.shotItemModel(getRes(item));
             }else if (item instanceof SwordItem || item instanceof ArmorItem || item instanceof SilverKnifeItem){
-                this.weaponItemModel(getRes(item));
+                if (item instanceof RemorseRod){}
+                else this.weaponItemModel(getRes(item));
             }else if (item instanceof BlockItem){
 
             }else if (item instanceof KaguyaMaterialItem){

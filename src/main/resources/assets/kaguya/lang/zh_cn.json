@@ -40,7 +40,7 @@
 	"item.kaguya.ibukihyou": "伊吹瓢",
 	"item.kaguya.icicle_sword": "冰剑",
 	"item.kaguya.kabenuke": "穿墙之凿",
-	"item.kaguya.kaigo_stick_0": "悔悟之棒",
+	"item.kaguya.remorse_rod": "悔悟之棒",
 	"item.kaguya.kappa_water_pistol": "河童的水枪",
 	"item.kaguya.kinkakuzi": "金阁寺的一块天花板",
 	"item.kaguya.koyasugai": "燕的子安贝",
@@ -103,6 +103,7 @@
 
 	"container.kaguya.danmaku_craft": "弹幕工作台",
 
+	"info.kaguya.remorse_rod.fix": "修复完成",
 	"info.kaguya.damage_source.danmaku": "%s被%s使用弹幕击杀",
 	"info.kaguya.hisou_sword": "当前气质：",
 	"info.kaguya.extend": "效果同不死图腾",

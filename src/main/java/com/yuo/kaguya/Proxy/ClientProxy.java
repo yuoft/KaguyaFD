@@ -6,8 +6,8 @@ import com.yuo.kaguya.Menu.ModMenuTypes;
 import com.yuo.kaguya.RlUtil;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -27,14 +27,15 @@ public class ClientProxy implements IProxy {
     @SubscribeEvent
     public void clientSetup(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-//            setKnifeProperty(ModItems.silverKnifeWhite.get());
+            setRemorseRodProperty(ModItems.remorseRod.get());
             MenuScreens.register(ModMenuTypes.DANMAKU_CRAFT.get(), DanmakuCraftScreen::new);
         });
 //        ItemBlockRenderTypes.setRenderLayer(OreCropBlocks.customSapling.get(), RenderType.cutout());
     }
 
-    private void setKnifeProperty(Item item){
-        ItemProperties.register(item, RlUtil.fa("throwing"), (itemStack, clientWorld, livingEntity, i)
-                -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1.0F : 0.0F);
+    private void setRemorseRodProperty(Item item){
+        ItemProperties.register(item, RlUtil.fa("fix"), (itemStack, clientWorld, livingEntity, i)
+                -> livingEntity != null && itemStack.areShareTagsEqual(livingEntity.getItemInHand(InteractionHand.MAIN_HAND))
+                && itemStack.getDamageValue() > 0 ? 1.0F : 0.0F);
     }
 }

@@ -111,7 +111,7 @@ public class ModEventHandler {
      * 获取玩家背包中的物品
      * @param player 玩家
      */
-    private static ItemStack getPlayerBagItem(Player player, Item item){
+    public static ItemStack getPlayerBagItem(Player player, Item item){
         ItemStack mainhand = player.getMainHandItem();
         if (mainhand.getItem() == item){
             return mainhand;

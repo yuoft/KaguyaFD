@@ -61,6 +61,11 @@ public class DanmakuBase extends ThrowableItemProjectile {
     }
 
     @Override
+    public boolean shouldRender(double x, double y, double z) {
+        return true;
+    }
+
+    @Override
     public AABB getBoundingBoxForCulling() {
         return super.getBoundingBoxForCulling();
     }

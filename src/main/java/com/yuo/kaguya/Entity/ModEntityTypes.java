@@ -23,4 +23,11 @@ public class ModEntityTypes {
             () -> SilverKnife.TYPE_WHITE);
     public static final RegistryObject<EntityType<DanmakuArrow>> DANMAKU_ARROW = ENTITY_TYPES.register("danmaku_arrow",
             () -> DanmakuArrow.TYPE);
+    public static final RegistryObject<EntityType<DanmakuLaser>> DANMAKU_LASER = ENTITY_TYPES.register("danmaku_laser",
+            () -> DanmakuLaser.TYPE);
+    public static final RegistryObject<EntityType<WindEntity>> WIND = ENTITY_TYPES.register("wind",
+            () -> WindEntity.TYPE);
+
+    public static final RegistryObject<EntityType<MiracleCircle>> MIRACLE_CIRCLE = ENTITY_TYPES.register("miracle_circle",
+            () -> MiracleCircle.TYPE);
 }

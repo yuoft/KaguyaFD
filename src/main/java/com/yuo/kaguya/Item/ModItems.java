@@ -48,7 +48,7 @@ public class ModItems {
 	public static RegistryObject<Item> houtou = ITEMS.register("houtou", KaguyaPrpo::new);
 	public static RegistryObject<Item> kinkakuzi = ITEMS.register("kinkakuzi", KaguyaPrpo::new);
 	public static RegistryObject<Item> mazinKyoukan = ITEMS.register("mazin_kyoukan", KaguyaPrpo::new);
-	public static RegistryObject<Item> mikoStickS = ITEMS.register("miko_stick_s", KaguyaPrpo::new);
+	public static RegistryObject<Item> mikoStick = ITEMS.register("miko_stick", WindStick::new);
 	public static RegistryObject<Item> ryuuTama = ITEMS.register("ryuu_tama", KaguyaPrpo::new);
 	public static RegistryObject<Item> sakuyaStopWatch = ITEMS.register("sakuya_stop_watch", KaguyaPrpo::new);
 	public static RegistryObject<Item> sakuyaWatch = ITEMS.register("sakuya_watch", KaguyaPrpo::new);

@@ -29,20 +29,6 @@ public class DanmakuShootHelper {
     }
 
     /**
-     * 直线发射弹幕--蝶形
-     */
-    public static void shootDanmakuFly(Level level, LivingEntity living){
-        shootDanmakuFly(level, living, VAL_DEF / 2, INA_DEF, COLOR_DEF);
-    }
-
-    /**
-     * 直线发射弹幕--箭形
-     */
-    public static void shootDanmakuArrow(Level level, LivingEntity living){
-        shootDanmakuArrow(level, living, VAL_DEF, INA_DEF, COLOR_DEF);
-    }
-
-    /**
      * 直线发射弹幕--圆形
      * @param living 发射实体
      * @param vel 速度
@@ -79,6 +65,26 @@ public class DanmakuShootHelper {
     public static void shootDanmakuArrow(Level level, LivingEntity living, float vel, float ina, DanmakuColor color){
         DanmakuArrow shot = new DanmakuArrow(level, living, color);
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
+        addEntityAndSound(level, living, shot);
+    }
+
+    /**
+     * 直线发射弹幕--旋风
+     * @param living 发射实体
+     * @param vel 速度
+     * @param ina 误差
+     * @param color 颜色
+     */
+    public static void shootDanmakuWind(Level level, LivingEntity living, float vel, float ina, DanmakuColor color){
+        WindEntity shot = new WindEntity(level, living, color);
+        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
+        addEntityAndSound(level, living, shot);
+    }
+
+    public static void shootDanmakuWind(Level level, LivingEntity living, float vel, float ina, DanmakuColor color, float damage){
+        WindEntity shot = new WindEntity(level, living, color);
+        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
+        shot.setDamage(damage);
         addEntityAndSound(level, living, shot);
     }
 

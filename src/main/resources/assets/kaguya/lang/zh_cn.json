@@ -47,7 +47,7 @@
 	"item.kaguya.laevateinn": "莱瓦汀",
 	"item.kaguya.magic_broom": "魔法扫帚",
 	"item.kaguya.mazin_kyoukan": "魔人经卷",
-	"item.kaguya.miko_stick_s": "风祝的驱魔棒",
+	"item.kaguya.miko_stick": "风祝的驱魔棒",
 	"item.kaguya.mini_hakkero": "迷你八卦炉",
 	"item.kaguya.nuclear_control_rod": "控制棒",
 	"item.kaguya.onbashira": "御柱",
@@ -100,6 +100,8 @@
 	"entity.kaguya.silver_knife_red": "红色银质小刀",
 	"entity.kaguya.silver_knife_blue": "蓝色银质小刀",
 	"entity.kaguya.silver_knife_green": "绿色银质小刀",
+	"entity.kaguya.wind": "风弹",
+	"entity.kaguya.miracle_circle": "五芒星",
 
 	"container.kaguya.danmaku_craft": "弹幕工作台",
 
@@ -131,6 +133,8 @@
 	"info.kaguya.color.magenta": "品红色",
 	"info.kaguya.color.pink": "粉色",
 	"info.kaguya.color.gray": "灰色",
+	"kaguya.message.login":"§b欢迎游玩本模组[矿石作物]，问题反馈§a点击此处!",
+	"kaguya.message.login0":"§ahttps://space.bilibili.com/21854371",
 
 	"itemGroup.tab.kaguya.item": "辉夜姬的五难题·材料",
 	"itemGroup.tab.kaguya.weapon": "辉夜姬的五难题·武器",

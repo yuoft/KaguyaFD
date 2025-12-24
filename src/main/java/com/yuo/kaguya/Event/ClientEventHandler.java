@@ -1,8 +1,6 @@
 package com.yuo.kaguya.Event;
 
-import com.yuo.kaguya.Client.Model.ArrowShotModel;
-import com.yuo.kaguya.Client.Model.ButterFlyModel;
-import com.yuo.kaguya.Client.Model.SilverKnifeModel;
+import com.yuo.kaguya.Client.Model.*;
 import com.yuo.kaguya.Client.Render.*;
 import com.yuo.kaguya.Entity.ModEntityTypes;
 import com.yuo.kaguya.Item.ModItems;
@@ -32,6 +30,8 @@ public class ClientEventHandler {
         event.registerEntityRenderer(ModEntityTypes.SILVER_KNIFE_BLUE.get(), e -> new SilverKnifeBlueRender(e, SilverKnifeModel.LAYER_BLUE));
         event.registerEntityRenderer(ModEntityTypes.SILVER_KNIFE_WHITE.get(), e -> new SilverKnifeWhiteRender(e, SilverKnifeModel.LAYER_WHITE));
         event.registerEntityRenderer(ModEntityTypes.DANMAKU_ARROW.get(), ArrowShotRender::new);
+        event.registerEntityRenderer(ModEntityTypes.WIND.get(), WindRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.MIRACLE_CIRCLE.get(), MiracleCircleRenderer::new);
     }
 
     //染色
@@ -53,5 +53,7 @@ public class ClientEventHandler {
         event.registerLayerDefinition(SilverKnifeModel.LAYER_WHITE, SilverKnifeModel::createBodyLayer);
         event.registerLayerDefinition(ButterFlyModel.LAYER_LOCATION, ButterFlyModel::createBodyLayer);
         event.registerLayerDefinition(ArrowShotModel.LAYER_LOCATION, ArrowShotModel::createBodyLayer);
+        event.registerLayerDefinition(WindChargeModel.LAYER_LOCATION, WindChargeModel::createBodyLayer);
+        event.registerLayerDefinition(MiracleCircleModel.LAYER_LOCATION, MiracleCircleModel::createBodyLayer);
     }
 }

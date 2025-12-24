@@ -7,6 +7,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
@@ -87,6 +91,18 @@ public class ModEventHandler {
                 totem.shrink(1);
                 event.setCanceled(true);
             }
+        }
+    }
+
+    //玩家登入
+    @SubscribeEvent
+    public static void playerLogin(PlayerEvent.PlayerLoggedInEvent event){
+        Player player = event.getEntity();
+        if (!player.getPersistentData().getBoolean("kaguya:login")){
+            player.getPersistentData().putBoolean("kaguya:login", true);
+            player.sendSystemMessage(Component.translatable("kaguya.message.login")
+                    .setStyle(Style.EMPTY.withHoverEvent(HoverEvent.Action.SHOW_TEXT.deserializeFromLegacy(Component.translatable("kaguya.message.login0")))
+                            .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://space.bilibili.com/21854371"))));
         }
     }
 

@@ -16,6 +16,8 @@ public enum DanmakuType {
     // 蝴蝶
     BUTTER_FLY(0, -1,5f,"button_fly"),
     ARROW_SHOT(0, -1,2.5f,"arrow_shot"),
+    LASER(0, -1,3f,"laser"),
+    WIND(0, -1,3f,"wind"),
     ;
 
     private final double size;

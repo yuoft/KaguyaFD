@@ -32,12 +32,18 @@ public class MarisaHatModel extends HumanoidModel<LivingEntity> {
 
     // 创建 LayerDefinition
     public static MeshDefinition createLayer(CubeDeformation cubeDeformation, float v , boolean isLegs) {
-        MeshDefinition meshdefinition = HumanoidModel.createMesh(CubeDeformation.NONE, 0.0F);
+        MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
-        
+
         // 头部定义
         PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create(), PartPose.ZERO);
-        
+        partdefinition.addOrReplaceChild("hat", CubeListBuilder.create(), PartPose.ZERO);
+        partdefinition.addOrReplaceChild("body", CubeListBuilder.create(), PartPose.ZERO);
+        partdefinition.addOrReplaceChild("right_arm", CubeListBuilder.create(), PartPose.ZERO);
+        partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create(), PartPose.ZERO);
+        partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create(), PartPose.ZERO);
+        partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create(), PartPose.ZERO);
+
         // 构建帽子
         PartDefinition hatBase = head.addOrReplaceChild("hatBase", 
             CubeListBuilder.create()

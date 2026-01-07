@@ -2,7 +2,7 @@ package com.yuo.kaguya.Client.Screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuo.kaguya.Menu.DanmakuCraftMenu;
-import com.yuo.kaguya.RlUtil;
+import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class DanmakuCraftScreen extends AbstractContainerScreen<DanmakuCraftMenu> {
-    public static final ResourceLocation RES = RlUtil.fa("textures/gui/danmaku_craft.png");
+    public static final ResourceLocation RES = KaguyaUtils.fa("textures/gui/danmaku_craft.png");
     protected final int textureWidth = 256;
     protected final int textureHeight = 164;
 

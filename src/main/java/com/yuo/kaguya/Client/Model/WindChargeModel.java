@@ -6,7 +6,7 @@ package com.yuo.kaguya.Client.Model;// Made with Blockbench 5.0.5
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuo.kaguya.Entity.WindEntity;
-import com.yuo.kaguya.RlUtil;
+import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -15,7 +15,7 @@ import net.minecraft.client.model.geom.builders.*;
 
 public class WindChargeModel extends EntityModel<WindEntity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(RlUtil.fa("wind_charge"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KaguyaUtils.fa("wind_charge"), "main");
 	private final ModelPart charge;
 	private final ModelPart wind;
 

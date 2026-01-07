@@ -6,6 +6,7 @@ import com.yuo.kaguya.Entity.ModEntityTypes;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Item.DanmakuShotItem;
 import com.yuo.kaguya.Kaguya;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
@@ -31,7 +32,16 @@ public class ClientEventHandler {
         event.registerEntityRenderer(ModEntityTypes.SILVER_KNIFE_WHITE.get(), e -> new SilverKnifeWhiteRender(e, SilverKnifeModel.LAYER_WHITE));
         event.registerEntityRenderer(ModEntityTypes.DANMAKU_ARROW.get(), ArrowShotRender::new);
         event.registerEntityRenderer(ModEntityTypes.WIND.get(), WindRenderer::new);
-        event.registerEntityRenderer(ModEntityTypes.MIRACLE_CIRCLE.get(), MiracleCircleRenderer::new);
+    }
+
+    @SubscribeEvent
+    public static void addLayers(EntityRenderersEvent.AddLayers event) {
+        for (String skinName : event.getSkins()) {
+            PlayerRenderer skin = event.getSkin(skinName);
+            if (skin != null) {
+                skin.addLayer(new PlayerCircleRenderer(skin));
+            }
+        }
     }
 
     //染色
@@ -45,6 +55,7 @@ public class ClientEventHandler {
         }
     }
 
+    //纹理映射
     @SubscribeEvent
     public static void registerEntityLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(SilverKnifeModel.LAYER_RED, SilverKnifeModel::createBodyLayer);
@@ -54,6 +65,5 @@ public class ClientEventHandler {
         event.registerLayerDefinition(ButterFlyModel.LAYER_LOCATION, ButterFlyModel::createBodyLayer);
         event.registerLayerDefinition(ArrowShotModel.LAYER_LOCATION, ArrowShotModel::createBodyLayer);
         event.registerLayerDefinition(WindChargeModel.LAYER_LOCATION, WindChargeModel::createBodyLayer);
-        event.registerLayerDefinition(MiracleCircleModel.LAYER_LOCATION, MiracleCircleModel::createBodyLayer);
     }
 }

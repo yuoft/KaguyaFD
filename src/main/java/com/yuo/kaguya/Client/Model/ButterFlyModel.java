@@ -6,21 +6,16 @@ package com.yuo.kaguya.Client.Model;// Made with Blockbench 5.0.5
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuo.kaguya.Entity.DanmakuButterfly;
-import com.yuo.kaguya.RlUtil;
-import net.minecraft.client.model.AnimationUtils;
+import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.AnimationState;
-import net.minecraft.world.entity.Entity;
 
 public class ButterFlyModel extends EntityModel<DanmakuButterfly> {
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(RlUtil.fa("butterfly"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KaguyaUtils.fa("butterfly"), "main");
 	private final ModelPart leftWing;
 	private final ModelPart rightWing;
 

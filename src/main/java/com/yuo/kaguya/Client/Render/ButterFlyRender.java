@@ -6,16 +6,15 @@ import com.mojang.math.Axis;
 import com.yuo.kaguya.Client.Model.ButterFlyModel;
 import com.yuo.kaguya.Entity.DanmakuButterfly;
 import com.yuo.kaguya.Entity.DanmakuColor;
-import com.yuo.kaguya.RlUtil;
+import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
 public class ButterFlyRender extends EntityRenderer<DanmakuButterfly> {
-    private static final ResourceLocation FLY = RlUtil.fa("textures/entity/butterfly.png");
+    private static final ResourceLocation FLY = KaguyaUtils.fa("textures/entity/butterfly.png");
     private final ButterFlyModel model;
 
     public ButterFlyRender(Context context) {

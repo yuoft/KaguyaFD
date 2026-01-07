@@ -1,12 +1,11 @@
 package com.yuo.kaguya.Data;
 
-import com.yuo.kaguya.Entity.SilverKnife;
 import com.yuo.kaguya.Item.DanmakuShotItem;
 import com.yuo.kaguya.Item.KaguyaMaterialItem;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Item.Weapon.RemorseRod;
 import com.yuo.kaguya.Item.Weapon.SilverKnifeItem;
-import com.yuo.kaguya.RlUtil;
+import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -50,22 +49,22 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     public void shotItemModel(ResourceLocation item){
         this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0", RlUtil.fa("item/shot/" + item.getPath()))
-                .texture("layer1", RlUtil.fa("item/shot/" + item.getPath() + "_2"));
+                .texture("layer0", KaguyaUtils.fa("item/shot/" + item.getPath()))
+                .texture("layer1", KaguyaUtils.fa("item/shot/" + item.getPath() + "_2"));
     }
 
     public void handItemModel(ResourceLocation item){
         this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/handheld"))
-                .texture("layer0", RlUtil.fa("item/" + item.getPath()));
+                .texture("layer0", KaguyaUtils.fa("item/" + item.getPath()));
     }
 
     public void weaponItemModel(ResourceLocation item){
         this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/handheld"))
-                .texture("layer0", RlUtil.fa("item/weapon/" + item.getPath()));
+                .texture("layer0", KaguyaUtils.fa("item/weapon/" + item.getPath()));
     }
 
     public void materialItemModel(ResourceLocation item){
         this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0", RlUtil.fa("item/material/" + item.getPath()));
+                .texture("layer0", KaguyaUtils.fa("item/material/" + item.getPath()));
     }
 }

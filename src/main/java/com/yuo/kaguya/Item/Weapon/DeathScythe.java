@@ -1,5 +1,6 @@
 package com.yuo.kaguya.Item.Weapon;
 
+import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -40,10 +41,7 @@ public class DeathScythe extends SwordItem {
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
         if (entity instanceof Player player) {
-            // 计算蓄力时间
-            int useDuration = this.getUseDuration(stack) - timeLeft;
-            float chargeRatio = Math.min((float) useDuration / MAX_CHARGE_TIME, 1.0F);
-
+            float chargeRatio = KaguyaUtils.getChargeRatio(this.getUseDuration(stack), timeLeft, MAX_CHARGE_TIME);
             boolean isPushing = player.isShiftKeyDown();
 
             if (!level.isClientSide) {

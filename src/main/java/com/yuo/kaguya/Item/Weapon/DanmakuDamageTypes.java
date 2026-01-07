@@ -1,7 +1,7 @@
 package com.yuo.kaguya.Item.Weapon;
 
 import com.mojang.datafixers.util.Either;
-import com.yuo.kaguya.RlUtil;
+import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 public class DanmakuDamageTypes {
 
-    public static ResourceKey<DamageType> DANMAKU = ResourceKey.create(Registries.DAMAGE_TYPE, RlUtil.fa("danmaku"));
+    public static ResourceKey<DamageType> DANMAKU = ResourceKey.create(Registries.DAMAGE_TYPE, KaguyaUtils.fa("danmaku"));
 
     public static final RegistrySetBuilder DAMAGE_BUILDER = new RegistrySetBuilder().add(Registries.DAMAGE_TYPE, DanmakuDamageTypes::bootstrap);
 

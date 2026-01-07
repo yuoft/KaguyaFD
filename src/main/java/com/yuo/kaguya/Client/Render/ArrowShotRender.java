@@ -6,7 +6,7 @@ import com.mojang.math.Axis;
 import com.yuo.kaguya.Client.Model.ArrowShotModel;
 import com.yuo.kaguya.Entity.DanmakuArrow;
 import com.yuo.kaguya.Entity.DanmakuColor;
-import com.yuo.kaguya.RlUtil;
+import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
 public class ArrowShotRender extends EntityRenderer<DanmakuArrow> {
-    private static final ResourceLocation ARROW = RlUtil.fa("textures/entity/arrow_shot.png");
+    private static final ResourceLocation ARROW = KaguyaUtils.fa("textures/entity/arrow_shot.png");
     private final ArrowShotModel model;
 
     public ArrowShotRender(Context context) {

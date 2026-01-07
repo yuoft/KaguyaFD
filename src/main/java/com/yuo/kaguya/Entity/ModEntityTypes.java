@@ -28,6 +28,4 @@ public class ModEntityTypes {
     public static final RegistryObject<EntityType<WindEntity>> WIND = ENTITY_TYPES.register("wind",
             () -> WindEntity.TYPE);
 
-    public static final RegistryObject<EntityType<MiracleCircle>> MIRACLE_CIRCLE = ENTITY_TYPES.register("miracle_circle",
-            () -> MiracleCircle.TYPE);
 }

@@ -1,24 +1,20 @@
 package com.yuo.kaguya.Client.Render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuo.kaguya.Client.Model.WindChargeModel;
 import com.yuo.kaguya.Entity.DanmakuColor;
 import com.yuo.kaguya.Entity.WindEntity;
-import com.yuo.kaguya.RlUtil;
+import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
 
 public class WindRenderer extends EntityRenderer<WindEntity> {
-    private static final ResourceLocation TEXTURE = RlUtil.fa("textures/entity/wind_charge.png");
+    private static final ResourceLocation TEXTURE = KaguyaUtils.fa("textures/entity/wind_charge.png");
     private final WindChargeModel model;
 
     public WindRenderer(EntityRendererProvider.Context context) {

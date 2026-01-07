@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuo.kaguya.Client.Model.SilverKnifeModel;
 import com.yuo.kaguya.Entity.SilverKnife;
-import com.yuo.kaguya.RlUtil;
+import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class SilverKnifeWhiteRender extends EntityRenderer<SilverKnife> {
-    public static final ResourceLocation SILVER_KNIFE_WHITE = RlUtil.fa("textures/entity/silver_knife_white.png");
+    public static final ResourceLocation SILVER_KNIFE_WHITE = KaguyaUtils.fa("textures/entity/silver_knife_white.png");
     private final SilverKnifeModel<SilverKnife> model;
 
     public SilverKnifeWhiteRender(EntityRendererProvider.Context context, ModelLayerLocation layer) {

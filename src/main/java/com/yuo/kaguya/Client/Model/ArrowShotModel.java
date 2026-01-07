@@ -6,8 +6,7 @@ package com.yuo.kaguya.Client.Model;// Made with Blockbench 5.0.5
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuo.kaguya.Entity.DanmakuArrow;
-import com.yuo.kaguya.Entity.DanmakuBase;
-import com.yuo.kaguya.RlUtil;
+import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -16,7 +15,7 @@ import net.minecraft.client.model.geom.builders.*;
 
 public class ArrowShotModel extends EntityModel<DanmakuArrow> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(RlUtil.fa("arrow_shot"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KaguyaUtils.fa("arrow_shot"), "main");
 	private final ModelPart arrow_shot;
 
 	public ArrowShotModel(ModelPart root) {

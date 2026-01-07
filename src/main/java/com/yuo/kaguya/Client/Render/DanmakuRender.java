@@ -6,7 +6,7 @@ import com.mojang.math.Axis;
 import com.yuo.kaguya.Entity.DanmakuColor;
 import com.yuo.kaguya.Entity.DanmakuType;
 import com.yuo.kaguya.Entity.DanmakuBase;
-import com.yuo.kaguya.RlUtil;
+import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -17,7 +17,7 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 public class DanmakuRender extends EntityRenderer<DanmakuBase> {
-    private static final ResourceLocation DANMAKU_TEXTURE = RlUtil.fa("textures/entity/danmaku.png");
+    private static final ResourceLocation DANMAKU_TEXTURE = KaguyaUtils.fa("textures/entity/danmaku.png");
     private static final RenderType RENDER_TYPE = RenderType.itemEntityTranslucentCull(DANMAKU_TEXTURE);
 
     public DanmakuRender(EntityRendererProvider.Context renderManager) {

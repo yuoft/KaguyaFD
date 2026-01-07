@@ -139,6 +139,10 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', Items.IRON_INGOT).define('y', ModItems.soulTorch.get()).define('z', Items.IRON_SWORD)
                 .pattern("  x").pattern("yx ").pattern("z  ")
                 .unlockedBy("has_item", has(ModItems.roukanSword.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.mikoStick.get(), 1)
+                .define('x', Items.FEATHER).define('y', Items.PAPER).define('z', Items.STICK)
+                .pattern(" xy").pattern(" z ").pattern("z  ")
+                .unlockedBy("has_item", has(ModItems.mikoStick.get())).save(consumer);
 
         //弹幕
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.crystalShot.get(), 4)

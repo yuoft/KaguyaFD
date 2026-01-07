@@ -1,5 +1,6 @@
 package com.yuo.kaguya.Item.Weapon;
 
+import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -56,10 +57,7 @@ public class Roukanken extends SwordItem {
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
         if (entity instanceof Player player) {
-            // 计算蓄力时间
-            int useDuration = this.getUseDuration(stack) - timeLeft;
-            float chargeRatio = Math.min((float) useDuration / 40, 1.0F);
-
+            float chargeRatio = KaguyaUtils.getChargeRatio(this.getUseDuration(stack), timeLeft, 40);
             if (chargeRatio >= 0.2f) {
                 // 执行冲锋
                 performCharge(level, player, chargeRatio);

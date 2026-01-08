@@ -16,7 +16,9 @@ public enum DanmakuType {
     // 蝴蝶
     BUTTER_FLY(0, -1,5f,"button_fly"),
     ARROW_SHOT(0, -1,2.5f,"arrow_shot"),
-    LASER(0, -1,3f,"laser"),
+    LONG_LASER(3, -1,4.5f,"long_laser"),
+    MIDDLE_LASER(2, -1,3f,"middle_laser"),
+    SHORT_LASER(1, -1,1.5f,"short_laser"),
     WIND(0, -1,3f,"wind"),
     ;
 
@@ -54,6 +56,9 @@ public enum DanmakuType {
 
     public double getSize() {
         return size;
+    }
+    public int getIntSize() {
+        return (int) size;
     }
 
     public String getName() {

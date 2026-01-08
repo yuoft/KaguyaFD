@@ -64,7 +64,7 @@ public class ModItems {
 	public static RegistryObject<Item> pendulum = ITEMS.register("pendulum", KaguyaPrpo::new);
 	public static RegistryObject<Item> magicBroom = ITEMS.register("magic_broom", KaguyaPrpo::new);
 	public static RegistryObject<Item> uchidenoKoduchi = ITEMS.register("uchideno_koduchi", KaguyaPrpo::new);
-	public static RegistryObject<Item> miniHakkero = ITEMS.register("mini_hakkero", KaguyaPrpo::new);
+	public static RegistryObject<Item> miniHakkero = ITEMS.register("mini_hakkero", MiniHakkero::new);
 	public static RegistryObject<Item> nuclearControlRod = ITEMS.register("nuclear_control_rod", KaguyaPrpo::new);
 	public static RegistryObject<Item> kappaWaterPistol = ITEMS.register("kappa_water_pistol", KaguyaPrpo::new);
 	public static RegistryObject<Item> tenguFan = ITEMS.register("tengu_fan", KaguyaPrpo::new);
@@ -120,6 +120,9 @@ public class ModItems {
 	public static RegistryObject<Item> starShot = ITEMS.register("star_shot", () -> new DanmakuShotItem(DanmakuType.TINY_BALL));
 	public static RegistryObject<Item> talismanShot = ITEMS.register("talisman_shot", () -> new DanmakuShotItem(DanmakuType.TINY_BALL));
 	public static RegistryObject<Item> tinyShot = ITEMS.register("tiny_shot",() -> new DanmakuShotItem(DanmakuType.TINY_BALL));
+	public static RegistryObject<Item> longLaser = ITEMS.register("long_laser",() -> new DanmakuShotItem(DanmakuType.LONG_LASER));
+	public static RegistryObject<Item> middleLaser = ITEMS.register("middle_laser",() -> new DanmakuShotItem(DanmakuType.MIDDLE_LASER));
+	public static RegistryObject<Item> shortLaser = ITEMS.register("short_laser",() -> new DanmakuShotItem(DanmakuType.SHORT_LASER));
 
 	public static RegistryObject<BlockItem> danmakuCraft = ITEMS.register("danmaku_craft",
 			() -> new BlockItem(ModBlocks.danmakuCraft.get(), new Properties()));

@@ -90,6 +90,9 @@
 	"item.kaguya.star_shot": "星弹",
 	"item.kaguya.talisman_shot": "牌儿弹",
 	"item.kaguya.tiny_shot": "粒弹",
+	"item.kaguya.long_laser": "长激光",
+	"item.kaguya.middle_laser": "激光",
+	"item.kaguya.short_laser": "短激光",
 
 	"block.kaguya.danmaku_craft": "弹幕工作台",
 
@@ -102,6 +105,9 @@
 	"entity.kaguya.silver_knife_green": "绿色银质小刀",
 	"entity.kaguya.wind": "风弹",
 	"entity.kaguya.miracle_circle": "五芒星",
+	"entity.kaguya.long_laser": "长激光",
+	"entity.kaguya.middle_laser": "激光",
+	"entity.kaguya.short_laser": "短激光",
 
 	"container.kaguya.danmaku_craft": "弹幕工作台",
 
@@ -120,6 +126,9 @@
 	"info.kaguya.type.ring_ball": "环弹",
 	"info.kaguya.type.button_fly": "蝶弹",
 	"info.kaguya.type.arrow_shot": "箭弹",
+	"info.kaguya.type.long_laser": "长激光",
+	"info.kaguya.type.middle_laser": "激光",
+	"info.kaguya.type.short_laser": "短激光",
 	"info.kaguya.color.red": "红色",
 	"info.kaguya.color.orange": "橙色",
 	"info.kaguya.color.yellow": "黄色",

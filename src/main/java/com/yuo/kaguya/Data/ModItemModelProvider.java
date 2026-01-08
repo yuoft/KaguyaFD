@@ -30,7 +30,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         for (RegistryObject<Item> entry : ModItems.ITEMS.getEntries()) {
             Item item = entry.get();
             if (item instanceof DanmakuShotItem){
-                this.shotItemModel(getRes(item));
+                if (item == ModItems.longLaser.get() || item == ModItems.middleLaser.get() || item == ModItems.shortLaser.get()){
+                    this.laserItemModel(getRes(item));
+                }else this.shotItemModel(getRes(item));
             }else if (item instanceof SwordItem || item instanceof ArmorItem || item instanceof SilverKnifeItem){
                 if (item instanceof RemorseRod){}
                 else this.weaponItemModel(getRes(item));
@@ -51,6 +53,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", KaguyaUtils.fa("item/shot/" + item.getPath()))
                 .texture("layer1", KaguyaUtils.fa("item/shot/" + item.getPath() + "_2"));
+    }
+
+    public void laserItemModel(ResourceLocation item){
+        this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", KaguyaUtils.fa("item/shot/" + item.getPath()));
     }
 
     public void handItemModel(ResourceLocation item){

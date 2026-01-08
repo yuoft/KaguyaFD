@@ -1,5 +1,7 @@
 package com.yuo.kaguya.Menu;
 
+import com.yuo.kaguya.Item.DanmakuShotItem;
+import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Tile.DanmakuCraftTile;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
@@ -7,6 +9,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -46,8 +49,44 @@ public class DanmakuCraftMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public ItemStack quickMoveStack(Player player, int i) {
-        return null;
+    public ItemStack quickMoveStack(Player player, int slotId) {
+        ItemStack stack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(slotId);
+        if (slot.hasItem()) {
+            ItemStack slotItem = slot.getItem();
+            stack = slotItem.copy();
+            if (slotId >= 5 && slotId < 41) {
+                if (slotItem.getItem() instanceof DanmakuShotItem){
+                    if (!this.moveItemStackTo(slotItem, 3, 4, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                }else if (slotItem.getItem() instanceof DyeItem){
+                    if (!this.moveItemStackTo(slotItem, 1, 2, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                }else if (slotItem.getItem() == ModItems.bigPotion.get()){
+                    if (!this.moveItemStackTo(slotItem, 2, 3, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                }
+            } else if (!this.moveItemStackTo(slotItem, 5, 41, false)) {
+                return ItemStack.EMPTY;
+            }
+
+            if (slotItem.isEmpty()) {
+                slot.setByPlayer(ItemStack.EMPTY);
+            } else {
+                slot.setChanged();
+            }
+
+            if (slotItem.getCount() == stack.getCount()) {
+                return ItemStack.EMPTY;
+            }
+
+            slot.onTake(player, slotItem);
+        }
+
+        return stack;
     }
 
     @Override

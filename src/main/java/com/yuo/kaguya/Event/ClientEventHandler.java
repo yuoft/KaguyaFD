@@ -6,6 +6,8 @@ import com.yuo.kaguya.Entity.ModEntityTypes;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Item.DanmakuShotItem;
 import com.yuo.kaguya.Kaguya;
+import net.minecraft.client.renderer.blockentity.BeaconRenderer;
+import net.minecraft.client.renderer.blockentity.BedRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
@@ -32,6 +34,8 @@ public class ClientEventHandler {
         event.registerEntityRenderer(ModEntityTypes.SILVER_KNIFE_WHITE.get(), e -> new SilverKnifeWhiteRender(e, SilverKnifeModel.LAYER_WHITE));
         event.registerEntityRenderer(ModEntityTypes.DANMAKU_ARROW.get(), ArrowShotRender::new);
         event.registerEntityRenderer(ModEntityTypes.WIND.get(), WindRenderer::new);
+//        event.registerEntityRenderer(ModEntityTypes.DANMAKU_LASER.get(), BeamLaserRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.BEAM_LASER.get(), TestLaserRender::new);
     }
 
     @SubscribeEvent
@@ -65,5 +69,6 @@ public class ClientEventHandler {
         event.registerLayerDefinition(ButterFlyModel.LAYER_LOCATION, ButterFlyModel::createBodyLayer);
         event.registerLayerDefinition(ArrowShotModel.LAYER_LOCATION, ArrowShotModel::createBodyLayer);
         event.registerLayerDefinition(WindChargeModel.LAYER_LOCATION, WindChargeModel::createBodyLayer);
+        event.registerLayerDefinition(VerticalLaserRenderer.LASER_LAYER, VerticalLaserRenderer::createBodyLayer);
     }
 }

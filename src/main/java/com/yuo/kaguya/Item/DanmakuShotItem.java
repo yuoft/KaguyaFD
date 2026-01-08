@@ -75,6 +75,8 @@ public class DanmakuShotItem extends Item {
                     DanmakuShootHelper.shootDanmaku(world, player, VAL_DEF, INA_DEF, danmakuColor, danmakuType);
             case BUTTER_FLY -> DanmakuShootHelper.shootDanmakuFly(world, player, VAL_DEF / 2, INA_DEF, danmakuColor);
             case ARROW_SHOT -> DanmakuShootHelper.shootDanmakuArrow(world, player, VAL_DEF, INA_DEF, danmakuColor);
+            case LONG_LASER, MIDDLE_LASER, SHORT_LASER ->
+                    DanmakuShootHelper.shootDanmakuLaser(world, player, VAL_DEF, INA_DEF, danmakuType, danmakuColor);
             default -> DanmakuShootHelper.shootDanmaku(world, player);
         }
 

@@ -2,6 +2,7 @@ package com.yuo.kaguya.Entity;
 
 import com.yuo.kaguya.Kaguya;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -27,5 +28,13 @@ public class ModEntityTypes {
             () -> DanmakuLaser.TYPE);
     public static final RegistryObject<EntityType<WindEntity>> WIND = ENTITY_TYPES.register("wind",
             () -> WindEntity.TYPE);
+
+    public static final RegistryObject<EntityType<BeamLaserEntity>> BEAM_LASER =
+            ENTITY_TYPES.register("beam_laser",
+                    () -> EntityType.Builder.<BeamLaserEntity>of(BeamLaserEntity::new, MobCategory.MISC)
+                            .sized(0.5f, 0.5f) // 初始大小，实际大小在 tick 中更新
+                            .clientTrackingRange(32)
+                            .updateInterval(1)
+                            .build("beam_laser"));
 
 }

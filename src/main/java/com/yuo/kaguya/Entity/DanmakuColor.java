@@ -99,6 +99,15 @@ public enum DanmakuColor {
         return floatBlue;
     }
 
+    public float[] getFloatRgb(){
+        float[] rgb = new float[4];
+        rgb[0] = this.red / 255f;
+        rgb[1] = this.green / 255f;
+        rgb[2] = this.blue / 255f;
+        rgb[3] = 1f;
+        return rgb;
+    }
+
     public int getRgb() {
         return rgb;
     }

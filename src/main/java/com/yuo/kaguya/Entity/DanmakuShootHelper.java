@@ -2,6 +2,9 @@ package com.yuo.kaguya.Entity;
 
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.item.BowItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
@@ -85,6 +88,20 @@ public class DanmakuShootHelper {
         WindEntity shot = new WindEntity(level, living, color);
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
         shot.setDamage(damage);
+        addEntityAndSound(level, living, shot);
+    }
+
+    /**
+     *
+     * 直线发射弹幕--激光
+     * @param living 发射实体
+     * @param vel 速度
+     * @param ina 误差
+     * @param color 颜色
+     */
+    public static void shootDanmakuLaser(Level level, LivingEntity living, float vel, float ina, DanmakuType type, DanmakuColor color){
+        DanmakuLaser shot = new DanmakuLaser(level, living, type, color);
+        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
         addEntityAndSound(level, living, shot);
     }
 

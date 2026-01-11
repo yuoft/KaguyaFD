@@ -12,14 +12,15 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 public class ButterFlyRender extends EntityRenderer<DanmakuButterfly> {
     private static final ResourceLocation FLY = KaguyaUtils.fa("textures/entity/butterfly.png");
-    private final ButterFlyModel model;
+    private final ButterFlyModel flyModel;
 
     public ButterFlyRender(Context context) {
         super(context);
-        this.model = new ButterFlyModel(context.bakeLayer(ButterFlyModel.LAYER_LOCATION));
+        this.flyModel = new ButterFlyModel(context.bakeLayer(ButterFlyModel.LAYER_LOCATION));
     }
 
     @Override
@@ -30,11 +31,13 @@ public class ButterFlyRender extends EntityRenderer<DanmakuButterfly> {
         poseStack.pushPose();
         poseStack.scale(0.25f, 0.25f, 0.25f);
         poseStack.translate(0,-0.5f,0);
-        poseStack.mulPose(Axis.YP.rotationDegrees(-(180.0F - entityYaw)));
+//        poseStack.mulPose(Axis.YP.rotationDegrees(-(180.0F - entityYaw)));
+        float yaw = Mth.rotLerp(partialTicks, butterfly.yRotO, butterfly.getYRot()) * (Mth.PI / 180f);
+        float pitch = Mth.lerp(partialTicks, butterfly.xRotO, butterfly.getXRot()) * (Mth.PI / 180f);
         // 设置模型动画
-        this.model.setupAnim(butterfly, 0, 0, butterfly.tickCount + partialTicks, 0, 0);
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(this.model.renderType(getTextureLocation(butterfly)));
-        this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, 1.0f);
+        this.flyModel.setupAnim(butterfly, 0, 0, butterfly.tickCount + partialTicks, yaw, pitch);
+        VertexConsumer vertexConsumer = bufferSource.getBuffer(this.flyModel.renderType(getTextureLocation(butterfly)));
+        this.flyModel.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, color.getFloatRed(), color.getFloatGreen(), color.getFloatBlue(), 0.75f);
         poseStack.popPose();
     }
 

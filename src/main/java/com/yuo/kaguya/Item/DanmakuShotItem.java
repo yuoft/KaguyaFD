@@ -66,6 +66,7 @@ public class DanmakuShotItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
+        if (world.isClientSide())  return InteractionResultHolder.fail(stack);
         String type = stack.getOrCreateTag().getString(NBT_DANMAKU_TYPE);
         String color = stack.getOrCreateTag().getString(NBT_DANMAKU_COLOR);
         DanmakuType danmakuType = getType(type);

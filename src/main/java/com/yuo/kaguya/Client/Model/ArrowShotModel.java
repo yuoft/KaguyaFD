@@ -27,7 +27,7 @@ public class ArrowShotModel extends EntityModel<DanmakuArrow> {
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
 		PartDefinition arrow_shot = partdefinition.addOrReplaceChild("arrow_shot", CubeListBuilder.create().texOffs(0, 8).addBox(-4.0F, -24.0F, 0.0F, 8.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
-				.texOffs(0, 16).addBox(-4.0F, -16.0F, 0.0F, 8.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 24.0F, 12.0F, 1.5708F, 0.0F, 0.0F));
+				.texOffs(0, 16).addBox(-4.0F, -16.0F, 0.0F, 8.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 24.0F, -12.0F, -1.5708F, 0.0F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 32, 32);
 	}
@@ -36,6 +36,11 @@ public class ArrowShotModel extends EntityModel<DanmakuArrow> {
 	@Override
 	public void setupAnim(DanmakuArrow entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
+	}
+
+	public void setupAnim(float yRot, float xRot) {
+		this.arrow_shot.yRot = yRot;
+		this.arrow_shot.xRot = xRot;
 	}
 
 	@Override

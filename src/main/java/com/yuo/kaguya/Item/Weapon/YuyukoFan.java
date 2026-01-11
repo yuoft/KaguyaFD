@@ -18,7 +18,7 @@ public class YuyukoFan extends SwordItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        DanmakuShootHelper.fanShapedShotDanmakuFly(level, player, 11, DanmakuColor.random(new Random()));
+        DanmakuShootHelper.fanShapedShotDanmakuFly(level, player, 11, DanmakuColor.random(level.random));
         player.getCooldowns().addCooldown(this, 10);
         return super.use(level, player, hand);
     }

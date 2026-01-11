@@ -45,6 +45,10 @@ public class ButterFlyModel extends EntityModel<DanmakuButterfly> {
 		float mul = 45f * Mth.sin(entity.tickCount / 22.5f * Mth.PI); //旋转角度
 		leftWing.zRot = mul * Mth.DEG_TO_RAD;
 		rightWing.zRot = -mul * Mth.DEG_TO_RAD;
+		this.leftWing.yRot = netHeadYaw;
+		this.leftWing.xRot = headPitch;
+		this.rightWing.yRot = netHeadYaw;
+		this.rightWing.xRot = headPitch;
 	}
 
 	@Override

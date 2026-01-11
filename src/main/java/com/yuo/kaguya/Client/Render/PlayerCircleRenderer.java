@@ -3,6 +3,7 @@ package com.yuo.kaguya.Client.Render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import com.yuo.kaguya.Entity.DanmakuColor;
 import com.yuo.kaguya.Item.Weapon.WindStick;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.model.PlayerModel;
@@ -16,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 public class PlayerCircleRenderer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
-    private static final ResourceLocation TEXTURE = KaguyaUtils.fa("textures/entity/heart_circle.png");
+    private static final ResourceLocation TEXTURE = KaguyaUtils.fa("textures/entity/star_circle.png");
     private final PlayerRenderer render;
 
     public PlayerCircleRenderer(PlayerRenderer render) {
@@ -39,12 +40,16 @@ public class PlayerCircleRenderer extends RenderLayer<AbstractClientPlayer, Play
             matrix.scale(3, 3, 3);
             matrix.translate(-0.5, yShift + hUp, -0.5);
             VertexConsumer builder = renderer.getBuffer(ModRenderType.HEART_CIRCLE.apply(TEXTURE));
-            Matrix4f matrix4f = matrix.last().pose();
-            builder.vertex(matrix4f, 0, 0, 0).color(0, 255, 0, 255).uv(0, 0).endVertex();
-            builder.vertex(matrix4f, 0, 0, 1).color(0, 255, 0, 255).uv(0, 1).endVertex();
-            builder.vertex(matrix4f, 1, 0, 1).color(0, 255, 0, 255).uv(1, 1).endVertex();
-            builder.vertex(matrix4f, 1, 0, 0).color(0, 255, 0, 255).uv(1, 0).endVertex();
+            addVertex(matrix, builder, DanmakuColor.GREEN);
             matrix.popPose();
         }
+    }
+
+    public static void addVertex(PoseStack matrixStack, VertexConsumer builder, DanmakuColor color) {
+        Matrix4f matrix4f = matrixStack.last().pose();
+        builder.vertex(matrix4f, 0, 0, 0).color(color.getRed(), color.getGreen(), color.getBlue(), 255).uv(0, 0).endVertex();
+        builder.vertex(matrix4f, 0, 0, 1).color(color.getRed(), color.getGreen(), color.getBlue(), 255).uv(0, 1).endVertex();
+        builder.vertex(matrix4f, 1, 0, 1).color(color.getRed(), color.getGreen(), color.getBlue(), 255).uv(1, 1).endVertex();
+        builder.vertex(matrix4f, 1, 0, 0).color(color.getRed(), color.getGreen(), color.getBlue(), 255).uv(1, 0).endVertex();
     }
 }

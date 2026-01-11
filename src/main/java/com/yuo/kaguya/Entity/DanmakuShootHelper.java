@@ -101,7 +101,7 @@ public class DanmakuShootHelper {
      */
     public static void shootDanmakuLaser(Level level, LivingEntity living, float vel, float ina, DanmakuType type, DanmakuColor color){
         DanmakuLaser shot = new DanmakuLaser(level, living, type, color);
-        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
+        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel * 2, ina);
         addEntityAndSound(level, living, shot);
     }
 

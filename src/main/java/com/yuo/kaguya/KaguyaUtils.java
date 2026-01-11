@@ -1,15 +1,14 @@
 package com.yuo.kaguya;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
@@ -60,36 +59,61 @@ public class KaguyaUtils {
     /**
      * 简单粒子激光
      */
-    public static void spawnParticleLaser(Player player, Level level, Item item){
+    public static void spawnParticleLaser(Player player, Level level){
         // 获取视线方向
-        Vec3 lookVec = player.getLookAngle();
         Vec3 startPos = player.getEyePosition();
-
-        // 射线检测
-        HitResult hitResult = player.pick(64.0, 0, false);
-        Vec3 endPos = hitResult.getLocation();
+        Vec3 lookVec = player.getLookAngle();
+        Vec3 endPos = getHitVec(startPos, lookVec, level, player);
 
         // 创建临时光束效果（使用MC原版效果）
-        for (int i = 0; i < 10; i++) {
-            double progress = i / 10.0;
+        double num = Math.ceil(startPos.distanceToSqr(endPos));
+        for (int i = 0; i < num; i++) {
+            double progress = i / num;
             Vec3 pos = startPos.add(lookVec.scale(progress * startPos.distanceTo(endPos)));
-
-            // 生成粒子效果
-            level.addParticle(ParticleTypes.END_ROD,
-                    pos.x, pos.y, pos.z,
-                    0, 0, 0);
-        }
-
-        // 对路径上的实体造成伤害
-        AABB beamBox = new AABB(startPos, endPos).inflate(0.5);
-        for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, beamBox)) {
-            if (entity != player) {
-                entity.hurt(level.damageSources().magic(), 5.0f);
-                entity.setSecondsOnFire(3);
+            level.addParticle(ParticleTypes.END_ROD, pos.x, pos.y, pos.z, 0, 0, 0);
+            // 偶尔生成火花粒子
+            if (level.random.nextFloat() < 0.1f) {
+                level.addParticle(ParticleTypes.ELECTRIC_SPARK, pos.x, pos.y, pos.z, 0, 0, 0);
             }
         }
+    }
 
-        // 冷却
-        player.getCooldowns().addCooldown(item, 20);
+    /**
+     * 获取玩家视线终点
+     * @param eyePosition 玩家视线位置
+     * @param lookDirection 玩家视线方向
+     */
+    public static Vec3 getHitVec(Vec3 eyePosition, Vec3 lookDirection, Level level, Player player){
+        // 确保方向不为零向量
+        if (lookDirection.lengthSqr() < 0.0001) {
+            lookDirection = new Vec3(0, 1, 0); // 默认向上
+        }
+        // 计算射线终点（最大距离 128 格）
+        double maxDistance = 128d;
+        Vec3 endPosition = eyePosition.add(lookDirection.scale(maxDistance));
+
+        // 进行方块碰撞检测
+        HitResult hitResult = level.clip(new ClipContext(eyePosition, endPosition, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
+
+        // 确定光束实际终点
+        Vec3 actualEnd;
+        if (hitResult.getType() == HitResult.Type.BLOCK) {
+            actualEnd = hitResult.getLocation();
+        } else {
+            actualEnd = endPosition;
+        }
+
+        return actualEnd;
+    }
+
+    /**
+     * 寻找此玩家的某个物品
+     */
+    public static ItemStack findItemByPlayer(Player player, Item item){
+        int slotMatchingItem = player.getInventory().findSlotMatchingItem(new ItemStack(item));
+        if (slotMatchingItem > 0 && slotMatchingItem < 41) {
+            return player.getInventory().getItem(slotMatchingItem);
+        }
+        return ItemStack.EMPTY;
     }
 }

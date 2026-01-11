@@ -3,7 +3,6 @@ package com.yuo.kaguya.Entity;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 
 public class DanmakuArrow extends DanmakuBase {
     public static final EntityType<DanmakuArrow> TYPE = EntityType.Builder.<DanmakuArrow>of(DanmakuArrow::new, MobCategory.MISC)
@@ -12,11 +11,7 @@ public class DanmakuArrow extends DanmakuBase {
 
     public DanmakuArrow(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
         super(entityType, level);
-    }
-
-    public DanmakuArrow(double x, double y, double z, Level level) {
-        super(TYPE, x, y, z, level);
-        this.setMaxTicksExisted(MAX_TICKS_EXISTED);
+        this.danmakuType = DanmakuType.ARROW_SHOT;
     }
 
     public DanmakuArrow(Level level, LivingEntity living, DanmakuColor danmakuColor) {

@@ -34,8 +34,8 @@ public class ClientEventHandler {
         event.registerEntityRenderer(ModEntityTypes.SILVER_KNIFE_WHITE.get(), e -> new SilverKnifeWhiteRender(e, SilverKnifeModel.LAYER_WHITE));
         event.registerEntityRenderer(ModEntityTypes.DANMAKU_ARROW.get(), ArrowShotRender::new);
         event.registerEntityRenderer(ModEntityTypes.WIND.get(), WindRenderer::new);
-//        event.registerEntityRenderer(ModEntityTypes.DANMAKU_LASER.get(), BeamLaserRenderer::new);
-        event.registerEntityRenderer(ModEntityTypes.BEAM_LASER.get(), TestLaserRender::new);
+        event.registerEntityRenderer(ModEntityTypes.DANMAKU_LASER.get(), LaserRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.BEAM_LASER.get(), BeamLaserRender::new);
     }
 
     @SubscribeEvent
@@ -69,6 +69,6 @@ public class ClientEventHandler {
         event.registerLayerDefinition(ButterFlyModel.LAYER_LOCATION, ButterFlyModel::createBodyLayer);
         event.registerLayerDefinition(ArrowShotModel.LAYER_LOCATION, ArrowShotModel::createBodyLayer);
         event.registerLayerDefinition(WindChargeModel.LAYER_LOCATION, WindChargeModel::createBodyLayer);
-        event.registerLayerDefinition(VerticalLaserRenderer.LASER_LAYER, VerticalLaserRenderer::createBodyLayer);
+        event.registerLayerDefinition(LaserModel.LAYER_LOCATION, LaserModel::createBodyLayer);
     }
 }

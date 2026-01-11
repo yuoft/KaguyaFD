@@ -1,5 +1,7 @@
 package com.yuo.kaguya.Entity;
 
+import com.yuo.kaguya.KaguyaUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -9,9 +11,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Fireball;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.List;
 
@@ -25,11 +31,13 @@ public class BeamLaserEntity extends Entity {
     protected static final EntityDataAccessor<Float> END_Z = SynchedEntityData.defineId(BeamLaserEntity.class, EntityDataSerializers.FLOAT);
     protected static final EntityDataAccessor<Integer> AGE = SynchedEntityData.defineId(BeamLaserEntity.class, EntityDataSerializers.INT);
     protected static final EntityDataAccessor<Float> LENGTH = SynchedEntityData.defineId(BeamLaserEntity.class, EntityDataSerializers.FLOAT);
+    protected static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(BeamLaserEntity.class, EntityDataSerializers.INT);
     private final int maxAge = 200; // 存在1秒（20 ticks）
-    private final float damage = 5.0f;
+    private float damage;
     private Player owner;
     private Vec3 startPos;
     private Vec3 laserDirection;
+    private Vec3 explosionPos;
     private double length;
     private int age = 0;
 
@@ -37,24 +45,25 @@ public class BeamLaserEntity extends Entity {
         super(type, level);
         this.noPhysics = true;
         this.setInvulnerable(true);
-        // 确保 direction 有默认值
-        this.laserDirection = new Vec3(0, 1, 0); // 默认向上
+        this.laserDirection = new Vec3(0, 1, 0);
         this.startPos = Vec3.ZERO;
+        this.explosionPos = Vec3.ZERO;
         this.length = 10.0;
+        this.damage = 5.0f;
     }
 
-    // 自定义构造函数
-    public BeamLaserEntity(Level level, Player owner, Vec3 startPos, Vec3 direction, double length) {
+    public BeamLaserEntity(Level level, Player owner, Vec3 startPos, Vec3 direction, Vec3 explosionPos, DanmakuColor color, double length) {
         this(ModEntityTypes.BEAM_LASER.get(), level);
 
         // 确保参数不为null
-        if (owner == null || startPos == null || direction  == null) {
-            throw new IllegalArgumentException("构造函数参数不能为null");
+        if (owner == null || startPos == null || direction == null || explosionPos == null) {
+            throw new IllegalArgumentException("error arguments is null");
         }
 
         this.owner = owner;
         this.startPos = startPos;
         this.laserDirection = direction.normalize(); // 确保标准化
+        this.explosionPos = explosionPos;
         this.length = Math.max(0.1, length); // 确保最小长度
 
         // 设置实体位置为起点
@@ -78,28 +87,35 @@ public class BeamLaserEntity extends Entity {
         }
 
         age++;
+        setAge(age);
 
         if (age >= maxAge) {
+            spawnExplosion();
             this.discard(); // 时间到，消失
             return;
         }
 
-        // 每 tick 检查碰撞
         try {
             checkCollision();
         } catch (NullPointerException e) {
             // 如果发生NPE，记录错误并销毁实体
             System.err.println("BeamLaserEntity NPE in checkCollision: " + e.getMessage());
             this.discard();
-            return;
         }
-
-        // 生成粒子效果
-        spawnParticles();
     }
 
+    /**
+     * 爆炸
+     */
+    private void spawnExplosion(){
+        if (this.explosionPos == null) return;
+        level().explode(this, explosionPos.x, explosionPos.y, explosionPos.z,16f, ExplosionInteraction.BLOCK);
+    }
+
+    /**
+     * 碰撞检测
+     */
     private void checkCollision() {
-        // 安全检查
         if (laserDirection == null || startPos == null) {
             return;
         }
@@ -107,35 +123,25 @@ public class BeamLaserEntity extends Entity {
         // 获取光束路径上的所有实体
         Vec3 endPos = startPos.add(this.laserDirection.scale(length));
         AABB beamBox = new AABB(startPos, endPos).inflate(0.5); // 扩大0.5格检测范围
-
         List<Entity> entities = level().getEntities(this, beamBox);
 
         for (Entity entity : entities) {
-            // 跳过发射者自己
             if (entity == owner || entity == this) continue;
-
-            // 只对生物造成伤害
             if (entity instanceof LivingEntity livingEntity) {
-                // 检查实体是否真的在光束路径上（更精确的检测）
                 if (isEntityInBeamPath(livingEntity)) {
-                    // 造成伤害
                     livingEntity.hurt(level().damageSources().indirectMagic(this, owner), damage);
-
-                    // 添加击退效果
+                    livingEntity.setSecondsOnFire(1);
                     Vec3 knockback = this.laserDirection.scale(0.5);
                     livingEntity.push(knockback.x, knockback.y, knockback.z);
-
-                    // 播放受伤音效
-                    if (!level().isClientSide) {
-//                        livingEntity.playSound(SoundEvents.ZOMBIE_HURT);
-                    }
                 }
             }
         }
     }
 
+    /**
+     * 检查实体是否真的在光束路径上（更精确的检测）
+     */
     private boolean isEntityInBeamPath(LivingEntity entity) {
-        // 安全检查
         if (laserDirection == null || startPos == null) {
             return false;
         }
@@ -160,44 +166,8 @@ public class BeamLaserEntity extends Entity {
         return false;
     }
 
-    private void spawnParticles() {
-        if (level().isClientSide && laserDirection != null && startPos != null) {
-            // 沿着光束生成粒子
-            int particleCount = (int) (length * 2); // 根据长度调整粒子数量
-
-            for (int i = 0; i < particleCount; i++) {
-                float progress = (float) i / particleCount;
-                Vec3 particlePos = startPos.add(laserDirection.scale(progress * length));
-
-                // 添加随机偏移
-                double offsetX = (random.nextDouble() - 0.5) * 0.2;
-                double offsetY = (random.nextDouble() - 0.5) * 0.2;
-                double offsetZ = (random.nextDouble() - 0.5) * 0.2;
-
-                // 生成主要粒子
-                level().addParticle(ParticleTypes.END_ROD,
-                        particlePos.x + offsetX,
-                        particlePos.y + offsetY,
-                        particlePos.z + offsetZ,
-                        0, 0, 0);
-
-                // 偶尔生成火花粒子
-                if (random.nextFloat() < 0.1f) {
-                    level().addParticle(ParticleTypes.ELECTRIC_SPARK,
-                            particlePos.x, particlePos.y, particlePos.z,
-                            0, 0, 0);
-                }
-            }
-        }
-    }
-
-    // Getter 方法供渲染器使用
     public Vec3 getStartPos() {
         return new Vec3(this.entityData.get(START_X), this.entityData.get(START_Y), this.entityData.get(START_Z));
-    }
-
-    public Vec3 getLaserDirection() {
-        return new Vec3(this.entityData.get(END_X), this.entityData.get(END_Y), this.entityData.get(END_Z));
     }
 
     public void setStartPos(Vec3 startPos) {
@@ -206,18 +176,38 @@ public class BeamLaserEntity extends Entity {
         this.entityData.set(START_Z, (float) startPos.z);
     }
 
+    public Vec3 getLaserDirection() {
+        return new Vec3(this.entityData.get(END_X), this.entityData.get(END_Y), this.entityData.get(END_Z));
+    }
+
     public void setLaserDirection(Vec3 laserDirection) {
         this.entityData.set(END_X, (float) laserDirection.x);
         this.entityData.set(END_Y, (float) laserDirection.y);
         this.entityData.set(END_Z, (float) laserDirection.z);
     }
 
-    public void setLength(float length) {
-        this.entityData.set(LENGTH, length);
+    public float getDamage() {
+        return damage;
+    }
+
+    public void setDamage(float damage) {
+        this.damage = damage;
+    }
+
+    public DanmakuColor getColor(){
+        return DanmakuColor.getColor(this.entityData.get(COLOR));
+    }
+
+    public void setColor(DanmakuColor color){
+        this.entityData.set(COLOR, color.ordinal());
     }
 
     public float getLength() {
         return this.entityData.get(LENGTH);
+    }
+
+    public void setLength(float length) {
+        this.entityData.set(LENGTH, length);
     }
 
     public int getAge() {
@@ -243,6 +233,7 @@ public class BeamLaserEntity extends Entity {
         this.entityData.define(END_Z, 0.0f);
         this.entityData.define(AGE, 60);
         this.entityData.define(LENGTH, 1f);
+        this.entityData.define(COLOR, 0);
     }
 
     @Override

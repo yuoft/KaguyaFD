@@ -1,5 +1,7 @@
 package com.yuo.kaguya.Entity;
 
+import net.minecraft.util.RandomSource;
+
 import java.util.Random;
 
 public enum DanmakuColor {
@@ -23,9 +25,9 @@ public enum DanmakuColor {
     private final int red;
     private final int green;
     private final int blue;
-    private final int floatRed;
-    private final int floatGreen;
-    private final int floatBlue;
+    private final float floatRed;
+    private final float floatGreen;
+    private final float floatBlue;
 
     DanmakuColor(int color, String name) {
         this.name = name;
@@ -33,9 +35,9 @@ public enum DanmakuColor {
         this.red = color >> 16 & 255;
         this.green = color >> 8 & 255;
         this.blue = color & 255;
-        this.floatRed = this.red / 255;
-        this.floatGreen = this.green / 255;
-        this.floatBlue = this.blue / 255;
+        this.floatRed = this.red / 255f;
+        this.floatGreen = this.green / 255f;
+        this.floatBlue = this.blue / 255f;
     }
 
     public String getName() {
@@ -48,7 +50,7 @@ public enum DanmakuColor {
                 return color;
             }
         }
-        return random(new Random());
+        return random(RandomSource.create());
     }
 
     public static DanmakuColor getColor(String colorName, boolean flag) {
@@ -57,7 +59,7 @@ public enum DanmakuColor {
                 return color;
             }
         }
-        return flag ? null : random(new Random());
+        return flag ? null : random(RandomSource.create());
     }
 
     public static DanmakuColor getColor(int index) {
@@ -67,7 +69,7 @@ public enum DanmakuColor {
         return values()[index];
     }
 
-    public static DanmakuColor random(Random random) {
+    public static DanmakuColor random(RandomSource random) {
         return getColor(random.nextInt(getLength()));
     }
 
@@ -87,23 +89,23 @@ public enum DanmakuColor {
         return blue;
     }
 
-    public int getFloatRed() {
+    public float getFloatRed() {
         return floatRed;
     }
 
-    public int getFloatGreen() {
+    public float getFloatGreen() {
         return floatGreen;
     }
 
-    public int getFloatBlue() {
+    public float getFloatBlue() {
         return floatBlue;
     }
 
     public float[] getFloatRgb(){
         float[] rgb = new float[4];
-        rgb[0] = this.red / 255f;
-        rgb[1] = this.green / 255f;
-        rgb[2] = this.blue / 255f;
+        rgb[0] = this.floatRed;
+        rgb[1] = this.floatGreen;
+        rgb[2] = this.floatBlue;
         rgb[3] = 1f;
         return rgb;
     }

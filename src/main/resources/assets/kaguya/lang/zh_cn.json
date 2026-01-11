@@ -105,12 +105,12 @@
 	"entity.kaguya.silver_knife_green": "绿色银质小刀",
 	"entity.kaguya.wind": "风弹",
 	"entity.kaguya.miracle_circle": "五芒星",
-	"entity.kaguya.long_laser": "长激光",
-	"entity.kaguya.middle_laser": "激光",
-	"entity.kaguya.short_laser": "短激光",
+	"entity.kaguya.beam_laser": "光束激光",
+	"entity.kaguya.danmaku_laser": "激光",
 
 	"container.kaguya.danmaku_craft": "弹幕工作台",
 
+	"info.kaguya.mini_hakkero.no_damage": "§c弹药已满",
 	"info.kaguya.remorse_rod.fix": "修复完成",
 	"info.kaguya.damage_source.danmaku": "%s被%s使用弹幕击杀",
 	"info.kaguya.hisou_sword": "当前气质：",

@@ -1,94 +1,91 @@
 package com.yuo.kaguya.Entity;
 
+import com.yuo.kaguya.Item.Weapon.DanmakuDamageTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.Level.ExplosionInteraction;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class DanmakuLaser extends DanmakuBase{
     public static final EntityType<DanmakuLaser> TYPE = EntityType.Builder.<DanmakuLaser>of(DanmakuLaser::new, MobCategory.MISC)
-//            .sized(0.25F, 0.25F)
+            .sized(0.25F, 0.25F)
             .clientTrackingRange(6).updateInterval(10).noSave().build("danmaku_laser");
-    protected static final EntityDataAccessor<Integer> LENGTH = SynchedEntityData.defineId(DanmakuLaser.class, EntityDataSerializers.INT);
-    protected static final EntityDataAccessor<Float> YAW = SynchedEntityData.defineId(DanmakuLaser.class, EntityDataSerializers.FLOAT);
-    protected static final EntityDataAccessor<Float> PITCH = SynchedEntityData.defineId(DanmakuLaser.class, EntityDataSerializers.FLOAT);
+    private int laserNum; //穿透数
 
-    private int length;
     public DanmakuLaser(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
         super(entityType, level);
-        this.setLength(3);
+        this.danmakuType = DanmakuType.SHORT_LASER;
     }
 
     public DanmakuLaser(Level level, LivingEntity living, DanmakuType danmakuType, DanmakuColor danmakuColor) {
         super(TYPE, level, living);
         this.danmakuType = danmakuType;
         this.danmakuColor = danmakuColor;
-        this.length = this.danmakuType.getIntSize();
         this.setDanmakuType(this.danmakuType);
         this.setColor(this.danmakuColor);
         this.setGravityVelocity(0);
         this.setMaxTicksExisted(MAX_TICKS_EXISTED);
-        this.setLength(this.length);
-        this.setYaw(living.getXRot());
-        this.setPitch(living.getYRot());
-    }
-
-    @Override
-    public AABB getBoundingBoxForCulling() {
-        return new AABB(0,0,0, 0.25f, 0.25f, 0.25f);
     }
 
     @Override
     public void tick() {
         super.tick();
-
-        Vec3 movement = this.getDeltaMovement();
-        if (movement.lengthSqr() > 0.001) {
-            // 更新实体朝向
-            double yawRad = Math.atan2(movement.z(), movement.x());
-            this.setYRot((float)Math.toDegrees(yawRad) - 90.0F);
-
-            double horizontal = Math.sqrt(movement.x() * movement.x() + movement.z() * movement.z());
-            this.setXRot((float)-Math.toDegrees(Math.atan2(movement.y(), horizontal)));
+        Level level = level();
+        BlockPos pos = this.getOnPos();
+        if (!level.isClientSide){
+            if (laserNum >= danmakuType.getIntSize() * 3){
+                level.explode(this, pos.getX(), pos.getY(), pos.getZ(), 1.0f, ExplosionInteraction.MOB);
+                this.discard();
+            }
         }
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(LENGTH, 0);
-        this.entityData.define(YAW, 0f);
-        this.entityData.define(PITCH, 0f);
+    protected void onHitEntity(EntityHitResult result) {
+        Entity entity = result.getEntity();
+        if (entity instanceof LivingEntity target) {
+            target.setSecondsOnFire(3);
+            if (this.getOwner() instanceof LivingEntity living) {
+                if (target.hurt(DanmakuDamageTypes.danmaku(living, target), this.entityData.get(DAMAGE))){
+                    Vec3 vec3 = this.getDeltaMovement().scale(0.1);
+                    living.knockback(vec3.x, vec3.y, vec3.z);
+                    if (!level().isClientSide){
+                        laserNum++;
+                    }
+                }
+            }
+        }
     }
 
-    public float getYaw() {
-        return this.entityData.get(YAW);
-    }
-
-    public void setYaw(float yaw) {
-        this.entityData.set(YAW, yaw);
-    }
-
-    public float getPitch() {
-        return this.entityData.get(PITCH);
-    }
-
-    public void setPitch(float pitch) {
-        this.entityData.set(PITCH, pitch);
-    }
-
-    public int getLength() {
-        return this.entityData.get(LENGTH);
-    }
-
-    public void setLength(int length) {
-        this.entityData.set(LENGTH, length);
+    @Override
+    protected void onHitBlock(BlockHitResult result) {
+        BlockPos pos = result.getBlockPos();
+        Direction direction = result.getDirection();
+        Level level = this.level();
+        if (!level.isClientSide){
+            BlockState state = level.getBlockState(pos);
+            if (state.isFlammable(level, pos, direction) && this.getOwner() instanceof LivingEntity living){
+                state.onCaughtFire(level, pos, direction, living); //点燃方块
+            }
+            level.explode(this, pos.getX(), pos.getY(), pos.getZ(), 1.0f * danmakuType.getIntSize(), ExplosionInteraction.MOB);
+        }
+        this.discard();
+        super.onHitBlock(result);
     }
 }

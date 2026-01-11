@@ -1,28 +1,26 @@
 package com.yuo.kaguya.Entity;
 
+import net.minecraft.util.RandomSource;
+
 import java.util.Random;
 
 public enum DanmakuType {
-    // 点圆弹,
-    TINY_BALL(0.6d, 0,0.5f,"tiny_ball"),
-    // 小圆弹
-    SMALL_BALL(0.3d, 1,1.0f,"small_ball"),
-    // 中圆弹
-    MEDIUM_BALL(0.5d, 1,1.5f,"medium_ball"),
-    // 大圆弹
-    BIG_BALL(0.5d, 3,2.0f,"big_ball"),
-    // 环圆弹
-    RING_BALL(0.6d, 2,2.5f,"ring_ball"),
-    // 蝴蝶
-    BUTTER_FLY(0, -1,5f,"button_fly"),
-    ARROW_SHOT(0, -1,2.5f,"arrow_shot"),
-    LONG_LASER(3, -1,4.5f,"long_laser"),
-    MIDDLE_LASER(2, -1,3f,"middle_laser"),
-    SHORT_LASER(1, -1,1.5f,"short_laser"),
-    WIND(0, -1,3f,"wind"),
+
+    TINY_BALL(0.6d, 0,0.5f,"tiny_ball"), // 点圆弹,
+    SMALL_BALL(0.3d, 1,1.0f,"small_ball"), // 小圆弹
+    MEDIUM_BALL(0.5d, 1,1.5f,"medium_ball"), // 中圆弹
+    BIG_BALL(0.5d, 3,2.0f,"big_ball"), // 大圆弹
+    RING_BALL(0.6d, 2,2.5f,"ring_ball"), // 环圆弹
+    BUTTER_FLY(0, -1,5f,"button_fly"), // 蝶弹
+    ARROW_SHOT(0, -1,2.5f,"arrow_shot"), // 箭弹
+    BEAM_LASER(0, -1,5f,"beam_laser"), // 光束激光
+    LONG_LASER(3, -1,4.5f,"long_laser"), // 长激光
+    MIDDLE_LASER(2, -1,3f,"middle_laser"), // 激光
+    SHORT_LASER(1, -1,1.5f,"short_laser"), // 短激光
+    WIND(0, -1,3f,"wind"), // 风弹
     ;
 
-    private final double size;
+    private final double size; //弹幕尺寸 或 其他用途
     private final int resId; //纹理位置序数 -1--单独渲染
     private final float damage;
     private final String name;
@@ -46,7 +44,7 @@ public enum DanmakuType {
         return values()[index];
     }
 
-    public static DanmakuType random(Random random) {
+    public static DanmakuType random(RandomSource random) {
         return getType(random.nextInt(getLength()));
     }
 
@@ -79,6 +77,6 @@ public enum DanmakuType {
                 return type;
             }
         }
-        return random(new Random());
+        return random(RandomSource.create());
     }
 }

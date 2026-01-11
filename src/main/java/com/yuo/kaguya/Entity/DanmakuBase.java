@@ -34,19 +34,14 @@ public class DanmakuBase extends ThrowableItemProjectile {
 
     public DanmakuBase(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
         super(entityType, level);
-    }
-
-    public DanmakuBase(EntityType<? extends ThrowableItemProjectile> entityType, double x, double y, double z, Level level) {
-        super(entityType, x, y, z, level);
+        if (danmakuType == null)
+            this.danmakuType = DanmakuType.TINY_BALL;
     }
 
     public DanmakuBase(EntityType<? extends ThrowableItemProjectile> entityType, Level level, LivingEntity living) {
         super(entityType, living, level);
-    }
-
-    public DanmakuBase(double x, double y, double z, Level level) {
-        this(TYPE, x, y, z, level);
-        this.setMaxTicksExisted(200);
+        if (danmakuType == null)
+            this.danmakuType = DanmakuType.TINY_BALL;
     }
 
     public DanmakuBase(Level level, LivingEntity living, DanmakuType danmakuType, DanmakuColor danmakuColor) {
@@ -93,6 +88,7 @@ public class DanmakuBase extends ThrowableItemProjectile {
     protected void onHitEntity(EntityHitResult result) {
         Entity entity = result.getEntity();
         if (entity instanceof LivingEntity target && this.getOwner() instanceof LivingEntity living) {
+            if (level().isClientSide) return;
             if (target.hurt(DanmakuDamageTypes.danmaku(living, target), this.entityData.get(DAMAGE))){
                 Vec3 vec3 = this.getDeltaMovement().scale(0.1);
                 living.knockback(vec3.x, vec3.y, vec3.z);

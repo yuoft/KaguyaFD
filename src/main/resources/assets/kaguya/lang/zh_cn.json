@@ -112,7 +112,8 @@
 
 	"info.kaguya.mini_hakkero.no_damage": "§c弹药已满",
 	"info.kaguya.remorse_rod.fix": "修复完成",
-	"info.kaguya.damage_source.danmaku": "%s被%s使用弹幕击杀",
+	"info.kaguya.damage_source.danmaku": "%s被弹幕击杀",
+	"info.kaguya.damage_source.danmaku_player": "%s被%s使用弹幕击杀",
 	"info.kaguya.hisou_sword": "当前气质：",
 	"info.kaguya.extend": "效果同不死图腾",
 	"info.kaguya.danmaku_shot_item.type": "弹幕类型：",

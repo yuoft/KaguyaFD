@@ -143,6 +143,10 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', Items.FEATHER).define('y', Items.PAPER).define('z', Items.STICK)
                 .pattern(" xy").pattern(" z ").pattern("z  ")
                 .unlockedBy("has_item", has(ModItems.mikoStick.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.miniHakkero.get(), 1)
+                .define('x', Items.IRON_INGOT).define('y', Items.BLAZE_ROD).define('z', Items.FLINT_AND_STEEL)
+                .pattern("xyx").pattern("yzy").pattern("xyx")
+                .unlockedBy("has_item", has(ModItems.miniHakkero.get())).save(consumer);
 
         //弹幕
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.crystalShot.get(), 4)

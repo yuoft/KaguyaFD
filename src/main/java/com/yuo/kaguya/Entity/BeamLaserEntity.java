@@ -72,6 +72,7 @@ public class BeamLaserEntity extends Entity {
         this.setStartPos(this.startPos);
         this.setLaserDirection(this.laserDirection);
         this.setLength((float) this.length);
+        this.setColor(color);
     }
 
     @Override

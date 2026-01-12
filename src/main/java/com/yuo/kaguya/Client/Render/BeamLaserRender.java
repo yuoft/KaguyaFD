@@ -60,7 +60,7 @@ public class BeamLaserRender extends EntityRenderer<BeamLaserEntity>{
         for (int i = 0; i < length; i++){
             renderBeaconBeam(poseStack, bufferSource, partialTicks, gameTime, i, 1, color, scale);
         }
-        renderCircle(poseStack, bufferSource, danmakuColor);
+        renderCircle(poseStack, bufferSource, danmakuColor, 1 + scale);
         poseStack.popPose();
 
         super.render(laser, entityYaw, partialTicks, poseStack, bufferSource, packedLight);
@@ -154,9 +154,10 @@ public class BeamLaserRender extends EntityRenderer<BeamLaserEntity>{
     /**
      * 激光原点 渲染图
      */
-    private static void renderCircle(PoseStack poseStack, MultiBufferSource bufferSource, DanmakuColor color){
+    private static void renderCircle(PoseStack poseStack, MultiBufferSource bufferSource, DanmakuColor color, float scale){
         poseStack.pushPose();
         poseStack.translate(-0.5,0,-0.5);
+        poseStack.scale(scale, scale, scale);
         VertexConsumer builder = bufferSource.getBuffer(ModRenderType.HEART_CIRCLE.apply(TEXTURE));
         PlayerCircleRenderer.addVertex(poseStack, builder, color);
         poseStack.popPose();

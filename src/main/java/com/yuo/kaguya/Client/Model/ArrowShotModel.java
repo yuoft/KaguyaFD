@@ -12,6 +12,7 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.util.Mth;
 
 public class ArrowShotModel extends EntityModel<DanmakuArrow> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -26,11 +27,13 @@ public class ArrowShotModel extends EntityModel<DanmakuArrow> {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition arrow_shot = partdefinition.addOrReplaceChild("arrow_shot", CubeListBuilder.create().texOffs(0, 8).addBox(-4.0F, -24.0F, 0.0F, 8.0F, 8.0F, 0.0F, new CubeDeformation(0.0F))
-				.texOffs(0, 16).addBox(-4.0F, -16.0F, 0.0F, 8.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 24.0F, -12.0F, -1.5708F, 0.0F, 0.0F));
+		PartDefinition arrow_shot = partdefinition.addOrReplaceChild("arrow_shot", CubeListBuilder.create().texOffs(0, 8).addBox(-4.0F, -24.0F, 0.0F, 8.0F, 24.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 24.0F, -12.0F, -1.5708F, 0.0F, 0.0F));
+
+		PartDefinition h_r1 = arrow_shot.addOrReplaceChild("h_r1", CubeListBuilder.create().texOffs(0, 7).addBox(-8.0F, -24.0F, 0.0F, 8.0F, 24.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 4.0F, 0.0F, -1.5708F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 32, 32);
 	}
+
 
 
 	@Override
@@ -38,9 +41,10 @@ public class ArrowShotModel extends EntityModel<DanmakuArrow> {
 
 	}
 
-	public void setupAnim(float yRot, float xRot) {
-		this.arrow_shot.yRot = yRot;
-		this.arrow_shot.xRot = xRot;
+	// 更清晰的方法名，明确参数含义
+	public void setRotationAngles(float pitch, float yaw) {
+		this.arrow_shot.xRot = pitch;
+		this.arrow_shot.yRot = yaw;
 	}
 
 	@Override

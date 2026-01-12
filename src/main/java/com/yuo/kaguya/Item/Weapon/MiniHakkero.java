@@ -38,8 +38,10 @@ public class MiniHakkero extends KaguyaPrpo {
                 beamLength = 1;
             }
 
+            DanmakuColor danmakuColor = DanmakuColor.random(level.random);
+
             try {
-                BeamLaserEntity laser = new BeamLaserEntity(level, player, eyePosition, lookDirection, actualEnd, DanmakuColor.random(level.random), beamLength);
+                BeamLaserEntity laser = new BeamLaserEntity(level, player, eyePosition, lookDirection, actualEnd, danmakuColor, beamLength);
                 level.addFreshEntity(laser);
             } catch (Exception e) {
                 System.err.println("Error creating laser beam: " + e.getMessage());

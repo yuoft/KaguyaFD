@@ -41,6 +41,7 @@ public class DanmakuLaser extends DanmakuBase{
         this.setColor(this.danmakuColor);
         this.setGravityVelocity(0);
         this.setMaxTicksExisted(MAX_TICKS_EXISTED);
+        this.setDanmakuPierce(true);
     }
 
     @Override
@@ -57,21 +58,26 @@ public class DanmakuLaser extends DanmakuBase{
     }
 
     @Override
-    protected void onHitEntity(EntityHitResult result) {
-        Entity entity = result.getEntity();
-        if (entity instanceof LivingEntity target) {
-            target.setSecondsOnFire(3);
-            if (this.getOwner() instanceof LivingEntity living) {
-                if (target.hurt(DanmakuDamageTypes.danmaku(living, target), this.entityData.get(DAMAGE))){
-                    Vec3 vec3 = this.getDeltaMovement().scale(0.1);
-                    living.knockback(vec3.x, vec3.y, vec3.z);
-                    if (!level().isClientSide){
-                        laserNum++;
-                    }
-                }
-            }
-        }
+    protected void doDamageEffects(LivingEntity owner, LivingEntity target) {
+        super.doDamageEffects(owner, target);
+        if (target.isOnFire()) target.setSecondsOnFire(3);
+        laserNum++;
     }
+//
+//    @Override
+//    protected void onHitEntity(EntityHitResult result) {
+//        Entity entity = result.getEntity();
+//        if (entity instanceof LivingEntity target) {
+//
+//            if (this.getOwner() instanceof LivingEntity living) {
+//                if (target.hurt(DanmakuDamageTypes.danmaku(living, target), this.entityData.get(DAMAGE))){
+//                    Vec3 vec3 = this.getDeltaMovement().scale(0.1);
+//                    living.knockback(vec3.x, vec3.y, vec3.z);
+//
+//                }
+//            }
+//        }
+//    }
 
     @Override
     protected void onHitBlock(BlockHitResult result) {

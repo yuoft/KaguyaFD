@@ -11,6 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -62,6 +63,10 @@ public class DanmakuLaser extends DanmakuBase{
         super.doDamageEffects(owner, target);
         if (target.isOnFire()) target.setSecondsOnFire(3);
         laserNum++;
+
+        if (target instanceof Creeper creeper){
+            creeper.ignite();
+        }
     }
 //
 //    @Override

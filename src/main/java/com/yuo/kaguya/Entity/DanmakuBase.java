@@ -113,7 +113,7 @@ public class DanmakuBase extends ThrowableItemProjectile {
                 // 设置最后攻击者
                 target.setLastHurtByMob(owner);
                 // 应用伤害
-                if (target.hurt(this.damageSources().fellOutOfWorld(), getDamage())) {
+                if (target.hurt(damageSource, getDamage())) {
                     // 触发玩家攻击成功事件（如果攻击者是玩家）
                     if (target != owner && target instanceof Player && owner instanceof ServerPlayer && !this.isSilent()) {
                         ((ServerPlayer)owner).connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.ARROW_HIT_PLAYER, 0.0F));

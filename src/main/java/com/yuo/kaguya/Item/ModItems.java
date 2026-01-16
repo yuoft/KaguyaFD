@@ -68,6 +68,7 @@ public class ModItems {
 	public static RegistryObject<Item> nuclearControlRod = ITEMS.register("nuclear_control_rod", KaguyaPrpo::new);
 	public static RegistryObject<Item> kappaWaterPistol = ITEMS.register("kappa_water_pistol", KaguyaPrpo::new);
 	public static RegistryObject<Item> tenguFan = ITEMS.register("tengu_fan", KaguyaPrpo::new);
+	public static RegistryObject<Item> bloodOnmyoudama = ITEMS.register("blood_onmyoudama", KaguyaPrpo::new);
 
 	//盔甲
 	public static RegistryObject<Item> fireRatBobe = ITEMS.register("fire_rat_bobe", FireRatRobe::new);

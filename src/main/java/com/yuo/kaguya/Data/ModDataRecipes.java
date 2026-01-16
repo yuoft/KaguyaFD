@@ -147,6 +147,30 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', Items.IRON_INGOT).define('y', Items.BLAZE_ROD).define('z', Items.FLINT_AND_STEEL)
                 .pattern("xyx").pattern("yzy").pattern("xyx")
                 .unlockedBy("has_item", has(ModItems.miniHakkero.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.hotokeHachi.get(), 1)
+                .define('x', Items.DIAMOND).define('y', Items.OBSIDIAN)
+                .pattern("xyx").pattern("y y").pattern("xyx")
+                .unlockedBy("has_item", has(ModItems.hotokeHachi.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.thirdEye0.get(), 1)
+                .define('x', Items.RED_DYE).define('y', Items.ENDER_EYE)
+                .pattern(" x ").pattern("xyx").pattern(" x ")
+                .unlockedBy("has_item", has(ModItems.thirdEye0.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.kabenuke.get(), 1)
+                .define('x', Items.GOLD_INGOT).define('y', Items.STICK).define('z', Items.ENDER_PEARL)
+                .pattern("xyy").pattern("z  ").pattern("   ")
+                .unlockedBy("has_item", has(ModItems.kabenuke.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.closedThirdEye.get(), 1)
+                .define('x', Items.OBSIDIAN).define('y', ModItems.thirdEye0.get())
+                .pattern("xxx").pattern("xyx").pattern("xxx")
+                .unlockedBy("has_item", has(ModItems.closedThirdEye.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.bloodOnmyoudama.get(), 1)
+                .define('x', ModItems.houraiPearlRed.get()).define('y', ModItems.onmyoudama.get()).define('z', ModItems.houraiPearlWhite.get())
+                .pattern("xzx").pattern("xyz").pattern("zxz")
+                .unlockedBy("has_item", has(ModItems.bloodOnmyoudama.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.mazinKyoukan.get(), 1)
+                .define('x', Items.LAPIS_BLOCK).define('y', Items.REDSTONE_BLOCK)
+                .pattern("xyx").pattern("xyx").pattern("xyx")
+                .unlockedBy("has_item", has(ModItems.mazinKyoukan.get())).save(consumer);
 
         //弹幕
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.crystalShot.get(), 4)

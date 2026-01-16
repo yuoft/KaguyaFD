@@ -55,7 +55,7 @@ public class ModTabs {
 			.icon(() -> ModItems.thirdEye0.get().getDefaultInstance())
 			.displayItems((parameters, output) -> {
 				for (RegistryObject<Item> entry : ModItems.ITEMS.getEntries()) {
-					if (entry.get() instanceof KaguyaPrpo){
+					if (entry.get() instanceof KaguyaPrpo || entry.get() == ModItems.hotokeHachi.get()){
 						output.accept(new ItemStack(entry.get()));
 					}
 				}

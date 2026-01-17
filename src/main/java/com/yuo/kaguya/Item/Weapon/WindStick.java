@@ -1,6 +1,7 @@
 package com.yuo.kaguya.Item.Weapon;
 
 import com.yuo.kaguya.Entity.*;
+import com.yuo.kaguya.Item.KaguyaSword;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -12,9 +13,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 
-public class WindStick extends SwordItem {
+public class WindStick extends KaguyaSword {
     public WindStick() {
-        super(Tiers.DIAMOND, 0, -2.4f, new Properties().durability(50));
+        super(Tiers.DIAMOND, 0, new Properties().durability(50));
     }
 
     @Override

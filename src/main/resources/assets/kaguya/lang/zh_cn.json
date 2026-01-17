@@ -32,7 +32,7 @@
 	"item.kaguya.hakurouken": "白楼剑",
 	"item.kaguya.heavenly_peach": "天界之桃",
 	"item.kaguya.hisou_sword": "绯想之剑",
-	"item.kaguya.hisyaku_0": "娜兹玲灵摆",
+	"item.kaguya.hisyaku_0": "lang",
 	"item.kaguya.homing_amulet": "追踪灵符",
 	"item.kaguya.hotoke_hachi": "佛御石之钵",
 	"item.kaguya.hourai_eda": "蓬莱玉枝",
@@ -111,6 +111,13 @@
 
 	"container.kaguya.danmaku_craft": "弹幕工作台",
 
+	"info.kaguya.third_eye_0.entity": "实体名称：%s",
+	"info.kaguya.third_eye_0.max_health": " | 最大生命值：%s",
+	"info.kaguya.third_eye_0.owner": " | 主人：%s",
+	"info.kaguya.kabenuke.error_block": "此方块无法穿越！",
+	"info.kaguya.kabenuke.error_pos": "无安全落脚点！",
+	"info.kaguya.mazin_kyoukan.error_exp": "经验不足！",
+	"info.kaguya.mazin_kyoukan.error_redstone": "能量不足！",
 	"info.kaguya.mini_hakkero.no_damage": "§c弹药已满",
 	"info.kaguya.remorse_rod.fix": "修复完成",
 	"info.kaguya.damage_source.danmaku": "%s被弹幕击杀",
@@ -147,8 +154,6 @@
 	"kaguya.message.login":"§b欢迎游玩本模组[辉夜姬的五难题·重置]，问题反馈§a点击此处!",
 	"kaguya.message.login0":"§ahttps://space.bilibili.com/21854371",
 
-	"itemGroup.tab.kaguya.item": "辉夜姬的五难题·材料",
-	"itemGroup.tab.kaguya.weapon": "辉夜姬的五难题·武器",
-	"itemGroup.tab.kaguya.prpo": "辉夜姬的五难题·道具",
-	"itemGroup.tab.kaguya.danmaku": "辉夜姬的五难题·弹幕"
+	"itemGroup.tab.kaguya.material_or_danmaku": "辉夜姬的五难题·材料/弹幕",
+	"itemGroup.tab.kaguya.weapon_or_prpo": "辉夜姬的五难题·武器/道具"
 }

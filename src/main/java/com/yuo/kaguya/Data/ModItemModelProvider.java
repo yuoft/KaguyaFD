@@ -3,16 +3,14 @@ package com.yuo.kaguya.Data;
 import com.yuo.kaguya.Item.DanmakuShotItem;
 import com.yuo.kaguya.Item.KaguyaMaterialItem;
 import com.yuo.kaguya.Item.ModItems;
+import com.yuo.kaguya.Item.Prpo.StoneBowl;
 import com.yuo.kaguya.Item.Weapon.RemorseRod;
 import com.yuo.kaguya.Item.Weapon.SilverKnifeItem;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.*;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -33,8 +31,9 @@ public class ModItemModelProvider extends ItemModelProvider {
                 if (item == ModItems.longLaser.get() || item == ModItems.middleLaser.get() || item == ModItems.shortLaser.get()){
                     this.laserItemModel(getRes(item));
                 }else this.shotItemModel(getRes(item));
-            }else if (item instanceof SwordItem || item instanceof ArmorItem || item instanceof SilverKnifeItem){
+            }else if (item instanceof TieredItem || item instanceof ArmorItem || item instanceof SilverKnifeItem){
                 if (item instanceof RemorseRod){}
+                else if (item instanceof StoneBowl) this.basicItem(item);
                 else this.weaponItemModel(getRes(item));
             }else if (item instanceof BlockItem){
 

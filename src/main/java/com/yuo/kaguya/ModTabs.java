@@ -14,24 +14,24 @@ import net.minecraftforge.registries.RegistryObject;
 public class ModTabs {
 	public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Kaguya.MOD_ID);
 	public static final RegistryObject<CreativeModeTab> Kaguya_TAB = TABS.register(Kaguya.MOD_ID + "_tab_item", () -> CreativeModeTab.builder()
-			.title(Component.translatable("itemGroup.tab.kaguya.item"))
+			.title(Component.translatable("itemGroup.tab.kaguya.material_or_danmaku"))
 			.icon(() -> ModItems.extend.get().getDefaultInstance())
 			.displayItems((parameters, output) -> {
 				for (RegistryObject<Item> entry : ModItems.ITEMS.getEntries()) {
 					Item item = entry.get();
-					if (item instanceof KaguyaMaterialItem || item instanceof KaguyaFood || item instanceof BlockItem){
+					if (item instanceof KaguyaMaterialItem || item instanceof KaguyaFood || item instanceof BlockItem || item instanceof DanmakuShotItem){
 						output.accept(new ItemStack(item));
 					}
 				}
 
 			}).build());
-	public static final RegistryObject<CreativeModeTab> Kaguya_TAB0 = TABS.register(Kaguya.MOD_ID + "_tab_sword", () -> CreativeModeTab.builder()
-			.title(Component.translatable("itemGroup.tab.kaguya.weapon"))
+	public static final RegistryObject<CreativeModeTab> Kaguya_TAB0 = TABS.register(Kaguya.MOD_ID + "_tab_weapon", () -> CreativeModeTab.builder()
+			.title(Component.translatable("itemGroup.tab.kaguya.weapon_or_prpo"))
 			.icon(() -> ModItems.hisouSword.get().getDefaultInstance())
 			.displayItems((parameters, output) -> {
 				for (RegistryObject<Item> entry : ModItems.ITEMS.getEntries()) {
 					Item item = entry.get();
-					if (item instanceof SwordItem || item instanceof ArmorItem || item instanceof SilverKnifeItem){
+					if (!(item instanceof KaguyaMaterialItem || item instanceof KaguyaFood || item instanceof BlockItem || item instanceof DanmakuShotItem)){
 						if (item == ModItems.fireRatBobe.get()){
 							ItemStack stack = new ItemStack(item);
 							stack.enchant(Enchantments.FIRE_PROTECTION, 10);
@@ -46,28 +46,6 @@ public class ModTabs {
 							output.accept(stack);
 						}
 						else output.accept(new ItemStack(item));
-					}
-				}
-
-			}).build());
-	public static final RegistryObject<CreativeModeTab> Kaguya_TAB1 = TABS.register(Kaguya.MOD_ID + "_tab_prpo", () -> CreativeModeTab.builder()
-			.title(Component.translatable("itemGroup.tab.kaguya.prpo"))
-			.icon(() -> ModItems.thirdEye0.get().getDefaultInstance())
-			.displayItems((parameters, output) -> {
-				for (RegistryObject<Item> entry : ModItems.ITEMS.getEntries()) {
-					if (entry.get() instanceof KaguyaPrpo || entry.get() == ModItems.hotokeHachi.get()){
-						output.accept(new ItemStack(entry.get()));
-					}
-				}
-
-			}).build());
-	public static final RegistryObject<CreativeModeTab> Kaguya_TAB2 = TABS.register(Kaguya.MOD_ID + "_tab_danmaku", () -> CreativeModeTab.builder()
-			.title(Component.translatable("itemGroup.tab.kaguya.danmaku"))
-			.icon(() -> ModItems.heartShot.get().getDefaultInstance())
-			.displayItems((parameters, output) -> {
-				for (RegistryObject<Item> entry : ModItems.ITEMS.getEntries()) {
-					if (entry.get() instanceof DanmakuShotItem danmakuShotItem){
-						output.accept(entry.get());
 					}
 				}
 

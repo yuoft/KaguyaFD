@@ -14,12 +14,12 @@ import java.util.function.Consumer;
 
 public class StoneBowl extends PickaxeItem {
     public StoneBowl() {
-        super(Tiers.DIAMOND, 3, -2.4f, new Properties().stacksTo(1).durability(Integer.MAX_VALUE));
+        super(Tiers.DIAMOND, 1, -2.8f, new Properties().stacksTo(1).durability(Integer.MAX_VALUE));
     }
 
     @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {
-        return 8.0f;
+        return 6.0f;
     }
 
     @Override

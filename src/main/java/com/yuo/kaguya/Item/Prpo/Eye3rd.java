@@ -6,6 +6,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
@@ -30,6 +32,9 @@ public class Eye3rd extends KaguyaPrpo {
                     MutableComponent ownerName = Component.translatable("info.kaguya.third_eye_0.owner", owner.getDisplayName());
                     entityName.append(ownerName);
                 }
+            }
+            if (!level.isClientSide) {
+                living.addEffect(new MobEffectInstance(MobEffects.GLOWING, 10, 0));
             }
             player.getCooldowns().addCooldown(this, 10);
             player.displayClientMessage(entityName, true);

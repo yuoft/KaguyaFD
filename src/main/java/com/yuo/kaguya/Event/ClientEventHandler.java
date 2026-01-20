@@ -36,6 +36,7 @@ public class ClientEventHandler {
         event.registerEntityRenderer(ModEntityTypes.WIND.get(), WindRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.DANMAKU_LASER.get(), LaserRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.BEAM_LASER.get(), BeamLaserRender::new);
+        event.registerEntityRenderer(ModEntityTypes.GAP.get(), GapRender::new);
     }
 
     @SubscribeEvent
@@ -70,5 +71,6 @@ public class ClientEventHandler {
         event.registerLayerDefinition(ArrowShotModel.LAYER_LOCATION, ArrowShotModel::createBodyLayer);
         event.registerLayerDefinition(WindChargeModel.LAYER_LOCATION, WindChargeModel::createBodyLayer);
         event.registerLayerDefinition(LaserModel.LAYER_LOCATION, LaserModel::createBodyLayer);
+        event.registerLayerDefinition(GapModel.LAYER_LOCATION, GapModel::createBodyLayer);
     }
 }

@@ -9,8 +9,6 @@ import com.yuo.kaguya.Item.Armor.SuwakoHelmet;
 import com.yuo.kaguya.Item.Prpo.*;
 import com.yuo.kaguya.Item.Weapon.*;
 import com.yuo.kaguya.Kaguya;
-import net.minecraft.world.item.ArmorItem.Type;
-import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
@@ -55,7 +53,7 @@ public class ModItems {
 	public static RegistryObject<Item> closedThirdEye = ITEMS.register("closed_third_eye", CloseEye3rd::new);
 	public static RegistryObject<Item> cursedDecoyDoll = ITEMS.register("cursed_decoy_doll", KaguyaPrpo::new);
 	public static RegistryObject<Item> hotokeHachi = ITEMS.register("hotoke_hachi", StoneBowl::new);
-	public static RegistryObject<Item> sukima = ITEMS.register("sukima", KaguyaPrpo::new);
+	public static RegistryObject<Item> sukima = ITEMS.register("sukima", GapItem::new);
 	public static RegistryObject<Item> thirdEye0 = ITEMS.register("third_eye_0", Eye3rd::new);
 	public static RegistryObject<Item> pendulum = ITEMS.register("pendulum", KaguyaPrpo::new);
 	public static RegistryObject<Item> miniHakkero = ITEMS.register("mini_hakkero", MiniHakkero::new);

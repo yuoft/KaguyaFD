@@ -171,6 +171,10 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', Items.LAPIS_BLOCK).define('y', Items.REDSTONE_BLOCK)
                 .pattern("xyx").pattern("xyx").pattern("xyx")
                 .unlockedBy("has_item", has(ModItems.mazinKyoukan.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.sukima.get(), 1)
+                .define('x', Items.OBSIDIAN).define('y', Items.RED_DYE).define('z', Items.ENDER_EYE)
+                .pattern(" xy").pattern("xzx").pattern("yx ")
+                .unlockedBy("has_item", has(ModItems.sukima.get())).save(consumer);
 
         //弹幕
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.crystalShot.get(), 4)

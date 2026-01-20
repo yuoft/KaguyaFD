@@ -36,5 +36,7 @@ public class ModEntityTypes {
                             .clientTrackingRange(32)
                             .updateInterval(1)
                             .build("beam_laser"));
+    public static final RegistryObject<EntityType<GapEntity>> GAP = ENTITY_TYPES.register("gap",
+            () -> GapEntity.TYPE);
 
 }

@@ -23,13 +23,13 @@ public class Eye3rd extends KaguyaPrpo {
         if (entity instanceof LivingEntity living && !player.isCrouching()) {
             Component displayName = living.getDisplayName();
             float maxHealth = living.getMaxHealth();
-            MutableComponent entityName = Component.translatable("info.kaguya.third_eye_0.entity", displayName);
-            MutableComponent maxHealthValue = Component.translatable("info.kaguya.third_eye_0.max_health", maxHealth);
+            MutableComponent entityName = Component.translatable("info.kaguya.third_eye.entity", displayName);
+            MutableComponent maxHealthValue = Component.translatable("info.kaguya.third_eye.max_health", maxHealth);
             entityName.append(maxHealthValue);
             if (living instanceof TamableAnimal tamableAnimal){
                 LivingEntity owner = tamableAnimal.getOwner();
                 if (owner != null){
-                    MutableComponent ownerName = Component.translatable("info.kaguya.third_eye_0.owner", owner.getDisplayName());
+                    MutableComponent ownerName = Component.translatable("info.kaguya.third_eye.owner", owner.getDisplayName());
                     entityName.append(ownerName);
                 }
             }

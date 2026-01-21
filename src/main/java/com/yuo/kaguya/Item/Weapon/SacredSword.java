@@ -1,5 +1,6 @@
 package com.yuo.kaguya.Item.Weapon;
 
+import com.yuo.kaguya.Item.KaguyaWeapon;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -10,9 +11,9 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
-public class SacredSword extends SwordItem {
+public class SacredSword extends KaguyaWeapon {
     public SacredSword() {
-        super(Tiers.DIAMOND, 3, -2.4f, new Properties().durability(250));
+        super(Tiers.DIAMOND, 3, new Properties().durability(250));
     }
 
     @Override

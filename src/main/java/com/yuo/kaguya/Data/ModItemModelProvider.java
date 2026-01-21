@@ -3,6 +3,7 @@ package com.yuo.kaguya.Data;
 import com.yuo.kaguya.Item.DanmakuShotItem;
 import com.yuo.kaguya.Item.KaguyaMaterialItem;
 import com.yuo.kaguya.Item.ModItems;
+import com.yuo.kaguya.Item.Prpo.GapFoldingUmbrella;
 import com.yuo.kaguya.Item.Prpo.StoneBowl;
 import com.yuo.kaguya.Item.Weapon.RemorseRod;
 import com.yuo.kaguya.Item.Weapon.SilverKnifeItem;
@@ -32,13 +33,15 @@ public class ModItemModelProvider extends ItemModelProvider {
                     this.laserItemModel(getRes(item));
                 }else this.shotItemModel(getRes(item));
             }else if (item instanceof TieredItem || item instanceof ArmorItem || item instanceof SilverKnifeItem){
-                if (item instanceof RemorseRod){}
+                 if (item instanceof RemorseRod){}
                 else if (item instanceof StoneBowl) this.basicItem(item);
                 else this.weaponItemModel(getRes(item));
             }else if (item instanceof BlockItem){
 
             }else if (item instanceof KaguyaMaterialItem){
                 this.materialItemModel(getRes(item));
+            }else if (item instanceof GapFoldingUmbrella){
+
             }else this.basicItem(item);
         }
 

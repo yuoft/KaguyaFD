@@ -1,18 +1,26 @@
 package com.yuo.kaguya.Entity;
 
+import com.yuo.kaguya.Item.ModItems;
+import com.yuo.kaguya.Item.Prpo.SukimaGap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class GapEntity extends Entity {
     public static final EntityType<GapEntity> TYPE = EntityType.Builder.<GapEntity>of(GapEntity::new, MobCategory.MISC)
-            .clientTrackingRange(6).updateInterval(10).fireImmune().build("gap");
+            .sized(0.5f, 0.5f).clientTrackingRange(6).updateInterval(10).fireImmune().build("gap");
     private static final int maxTick = 800;
     private int coolTime; //传送冷却
 
@@ -27,18 +35,11 @@ public class GapEntity extends Entity {
     }
 
     @Override
-    public void playerTouch(Player player) {
-        if (!isTpCool()){
-            KaguyaLevelSaveData.tpEntity(player, this, level());
-        }
-    }
-
-    @Override
     public void tick() {
         super.tick();
         Level level = level();
 
-        List<LivingEntity> entityList = level.getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(1.0f), e -> !(e instanceof Player) && e.isAlive());
+        List<LivingEntity> entityList = level.getEntitiesOfClass(LivingEntity.class, this.getBoundingBoxForCulling(), e -> !(e instanceof Player) && e.isAlive());
         if (!entityList.isEmpty() && !isTpCool()) {
             for (LivingEntity living : entityList) {
                 KaguyaLevelSaveData.tpEntity(living, this, level);
@@ -63,6 +64,38 @@ public class GapEntity extends Entity {
     }
 
     @Override
+    public void playerTouch(Player player) {
+        if (!isTpCool()){
+            KaguyaLevelSaveData.tpEntity(player, this, level());
+        }
+    }
+
+    @Override
+    public InteractionResult interact(Player player, InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        if (stack.getItem() instanceof SukimaGap){ //回收隙间
+            Level level = level();
+            if (!level.isClientSide()){
+                this.removeData();
+                if (!player.getAbilities().instabuild){
+                    if (stack.getCount() < 64) {
+                        stack.grow(1);
+                    } else {
+                        ItemStack gapItem = new ItemStack(ModItems.sukima.get(), 1);
+                        if (!player.addItem(gapItem)) {
+                            ItemEntity itemEntity = new ItemEntity(level, this.getX(), this.getY(), this.getZ(), gapItem);
+                            level.addFreshEntity(itemEntity);
+                        }
+                    }
+                }
+            }
+
+            player.playSound(SoundEvents.ENCHANTMENT_TABLE_USE);
+        }
+        return super.interact(player, hand);
+    }
+
+    @Override
     public boolean isAlwaysTicking() {
         return true;
     }
@@ -83,19 +116,25 @@ public class GapEntity extends Entity {
     }
 
     @Override
-    public AABB getBoundingBoxForCulling() {
-        return new AABB(0.0, 0.0, 0, 1.0, 1.0, 1).move(this.position());
+    public boolean isPickable() {
+        return true; //可被选择
     }
 
     @Override
-    protected AABB getBoundingBoxForPose(Pose p_20218_) {
-        return super.getBoundingBoxForPose(p_20218_);
+    public boolean canBeCollidedWith() {
+        return false; // 确保可以被碰撞
     }
 
+//    @Override
+//    public boolean canCollideWith(Entity entity) {
+//        return true; //开启实体碰撞
+//    }
+
+    //碰撞
     @Override
-    protected AABB makeBoundingBox() {
+    protected @NotNull AABB makeBoundingBox() {
         Direction direction = this.getDirection();
-        AABB aabb = super.makeBoundingBox();
+        AABB aabb = new AABB(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
         switch (direction) {
             case NORTH, SOUTH: aabb = new AABB(-0.5, 0.0, -0.1, 0.5, 1.0, 0.1).move(this.position());break;
             case EAST, WEST: aabb = new AABB(-0.1, 0.0, -0.5, 0.1, 1.0, 0.5).move(this.position());break;

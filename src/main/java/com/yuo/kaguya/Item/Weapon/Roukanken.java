@@ -1,5 +1,6 @@
 package com.yuo.kaguya.Item.Weapon;
 
+import com.yuo.kaguya.Item.KaguyaWeapon;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
@@ -23,14 +24,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class Roukanken extends SwordItem {
+public class Roukanken extends KaguyaWeapon {
     private static final float BASE_DAMAGE = 5.0F;      // 基础伤害
     private static final float BASE_DISTANCE = 5.0F;    // 基础冲刺距离
     private static final float BASE_SPEED = 1.5F;       // 基础冲刺速度
     private static final float HIT_WIDTH = 2.0F;        // 命中宽度
 
     public Roukanken() {
-        super(Tiers.IRON, 3, -2.4f, new Properties().durability(251));
+        super(Tiers.IRON, 3, new Properties().durability(251));
     }
 
     @Override

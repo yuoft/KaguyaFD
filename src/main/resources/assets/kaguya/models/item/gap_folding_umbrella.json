@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:item/handheld",
+    "textures": {
+        "layer0": "kaguya:item/weapon/gap_folding_umbrella_0",
+        "layer1": "kaguya:item/weapon/gap_folding_umbrella_1"
+    }
+}

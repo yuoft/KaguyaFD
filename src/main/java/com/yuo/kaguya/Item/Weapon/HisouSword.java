@@ -1,5 +1,6 @@
 package com.yuo.kaguya.Item.Weapon;
 
+import com.yuo.kaguya.Item.KaguyaWeapon;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -10,14 +11,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class HisouSword extends SwordItem {
+public class HisouSword extends KaguyaWeapon {
     private Entity entity;
     public HisouSword() {
-        super(Tiers.NETHERITE, 5, -2.4f, new Properties().stacksTo(1).defaultDurability(200).rarity(Rarity.UNCOMMON));
+        super(Tiers.NETHERITE, 5, new Properties().stacksTo(1).defaultDurability(200).rarity(Rarity.UNCOMMON));
     }
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
+        super.appendHoverText(stack, level, components, flag);
         if (entity != null) {
             components.add(Component.translatable("info.kaguya.hisou_sword").append(entity.getDisplayName()));
         }

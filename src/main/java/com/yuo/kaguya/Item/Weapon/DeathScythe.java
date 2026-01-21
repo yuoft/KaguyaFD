@@ -1,5 +1,6 @@
 package com.yuo.kaguya.Item.Weapon;
 
+import com.yuo.kaguya.Item.KaguyaWeapon;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
@@ -19,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class DeathScythe extends SwordItem {
+public class DeathScythe extends KaguyaWeapon {
     // 配置参数
     private static final double BASE_RANGE = 20.0D;
     private static final double MAX_RANGE = 40.0D;

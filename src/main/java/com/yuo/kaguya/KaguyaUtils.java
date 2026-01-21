@@ -165,4 +165,47 @@ public class KaguyaUtils {
         }
         return ItemStack.EMPTY;
     }
+
+    /*
+    // 将染料转换为自定义颜色枚举
+    private DanmakuColor getColorFromDye(DyeItem dyeItem) {
+        DyeColor dyeColor = dyeItem.getDyeColor();
+        switch (dyeColor) {
+            case WHITE: return DanmakuColor.WHITE;
+            case ORANGE: return DanmakuColor.ORANGE;
+            case MAGENTA: return DanmakuColor.MAGENTA;
+            case LIGHT_BLUE: return DanmakuColor.LIGHT_BLUE;
+            case YELLOW: return DanmakuColor.YELLOW;
+            case LIME: return DanmakuColor.LIME;
+            case PINK: return DanmakuColor.PINK;
+            case GRAY: return DanmakuColor.GRAY;
+            case LIGHT_GRAY: return DanmakuColor.LIGHT_GRAY;
+            case CYAN: return DanmakuColor.CYAN;
+            case PURPLE: return DanmakuColor.PURPLE;
+            case BLUE: return DanmakuColor.BLUE;
+            case BROWN: return DanmakuColor.BROWN;
+            case GREEN: return DanmakuColor.GREEN;
+            case RED: return DanmakuColor.RED;
+            case BLACK: return DanmakuColor.BLACK;
+            default: return DanmakuColor.GRAY;
+        }
+    }
+
+    WHITE(0xFFFFFF),
+    ORANGE(0xFFA500),
+    MAGENTA(0xFF00FF),
+    LIGHT_BLUE(0xADD8E6),
+    YELLOW(0xFFFF00),
+    LIME(0x00FF00),
+    PINK(0xFFC0CB),
+    GRAY(0x808080),
+    LIGHT_GRAY(0xD3D3D3),
+    CYAN(0x00FFFF),
+    PURPLE(0x800080),
+    BLUE(0x0000FF),
+    BROWN(0x8B4513),
+    GREEN(0x008000),
+    RED(0xFF0000),
+    BLACK(0x000000);
+     */
 }

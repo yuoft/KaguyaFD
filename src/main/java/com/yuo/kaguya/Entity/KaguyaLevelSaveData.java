@@ -4,9 +4,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
@@ -110,13 +113,26 @@ public class KaguyaLevelSaveData extends SavedData {
         if (!level.isClientSide && level instanceof ServerLevel sl){
             saveData = get(level);
             UUID uuid = saveData.getTpUuid(gap);
-            Entity entity = sl.getEntity(uuid);
-            if (entity instanceof GapEntity gapEntity){
-                gapEntity.setCoolTime(20);
+            if (living instanceof Player player){
+                if (saveData.getBlockPosList().size() < 2) {
+                    player.displayClientMessage(Component.translatable("info.kaguya.sukima_gap.no_tp"), true);
+                    return;
+                }
+                if (uuid == null){
+                    player.displayClientMessage(Component.translatable("info.kaguya.sukima_gap.no_tp"), true);
+                    return;
+                }
             }
-            tpPos = saveData.getBlockPosList().get(uuid).relative(gap.getDirection(), 1);
-            living.teleportTo(tpPos.getX() + 0.75, tpPos.getY(), tpPos.getZ() + 0.75);
-            gap.setCoolTime(20);
+            if (uuid != null){
+                Entity entity = sl.getEntity(uuid);
+                if (entity instanceof GapEntity gapEntity){
+                    gapEntity.setCoolTime(20);
+                }
+
+                tpPos = saveData.getBlockPosList().get(uuid).relative(gap.getDirection().getClockWise(), 2);
+                living.teleportTo(tpPos.getX() + 0.5, tpPos.getY(), tpPos.getZ() + 0.5);
+                gap.setCoolTime(20);
+            }
         }
     }
 
@@ -141,7 +157,7 @@ public class KaguyaLevelSaveData extends SavedData {
         for (Map.Entry<UUID, BlockPos> entry : posList.entrySet()) {
             BlockPos pos = entry.getValue();
             if (!gapUUID.equals(entry.getKey())) { //非原点
-                double dist = gapPos.distToCenterSqr(pos.getX(), pos.getY(), pos.getZ());
+                double dist = Math.sqrt(gapPos.distToLowCornerSqr(pos.getX(), pos.getY(), pos.getZ()));
                 if (dist > 5){
                     distanceMap.put(entry.getKey(), dist);
                 }

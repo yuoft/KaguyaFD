@@ -1,5 +1,6 @@
 package com.yuo.kaguya.Item.Weapon;
 
+import com.yuo.kaguya.Item.KaguyaWeapon;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -9,7 +10,7 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.Level;
 
-public class Onbashira extends SwordItem {
+public class Onbashira extends KaguyaWeapon {
     public Onbashira() {
         super(Tiers.DIAMOND, 7, -2.8f, new Properties().durability(59));
     }

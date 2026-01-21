@@ -1,8 +1,6 @@
 package com.yuo.kaguya.Event;
 
-import com.yuo.kaguya.Entity.GapEntity;
 import com.yuo.kaguya.Item.ModItems;
-import com.yuo.kaguya.Item.Prpo.GapItem;
 import com.yuo.kaguya.Kaguya;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.Minecraft;
@@ -26,7 +24,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -46,26 +43,7 @@ public class ModEventHandler {
 
     @SubscribeEvent
     public static void onRightEntity(EntityInteract event){
-        Entity target = event.getTarget();
-        ItemStack stack = event.getItemStack();
-        if (target instanceof GapEntity gap && stack.getItem() instanceof GapItem){ //回收隙间
-            Level level = event.getLevel();
-            Player player = event.getEntity();
-            if (!level.isClientSide()){
-               gap.removeData();
-               if (stack.getCount() < 64){
-                   stack.grow(1);
-               }else {
-                   ItemStack gapItem = new ItemStack(ModItems.sukima.get(), 1);
-                   if (!player.addItem(gapItem)){
-                       ItemEntity itemEntity = new ItemEntity(level, target.getX(), target.getY(), target.getZ(), gapItem);
-                       level.addFreshEntity(itemEntity);
-                   }
-               }
-            }
 
-            player.playSound(SoundEvents.ENCHANTMENT_TABLE_USE);
-        }
     }
 
     //添加附魔

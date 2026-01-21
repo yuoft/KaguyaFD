@@ -1,7 +1,6 @@
 package com.yuo.kaguya.Item.Prpo;
 
-import com.yuo.kaguya.Item.KaguyaPrpo;
-import com.yuo.kaguya.Item.KaguyaSword;
+import com.yuo.kaguya.Item.KaguyaWeapon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -9,16 +8,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class WallPassingChisel extends KaguyaSword {
+public class WallPassingChisel extends KaguyaWeapon {
 
     public WallPassingChisel() {
         super(Tiers.IRON, -2, new Properties().stacksTo(1).durability(122));

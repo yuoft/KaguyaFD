@@ -42,6 +42,11 @@ public class DanmakuDamageTypes {
         return new DanmakuDamageSource(holder, projectile, owner);
     }
 
+    public static DanmakuDamageSource danmaku(@Nullable LivingEntity owner) {
+        Holder<DamageType> holder = owner.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolder(DANMAKU).get();
+        return new DanmakuDamageSource(holder, owner);
+    }
+
     public static boolean isDanmaku(DamageSource source){
         if (source instanceof DanmakuDamageSource) return true;
         return source.getMsgId().equals(typeName);
@@ -51,6 +56,10 @@ public class DanmakuDamageTypes {
 
         public DanmakuDamageSource(Holder<DamageType> holder, Entity projectile, LivingEntity owner) {
             super(holder, projectile, owner);
+        }
+
+        public DanmakuDamageSource(Holder<DamageType> holder, LivingEntity owner) {
+            super(holder, owner);
         }
 
         @Override

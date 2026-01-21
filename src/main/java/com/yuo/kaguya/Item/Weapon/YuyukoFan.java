@@ -2,6 +2,7 @@ package com.yuo.kaguya.Item.Weapon;
 
 import com.yuo.kaguya.Entity.DanmakuColor;
 import com.yuo.kaguya.Entity.DanmakuShootHelper;
+import com.yuo.kaguya.Item.KaguyaWeapon;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -10,10 +11,10 @@ import net.minecraft.world.level.Level;
 
 import java.util.Random;
 
-public class YuyukoFan extends SwordItem {
+public class YuyukoFan extends KaguyaWeapon {
 
     public YuyukoFan() {
-        super(Tiers.DIAMOND, 3, -2.4f, new Properties().stacksTo(1).defaultDurability(233).rarity(Rarity.UNCOMMON));
+        super(Tiers.DIAMOND, 3, new Properties().stacksTo(1).defaultDurability(233).rarity(Rarity.UNCOMMON));
     }
 
     @Override

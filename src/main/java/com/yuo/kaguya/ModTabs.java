@@ -1,6 +1,7 @@
 package com.yuo.kaguya;
 
 import com.yuo.kaguya.Item.*;
+import com.yuo.kaguya.Item.Prpo.GapFoldingUmbrella;
 import com.yuo.kaguya.Item.Weapon.SilverKnifeItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -43,6 +44,10 @@ public class ModTabs {
 						}else if (item == ModItems.suwakoHead.get()){
 							ItemStack stack = new ItemStack(item);
 							stack.enchant(Enchantments.THORNS, 10);
+							output.accept(stack);
+						}else if (item == ModItems.gapFoldingUmbrella.get()){
+							ItemStack stack = new ItemStack(item);
+//							GapFoldingUmbrella.setColor(stack, DyeColor.GRAY);
 							output.accept(stack);
 						}
 						else output.accept(new ItemStack(item));

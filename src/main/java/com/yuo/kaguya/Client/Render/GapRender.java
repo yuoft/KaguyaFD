@@ -7,6 +7,7 @@ import com.yuo.kaguya.Client.Model.GapModel;
 import com.yuo.kaguya.Entity.GapEntity;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.TheEndPortalRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -25,6 +26,7 @@ public class GapRender extends EntityRenderer<GapEntity> {
     @Override
     public void render(GapEntity gap, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
         VertexConsumer buffer = bufferSource.getBuffer(this.gapModel.renderType(getTextureLocation(gap)));
+        float[] color = gap.getColor().getTextureDiffuseColors();
         poseStack.pushPose();
         poseStack.scale(0.5F, 0.5F, 0.5F);
         poseStack.translate(0, 1.5f, 0);
@@ -33,7 +35,7 @@ public class GapRender extends EntityRenderer<GapEntity> {
         if (direction == Direction.EAST || direction == Direction.WEST) {
             poseStack.mulPose(Axis.YP.rotationDegrees(90));
         }
-        this.gapModel.renderToBuffer(poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, 1,1,1, 1.0f);
+        this.gapModel.renderToBuffer(poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, color[0], color[1], color[2], 0.8f);
         poseStack.popPose();
 
         super.render(gap, entityYaw, partialTicks, poseStack, bufferSource, packedLight);

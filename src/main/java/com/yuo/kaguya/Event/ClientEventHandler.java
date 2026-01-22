@@ -6,6 +6,7 @@ import com.yuo.kaguya.Entity.ModEntityTypes;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Item.DanmakuShotItem;
 import com.yuo.kaguya.Item.Prpo.GapFoldingUmbrella;
+import com.yuo.kaguya.Item.Prpo.SukimaGap;
 import com.yuo.kaguya.Kaguya;
 import net.minecraft.client.renderer.blockentity.BeaconRenderer;
 import net.minecraft.client.renderer.blockentity.BedRenderer;
@@ -59,6 +60,8 @@ public class ClientEventHandler {
                 event.getItemColors().register(DanmakuShotItem::getColor, item);
             }else if (item instanceof GapFoldingUmbrella){
                 event.getItemColors().register(GapFoldingUmbrella::getColor, item);
+            }else if (item instanceof SukimaGap){
+                event.getItemColors().register(SukimaGap::getColor, item);
             }
         }
     }

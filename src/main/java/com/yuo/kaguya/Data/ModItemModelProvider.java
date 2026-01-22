@@ -5,6 +5,7 @@ import com.yuo.kaguya.Item.KaguyaMaterialItem;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Item.Prpo.GapFoldingUmbrella;
 import com.yuo.kaguya.Item.Prpo.StoneBowl;
+import com.yuo.kaguya.Item.Prpo.SukimaGap;
 import com.yuo.kaguya.Item.Weapon.RemorseRod;
 import com.yuo.kaguya.Item.Weapon.SilverKnifeItem;
 import com.yuo.kaguya.KaguyaUtils;
@@ -40,7 +41,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
             }else if (item instanceof KaguyaMaterialItem){
                 this.materialItemModel(getRes(item));
-            }else if (item instanceof GapFoldingUmbrella){
+            }else if (item instanceof GapFoldingUmbrella || item instanceof SukimaGap){
 
             }else this.basicItem(item);
         }

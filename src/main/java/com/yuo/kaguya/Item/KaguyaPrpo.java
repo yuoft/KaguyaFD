@@ -22,7 +22,7 @@ public class KaguyaPrpo extends Item {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
         Item item = stack.getItem();
-        if (item == ModItems.sukima.get()){
+        if (item == ModItems.sukimaGap.get()){
             components.add(Component.translatable("text.kaguya.sukima_gap.1"));
         }
         if (item == ModItems.thirdEye.get()){

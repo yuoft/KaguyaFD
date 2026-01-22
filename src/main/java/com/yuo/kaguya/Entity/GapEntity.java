@@ -5,12 +5,16 @@ import com.yuo.kaguya.Item.Prpo.SukimaGap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -22,16 +26,19 @@ public class GapEntity extends Entity {
     public static final EntityType<GapEntity> TYPE = EntityType.Builder.<GapEntity>of(GapEntity::new, MobCategory.MISC)
             .sized(0.5f, 0.5f).clientTrackingRange(6).updateInterval(10).fireImmune().build("gap");
     private static final int maxTick = 800;
+    private static final String NBT_COLOR = "kaguya:gapEntity_color";
     private int coolTime; //传送冷却
+    protected static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(GapEntity.class, EntityDataSerializers.INT);
 
     public GapEntity(EntityType<?> type, Level level) {
         super(type, level);
     }
 
-    public GapEntity(Level level, BlockPos pos, float pitch) {
+    public GapEntity(Level level, DyeColor color, BlockPos pos, float pitch) {
         super(TYPE, level);
         this.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
         this.setYRot(pitch);
+
     }
 
     @Override
@@ -81,7 +88,7 @@ public class GapEntity extends Entity {
                     if (stack.getCount() < 64) {
                         stack.grow(1);
                     } else {
-                        ItemStack gapItem = new ItemStack(ModItems.sukima.get(), 1);
+                        ItemStack gapItem = new ItemStack(ModItems.sukimaGap.get(), 1);
                         if (!player.addItem(gapItem)) {
                             ItemEntity itemEntity = new ItemEntity(level, this.getX(), this.getY(), this.getZ(), gapItem);
                             level.addFreshEntity(itemEntity);
@@ -155,18 +162,29 @@ public class GapEntity extends Entity {
         return coolTime > 0;
     }
 
+    public void setColor(DyeColor color){
+        this.entityData.set(COLOR, color.getId());
+    }
+
+    public DyeColor getColor(){
+        Integer colorId = this.entityData.get(COLOR);
+        return DyeColor.byId(colorId);
+    }
+
     @Override
     protected void defineSynchedData() {
-
+        this.entityData.define(COLOR, -1);
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag compoundTag) {
-
+    protected void readAdditionalSaveData(CompoundTag tag) {
+        if (tag.contains(NBT_COLOR)) {
+            this.entityData.set(COLOR, tag.getInt(NBT_COLOR));
+        }
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag compoundTag) {
-
+    protected void addAdditionalSaveData(CompoundTag tag) {
+        tag.putInt(NBT_COLOR, this.entityData.get(COLOR));
     }
 }

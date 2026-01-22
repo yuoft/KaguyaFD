@@ -2,20 +2,15 @@ package com.yuo.kaguya.Data;
 
 import com.google.gson.JsonObject;
 import com.yuo.kaguya.Item.ModItems;
-import com.yuo.kaguya.Item.Prpo.GapFoldingUmbrella;
-import com.yuo.kaguya.Kaguya;
+import com.yuo.kaguya.Item.Prpo.SukimaGap;
 import com.yuo.kaguya.KaguyaUtils;
-import net.minecraft.advancements.RequirementsStrategy;
-import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder.Result;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -180,11 +175,12 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', Items.LAPIS_BLOCK).define('y', Items.REDSTONE_BLOCK)
                 .pattern("xyx").pattern("xyx").pattern("xyx")
                 .unlockedBy("has_item", has(ModItems.mazinKyoukan.get())).save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.sukima.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.sukimaGap.get(), 1)
                 .define('x', Items.OBSIDIAN).define('y', Items.RED_DYE).define('z', Items.ENDER_EYE)
                 .pattern(" xy").pattern("xzx").pattern("yx ")
-                .unlockedBy("has_item", has(ModItems.sukima.get())).save(consumer);
+                .unlockedBy("has_item", has(ModItems.sukimaGap.get())).save(consumer);
         spawnGapFoldingUmbrellaRecipe(consumer);
+        spawnSukimaGapRecipe(consumer);
 
         //弹幕
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.crystalShot.get(), 4)
@@ -264,7 +260,7 @@ public class ModDataRecipes extends RecipeProvider {
         for (DyeColor dyeColor : DyeColor.values()) {
             DyeItem dye = DyeItem.byColor(dyeColor);
             String recipeId = "gap_folding_umbrella_" + dyeColor.getName();
-            ItemStack stack = GapFoldingUmbrella.createColoredStack(dyeColor);
+            ItemStack stack = SukimaGap.createColoredStack(item, dyeColor);
 
             ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, stack.getItem()).requires(item).requires(dye)
                     .unlockedBy("has_umbrella", has(item))
@@ -277,51 +273,70 @@ public class ModDataRecipes extends RecipeProvider {
                 .save(consumer, KaguyaUtils.fa("clear_gap_folding_umbrella"));
     }
 
-    private Consumer<FinishedRecipe> getConsumer(Consumer<FinishedRecipe> consumer, Item item, DyeColor dyeColor){
-        return new Consumer<FinishedRecipe>() {
-            @Override
-            public void accept(FinishedRecipe recipe) {
-                consumer.accept(new FinishedRecipe() {
-                    @Override
-                    public void serializeRecipeData(JsonObject json) {
-                        json.addProperty("category", RecipeCategory.MISC.getFolderName());
-                        recipe.serializeRecipeData(json);
+    /**
+     * 生成隙间物品染色配方
+     */
+    private void spawnSukimaGapRecipe(Consumer<FinishedRecipe> consumer) {
+        Item item = ModItems.sukimaGap.get();
+        for (DyeColor dyeColor : DyeColor.values()) {
+            DyeItem dye = DyeItem.byColor(dyeColor);
+            String recipeId = "sukima_gap_" + dyeColor.getName();
+            ItemStack stack = SukimaGap.createColoredStack(item, dyeColor);
 
-                        // 修改结果部分
-                        JsonObject resultJson = new JsonObject();
-                        resultJson.addProperty("item", BuiltInRegistries.ITEM.getKey(item).toString());
+            ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, stack.getItem()).requires(item).requires(dye)
+                    .unlockedBy("has_umbrella", has(item))
+                    .unlockedBy("has_dye", has(dye))
+                    .save(getConsumer(consumer, item, dyeColor), KaguyaUtils.fa(recipeId));
+        }
+        // 使用水桶清除颜色
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, item).requires(item).requires(Items.WATER_BUCKET)
+                .unlockedBy("has_umbrella", has(item))
+                .save(consumer, KaguyaUtils.fa("clear_sukima_gap"));
+    }
+
+    /**
+     * 获取自定义Consumer<FinishedRecipe>
+     */
+    private Consumer<FinishedRecipe> getConsumer(Consumer<FinishedRecipe> consumer, Item item, DyeColor dyeColor){
+        return recipe -> consumer.accept(new FinishedRecipe() {
+            @Override
+            public void serializeRecipeData(JsonObject json) {
+                json.addProperty("category", RecipeCategory.MISC.getFolderName());
+                recipe.serializeRecipeData(json);
+
+                // 修改结果部分
+                JsonObject resultJson = new JsonObject();
+                resultJson.addProperty("item", BuiltInRegistries.ITEM.getKey(item).toString());
 //                        resultJson.addProperty("count", 1);
 
-                        JsonObject nbtJson = new JsonObject();
-                        nbtJson.addProperty("kaguya_gap_color", dyeColor.getName());
-                        resultJson.add("nbt", nbtJson);
+                JsonObject nbtJson = new JsonObject();
+                nbtJson.addProperty(SukimaGap.NBT_COLOR, dyeColor.getName());
+                resultJson.add("nbt", nbtJson);
 
-                        json.add("result", resultJson);
-                    }
-
-                    @Override
-                    public ResourceLocation getId() {
-                        return recipe.getId();
-                    }
-
-                    @Override
-                    public RecipeSerializer<?> getType() {
-                        return recipe.getType();
-                    }
-
-                    @Nullable
-                    @Override
-                    public JsonObject serializeAdvancement() {
-                        return recipe.serializeAdvancement();
-                    }
-
-                    @Nullable
-                    @Override
-                    public ResourceLocation getAdvancementId() {
-                        return recipe.getAdvancementId();
-                    }
-                });
+                json.add("result", resultJson);
             }
-        };
+
+            @Override
+            public ResourceLocation getId() {
+                return recipe.getId();
+            }
+
+            @Override
+            public RecipeSerializer<?> getType() {
+                return recipe.getType();
+            }
+
+            @Nullable
+            @Override
+            public JsonObject serializeAdvancement() {
+                return recipe.serializeAdvancement();
+            }
+
+            @Nullable
+            @Override
+            public ResourceLocation getAdvancementId() {
+                return recipe.getAdvancementId();
+            }
+        });
     }
 }

@@ -50,7 +50,7 @@ public class BeamLaserRender extends EntityRenderer<BeamLaserEntity>{
         // 根据生命周期调整透明度
         float age = laser.getAge() + partialTicks;
         float maxAge = laser.getMaxAge();
-        float scale = Mth.clamp(age / maxAge, 0.1f, 1.0f); // 逐渐消失
+        float scale = Mth.clamp(age / maxAge, 0.0f, 1.0f); // 逐渐变大
         float fade = Mth.clamp(1.0f - age / maxAge, 0.1f, 1.0f);
         DanmakuColor danmakuColor = laser.getColor();
         float[] color = danmakuColor.getFloatRgb();
@@ -155,8 +155,9 @@ public class BeamLaserRender extends EntityRenderer<BeamLaserEntity>{
      * 激光原点 渲染图
      */
     private static void renderCircle(PoseStack poseStack, MultiBufferSource bufferSource, DanmakuColor color, float scale){
-        poseStack.pushPose();
-        poseStack.translate(-0.5,0,-0.5);
+        poseStack.pushPose(); //-0.5f --- 0 : -1f--- 1
+        float i = -(0.5f + (scale - 1) / 2.0f);//-1.5f + scale / 2.0f;
+        poseStack.translate(i,0, i);
         poseStack.scale(scale, scale, scale);
         VertexConsumer builder = bufferSource.getBuffer(ModRenderType.HEART_CIRCLE.apply(TEXTURE));
         PlayerCircleRenderer.addVertex(poseStack, builder, color);

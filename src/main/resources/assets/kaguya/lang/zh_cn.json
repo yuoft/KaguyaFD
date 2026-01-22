@@ -58,7 +58,7 @@
 	"item.kaguya.sakuya_watch": "咲夜的怀表",
 	"item.kaguya.soul_torch": "人魂灯",
 	"item.kaguya.spiritual_strike_talisman": "灵击卡",
-	"item.kaguya.sukima": "隙间",
+	"item.kaguya.sukima_gap": "隙间",
 	"item.kaguya.tengu_fan": "天狗的团扇",
 	"item.kaguya.third_eye": "第三只眼",
 	"item.kaguya.toyosatomimi_sword": "丰聪耳的宝剑",
@@ -123,7 +123,7 @@
 	"text.kaguya.koyasugai.1": "蓬莱山辉夜所出符卡 \"难题「燕的子安贝 -永命线-」(難題「燕の子安貝　-永命線-」)\"与\"神宝「Life Spring Infinity(无限的生命之泉)」(神宝「ライフスプリングインフィニティ」)\"",
 	"text.kaguya.aaa.1": "无",
 
-	"info.kaguya.gap_folding_umbrella.color": "颜色：",
+	"info.kaguya.gap.color": "颜色：",
 	"info.kaguya.sukima_gap.no_tp": "无法传送!",
 	"info.kaguya.third_eye.entity": "实体名称：%s",
 	"info.kaguya.third_eye.max_health": " | 最大生命值：%s",

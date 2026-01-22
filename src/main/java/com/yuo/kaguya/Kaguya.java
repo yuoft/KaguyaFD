@@ -30,6 +30,11 @@ public class Kaguya {
         ModTileTypes.BLOCK_ENTITY_TYPES.register(modEventBus);
         proxy.registerHandlers();
 
+        /*
+         1.隙间染色
+         2.小刀染色
+         3.弹幕改为染色方式
+         */
     }
 
     /**

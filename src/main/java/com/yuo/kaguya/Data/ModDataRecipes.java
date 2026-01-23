@@ -1,6 +1,7 @@
 package com.yuo.kaguya.Data;
 
 import com.google.gson.JsonObject;
+import com.yuo.kaguya.Entity.DanmakuColor;
 import com.yuo.kaguya.Item.ModColorItemUtils;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Item.Prpo.SukimaGap;
@@ -174,9 +175,9 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', Items.OBSIDIAN).define('y', Items.RED_DYE).define('z', Items.ENDER_EYE)
                 .pattern(" xy").pattern("xzx").pattern("yx ")
                 .unlockedBy("has_item", has(ModItems.sukimaGap.get())).save(consumer);
-        spawnGapFoldingUmbrellaRecipe(consumer);
-        spawnSukimaGapRecipe(consumer);
-        spawnSilverKnifeRecipe(consumer);
+        spawnColorRecipe(consumer, ModItems.sukimaGap.get());
+        spawnColorRecipe(consumer, ModItems.gapFoldingUmbrella.get());
+        spawnColorRecipe(consumer, ModItems.silverKnife.get());
 
         //弹幕
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.crystalShot.get(), 4)
@@ -248,73 +249,31 @@ public class ModDataRecipes extends RecipeProvider {
                 .unlockedBy("has_item", has(ModItems.arrowShot.get())).save(consumer);
     }
 
+
     /**
-     * 生成隙间伞染色配方
+     * 生成物品染色配方
      */
-    private void spawnGapFoldingUmbrellaRecipe(Consumer<FinishedRecipe> consumer) {
-        Item item = ModItems.gapFoldingUmbrella.get();
-        for (DyeColor dyeColor : DyeColor.values()) {
-            DyeItem dye = DyeItem.byColor(dyeColor);
-            String recipeId = "gap_folding_umbrella_" + dyeColor.getName();
-            ItemStack stack = ModColorItemUtils.createColoredStack(item, dyeColor);
+    private void spawnColorRecipe(Consumer<FinishedRecipe> consumer, Item item) {
+        for (DanmakuColor danmakuColor : DanmakuColor.values()) {
+            DyeItem dye = DanmakuColor.getDyeItemFromColor(danmakuColor);
+            String recipeId = item.getDescriptionId() + "_" + danmakuColor.getName();
+            ItemStack stack = ModColorItemUtils.createColoredStack(item, danmakuColor);
 
             ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, stack.getItem()).requires(item).requires(dye)
                     .unlockedBy("has_umbrella", has(item))
                     .unlockedBy("has_dye", has(dye))
-                    .save(getConsumer(consumer, item, dyeColor), KaguyaUtils.fa(recipeId));
+                    .save(getConsumer(consumer, item, danmakuColor), KaguyaUtils.fa(recipeId));
         }
         // 使用水桶清除颜色
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, item).requires(item).requires(Items.WATER_BUCKET)
                 .unlockedBy("has_umbrella", has(item))
-                .save(consumer, KaguyaUtils.fa("clear_gap_folding_umbrella"));
-    }
-
-    /**
-     * 生成隙间物品染色配方
-     */
-    private void spawnSukimaGapRecipe(Consumer<FinishedRecipe> consumer) {
-        Item item = ModItems.sukimaGap.get();
-        for (DyeColor dyeColor : DyeColor.values()) {
-            DyeItem dye = DyeItem.byColor(dyeColor);
-            String recipeId = "sukima_gap_" + dyeColor.getName();
-            ItemStack stack = ModColorItemUtils.createColoredStack(item, dyeColor);
-
-            ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, stack.getItem()).requires(item).requires(dye)
-                    .unlockedBy("has_umbrella", has(item))
-                    .unlockedBy("has_dye", has(dye))
-                    .save(getConsumer(consumer, item, dyeColor), KaguyaUtils.fa(recipeId));
-        }
-        // 使用水桶清除颜色
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, item).requires(item).requires(Items.WATER_BUCKET)
-                .unlockedBy("has_umbrella", has(item))
-                .save(consumer, KaguyaUtils.fa("clear_sukima_gap"));
-    }
-
-    /**
-     * 生成小刀物品染色配方
-     */
-    private void spawnSilverKnifeRecipe(Consumer<FinishedRecipe> consumer) {
-        Item item = ModItems.silverKnife.get();
-        for (DyeColor dyeColor : DyeColor.values()) {
-            DyeItem dye = DyeItem.byColor(dyeColor);
-            String recipeId = "silver_knife_" + dyeColor.getName();
-            ItemStack stack = ModColorItemUtils.createColoredStack(item, dyeColor);
-
-            ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, stack.getItem()).requires(item).requires(dye)
-                    .unlockedBy("has_umbrella", has(item))
-                    .unlockedBy("has_dye", has(dye))
-                    .save(getConsumer(consumer, item, dyeColor), KaguyaUtils.fa(recipeId));
-        }
-        // 使用水桶清除颜色
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, item).requires(item).requires(Items.WATER_BUCKET)
-                .unlockedBy("has_umbrella", has(item))
-                .save(consumer, KaguyaUtils.fa("clear_silver_knife"));
+                .save(consumer, KaguyaUtils.fa("clear_" + item.getDescriptionId()));
     }
 
     /**
      * 获取自定义Consumer<FinishedRecipe>
      */
-    private Consumer<FinishedRecipe> getConsumer(Consumer<FinishedRecipe> consumer, Item item, DyeColor dyeColor){
+    private Consumer<FinishedRecipe> getConsumer(Consumer<FinishedRecipe> consumer, Item item, DanmakuColor dyeColor){
         return recipe -> consumer.accept(new FinishedRecipe() {
             @Override
             public void serializeRecipeData(JsonObject json) {

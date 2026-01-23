@@ -13,12 +13,10 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.DyeItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import org.checkerframework.checker.units.qual.C;
 
 public class DanmakuCraftTile extends BaseContainerBlockEntity {
     //0-无 1-染料格 2-p点 3-基础弹幕 4-输出
@@ -50,8 +48,7 @@ public class DanmakuCraftTile extends BaseContainerBlockEntity {
      */
     private static DanmakuColor getDyeItemColor(ItemStack dye){
         if (dye.getItem() instanceof DyeItem dyeItem){ //染料
-            String name = dyeItem.getDyeColor().getName();
-            return DanmakuColor.getColor(name, true);
+            return DanmakuColor.getColorFromDye(dyeItem);
         }
         return null;
     }

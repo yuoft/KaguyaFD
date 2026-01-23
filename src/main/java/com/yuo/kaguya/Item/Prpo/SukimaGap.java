@@ -5,6 +5,7 @@ import com.yuo.kaguya.Entity.KaguyaLevelSaveData;
 import com.yuo.kaguya.Item.KaguyaPrpo;
 import com.yuo.kaguya.Item.ModColorItemUtils;
 import com.yuo.kaguya.Item.ModItems;
+import com.yuo.kaguya.Item.ModNoDataGen;
 import com.yuo.kaguya.Item.Weapon.DanmakuDamageTypes;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.core.BlockPos;
@@ -30,7 +31,7 @@ import net.minecraft.world.phys.AABB;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class SukimaGap extends KaguyaPrpo {
+public class SukimaGap extends KaguyaPrpo implements ModNoDataGen {
 
     public SukimaGap() {
         super(new Properties().stacksTo(64));

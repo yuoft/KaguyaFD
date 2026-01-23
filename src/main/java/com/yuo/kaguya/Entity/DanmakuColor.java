@@ -2,6 +2,7 @@ package com.yuo.kaguya.Entity;
 
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
 
 public enum DanmakuColor {
     // 各种颜色
@@ -61,7 +62,7 @@ public enum DanmakuColor {
                 return color;
             }
         }
-        return random(RandomSource.create());
+        return null;
     }
 
     public static DanmakuColor getColor(String colorName, boolean flag) {
@@ -123,5 +124,20 @@ public enum DanmakuColor {
 
     public int getRgb() {
         return rgb;
+    }
+
+    /**
+     * 从染料物品获取弹幕颜色
+     */
+    public static DanmakuColor getColorFromDye(DyeItem dyeItem) {
+        DyeColor dyeColor = dyeItem.getDyeColor();
+        return DanmakuColor.getColor(dyeColor.getName());
+    }
+
+    /**
+     * 从弹幕颜色获取染料物品
+     */
+    public static DyeItem getDyeItemFromColor(DanmakuColor danmakuColor) {
+        return DyeItem.byColor(DyeColor.byName(danmakuColor.getName(), DyeColor.CYAN));
     }
 }

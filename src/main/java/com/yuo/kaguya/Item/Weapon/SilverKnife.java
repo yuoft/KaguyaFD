@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.yuo.kaguya.Entity.SilverKnifeEntity;
 import com.yuo.kaguya.Item.ModColorItemUtils;
+import com.yuo.kaguya.Item.ModNoDataGen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -24,7 +25,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 
-public class SilverKnife extends Item{
+public class SilverKnife extends Item implements ModNoDataGen {
     private final float attackDamage;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
 

@@ -2,6 +2,7 @@ package com.yuo.kaguya.Item.Prpo;
 
 import com.yuo.kaguya.Item.KaguyaPrpo;
 import com.yuo.kaguya.Item.ModColorItemUtils;
+import com.yuo.kaguya.Item.ModNoDataGen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.DyeColor;
@@ -12,7 +13,7 @@ import net.minecraft.world.level.Level;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class GapFoldingUmbrella extends KaguyaPrpo{
+public class GapFoldingUmbrella extends KaguyaPrpo implements ModNoDataGen {
 
     public GapFoldingUmbrella() {
         super(new Properties().durability(30));

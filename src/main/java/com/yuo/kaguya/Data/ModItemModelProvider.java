@@ -3,6 +3,7 @@ package com.yuo.kaguya.Data;
 import com.yuo.kaguya.Item.DanmakuShotItem;
 import com.yuo.kaguya.Item.KaguyaMaterialItem;
 import com.yuo.kaguya.Item.ModItems;
+import com.yuo.kaguya.Item.ModNoDataGen;
 import com.yuo.kaguya.Item.Prpo.GapFoldingUmbrella;
 import com.yuo.kaguya.Item.Prpo.StoneBowl;
 import com.yuo.kaguya.Item.Prpo.SukimaGap;
@@ -29,20 +30,19 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         for (RegistryObject<Item> entry : ModItems.ITEMS.getEntries()) {
             Item item = entry.get();
+            if (item instanceof ModNoDataGen || item instanceof BlockItem){
+                continue;
+            }
+
             if (item instanceof DanmakuShotItem){
                 if (item == ModItems.longLaser.get() || item == ModItems.middleLaser.get() || item == ModItems.shortLaser.get()){
                     this.laserItemModel(getRes(item));
                 }else this.shotItemModel(getRes(item));
-            }else if (item instanceof TieredItem || item instanceof ArmorItem || item instanceof SilverKnife){
-                 if (item instanceof RemorseRod){}
-                else if (item instanceof StoneBowl) this.basicItem(item);
+            }else if (item instanceof TieredItem || item instanceof ArmorItem){
+                if (item instanceof StoneBowl) this.basicItem(item);
                 else this.weaponItemModel(getRes(item));
-            }else if (item instanceof BlockItem){
-
             }else if (item instanceof KaguyaMaterialItem){
                 this.materialItemModel(getRes(item));
-            }else if (item instanceof GapFoldingUmbrella || item instanceof SukimaGap){
-
             }else this.basicItem(item);
         }
 

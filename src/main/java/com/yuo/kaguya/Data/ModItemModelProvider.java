@@ -7,7 +7,7 @@ import com.yuo.kaguya.Item.Prpo.GapFoldingUmbrella;
 import com.yuo.kaguya.Item.Prpo.StoneBowl;
 import com.yuo.kaguya.Item.Prpo.SukimaGap;
 import com.yuo.kaguya.Item.Weapon.RemorseRod;
-import com.yuo.kaguya.Item.Weapon.SilverKnifeItem;
+import com.yuo.kaguya.Item.Weapon.SilverKnife;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -33,7 +33,7 @@ public class ModItemModelProvider extends ItemModelProvider {
                 if (item == ModItems.longLaser.get() || item == ModItems.middleLaser.get() || item == ModItems.shortLaser.get()){
                     this.laserItemModel(getRes(item));
                 }else this.shotItemModel(getRes(item));
-            }else if (item instanceof TieredItem || item instanceof ArmorItem || item instanceof SilverKnifeItem){
+            }else if (item instanceof TieredItem || item instanceof ArmorItem || item instanceof SilverKnife){
                  if (item instanceof RemorseRod){}
                 else if (item instanceof StoneBowl) this.basicItem(item);
                 else this.weaponItemModel(getRes(item));

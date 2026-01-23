@@ -1,6 +1,7 @@
 package com.yuo.kaguya.Proxy;
 
 import com.yuo.kaguya.Client.Screen.DanmakuCraftScreen;
+import com.yuo.kaguya.Item.ModColorItemUtils;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Item.Prpo.SukimaGap;
 import com.yuo.kaguya.Menu.ModMenuTypes;
@@ -43,6 +44,6 @@ public class ClientProxy implements IProxy {
 
     private void setSukimaGapProperty(Item item){
         ItemProperties.register(item, KaguyaUtils.fa("color"), (stack, clientWorld, living, i)
-                -> living != null && stack.getOrCreateTag().contains(SukimaGap.NBT_COLOR) ? 1.0F : 0.0F);
+                -> living != null && stack.getOrCreateTag().contains(ModColorItemUtils.NBT_COLOR) ? 1.0F : 0.0F);
     }
 }

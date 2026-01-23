@@ -1,24 +1,35 @@
 package com.yuo.kaguya.Entity;
 
 import net.minecraft.util.RandomSource;
-
-import java.util.Random;
+import net.minecraft.world.item.DyeColor;
 
 public enum DanmakuColor {
     // 各种颜色
-    RED(0xff0000, "red"),
-    ORANGE(0xff7f00, "orange"),
+    WHITE(0xffffff, "white"),
+    ORANGE(0xff7f00, "orange"), //橙色
+    MAGENTA(0xff00fe, "magenta"), //品红色
+    LIGHT_BLUE(0x007fff, "light_blue"), //淡蓝色
     YELLOW(0xfeff00, "yellow"),
-    LIME(0x7fff00, "lime"),
-    LIGHT_GREEN(0x00ff00, "light_green"),
-    GREEN(0x00ff7f, "green"),
-    CYAN(0x1dfeff, "cyan"),
-    LIGHT_BLUE(0x007fff, "light_blue"),
+    LIME(0x7fff00, "lime"), //淡绿色
+    PINK(0xff007f, "pink"), //粉色
+    GRAY(0x8c8c8c, "gray"), //灰色
+    LIGHT_GRAY(0xd3c9d3, "light_gray"), //淡灰色
+    CYAN(0x1dfeff, "cyan"), //青绿色
+    PURPLE(0x7f00ff, "purple"), //紫色
     BLUE(0x0000ff, "blue"),
-    PURPLE(0x7f00ff, "purple"),
-    MAGENTA(0xff00fe, "magenta"),
-    PINK(0xff007f, "pink"),
-    GRAY(0x8c8c8c, "gray");
+    BROWN(0x8b5d13, "brown"), //棕色
+    GREEN(0x00ff7f, "green"),
+    RED(0xff0000, "red"),
+    BLACK(0x000000, "black");
+//    LIGHT_GREEN(0x00ff00, "light_green");
+//    GOLD(0xffca18, "gold");
+//    DARK_RED(0x88001b, "dark_red");
+//    LIGHT_YELLOW(0xfdeca6, "light_yellow");
+//    LIGHT_GREEN1(0xc4ff0e, "light_green1");
+//    WATER_GREEN(0x8cfffb, "water_green");
+//    LIGHT_GREEN(0x00a8f3, "light_green");
+//    LIGHT_GREEN(0x00ff00, "light_green");
+//    LIGHT_GREEN(0x00ff00, "light_green");
 
     private final String name;
     private final int rgb;
@@ -64,7 +75,7 @@ public enum DanmakuColor {
 
     public static DanmakuColor getColor(int index) {
         if (index < 0 || index >= values().length) {
-            return RED;
+            return WHITE;
         }
         return values()[index];
     }

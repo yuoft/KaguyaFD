@@ -26,7 +26,7 @@ public class GapRender extends EntityRenderer<GapEntity> {
     @Override
     public void render(GapEntity gap, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
         VertexConsumer buffer = bufferSource.getBuffer(this.gapModel.renderType(getTextureLocation(gap)));
-        float[] color = gap.getColor().getTextureDiffuseColors();
+        float[] color = gap.getColor().getFloatRgb();
         poseStack.pushPose();
         poseStack.scale(0.5F, 0.5F, 0.5F);
         poseStack.translate(0, 1.5f, 0);

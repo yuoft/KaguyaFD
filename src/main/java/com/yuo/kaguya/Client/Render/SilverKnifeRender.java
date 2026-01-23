@@ -4,9 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuo.kaguya.Client.Model.SilverKnifeModel;
-import com.yuo.kaguya.Entity.SilverKnife;
+import com.yuo.kaguya.Entity.SilverKnifeEntity;
 import com.yuo.kaguya.KaguyaUtils;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -15,28 +14,31 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-public class SilverKnifeWhiteRender extends EntityRenderer<SilverKnife> {
-    public static final ResourceLocation SILVER_KNIFE_WHITE = KaguyaUtils.fa("textures/entity/silver_knife_white.png");
-    private final SilverKnifeModel<SilverKnife> model;
+public class SilverKnifeRender extends EntityRenderer<SilverKnifeEntity> {
+    public static final ResourceLocation SILVER_KNIFE = KaguyaUtils.fa("textures/entity/silver_knife.png");
+    private final SilverKnifeModel<SilverKnifeEntity> model;
 
-    public SilverKnifeWhiteRender(EntityRendererProvider.Context context, ModelLayerLocation layer) {
+    public SilverKnifeRender(EntityRendererProvider.Context context) {
         super(context);
-        this.model = new SilverKnifeModel<>(context.bakeLayer(layer));
+        this.model = new SilverKnifeModel<>(context.bakeLayer(SilverKnifeModel.LAYER_LOCATION));
     }
 
     @Override
-    public void render(SilverKnife silverKnife, float u, float v, PoseStack poseStack, MultiBufferSource bufferSource, int i) {
+    public void render(SilverKnifeEntity silverKnife, float u, float v, PoseStack poseStack, MultiBufferSource bufferSource, int i) {
+        VertexConsumer consumer = ItemRenderer.getFoilBufferDirect(bufferSource, this.model.renderType(this.getTextureLocation(silverKnife)), false, silverKnife.isFoil());
+        float[] colors = silverKnife.getColor().getFloatRgb();
+
         poseStack.pushPose();
         poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(v, silverKnife.yRotO, silverKnife.getYRot()) - 90.0F));
         poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(v, silverKnife.xRotO, silverKnife.getXRot()) + 90.0F));
-        VertexConsumer consumer = ItemRenderer.getFoilBufferDirect(bufferSource, this.model.renderType(this.getTextureLocation(silverKnife)), false, silverKnife.isFoil());
-        this.model.renderToBuffer(poseStack, consumer, i, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        this.model.renderToBuffer(poseStack, consumer, i, OverlayTexture.NO_OVERLAY, colors[0], colors[1], colors[2], 1.0F);
         poseStack.popPose();
+
         super.render(silverKnife, u, v, poseStack, bufferSource, i);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(SilverKnife silverKnife) {
-        return SILVER_KNIFE_WHITE;
+    public ResourceLocation getTextureLocation(SilverKnifeEntity silverKnife) {
+        return SILVER_KNIFE;
     }
 }

@@ -2,15 +2,14 @@ package com.yuo.kaguya.Item.Weapon;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import com.yuo.kaguya.Entity.SilverKnife;
-import com.yuo.kaguya.Item.ModItems;
+import com.yuo.kaguya.Entity.SilverKnifeEntity;
+import com.yuo.kaguya.Item.ModColorItemUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -22,15 +21,14 @@ import net.minecraft.world.entity.projectile.AbstractArrow.Pickup;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class SilverKnifeItem extends Item {
+public class SilverKnife extends Item{
     private final float attackDamage;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
 
-    public SilverKnifeItem() {
+    public SilverKnife() {
         super(new Properties().stacksTo(64));
         this.attackDamage = 1.5f;
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
@@ -45,10 +43,6 @@ public class SilverKnifeItem extends Item {
 
     public float getAttackDamage() {
         return attackDamage;
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
     }
 
     @Override
@@ -67,7 +61,7 @@ public class SilverKnifeItem extends Item {
             int useDuration = this.getUseDuration(stack) - i;
             if (useDuration >= 10) {
                 if (!level.isClientSide) {
-                    SilverKnife silverKnife = new SilverKnife(getType(stack), player, level, stack);
+                    SilverKnifeEntity silverKnife = new SilverKnifeEntity(player, level, stack, ModColorItemUtils.getColor(stack));
                     silverKnife.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 1.0F);
                     if (player.getAbilities().instabuild) {
                         silverKnife.pickup = Pickup.CREATIVE_ONLY;
@@ -96,11 +90,14 @@ public class SilverKnifeItem extends Item {
         }
     }
 
-    private static EntityType<SilverKnife> getType(ItemStack stack){
-        Item item = stack.getItem();
-        if (item == ModItems.silverKnifeRed.get()) return SilverKnife.TYPE_RED;
-        else if (item == ModItems.silverKnifeGreen.get()) return SilverKnife.TYPE_GREEN;
-        else if (item == ModItems.silverKnifeBlue.get()) return SilverKnife.TYPE_BLUE;
-        else return SilverKnife.TYPE_WHITE;
+    @Override
+    public Component getName(ItemStack stack) {
+        return ModColorItemUtils.getColorName(stack, super.getName(stack));
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @javax.annotation.Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, level, tooltip, flag);
+        ModColorItemUtils.appendColorText(stack, tooltip);
     }
 }

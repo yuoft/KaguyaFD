@@ -1,39 +1,37 @@
 package com.yuo.kaguya.Entity;
 
 import com.yuo.kaguya.Item.ModItems;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 
-public class SilverKnife extends AbstractArrow{
-    public static final EntityType<SilverKnife> TYPE_RED = EntityType.Builder.<SilverKnife>of(SilverKnife::new, MobCategory.MISC)
-            .sized(0.25F, 0.25F).clientTrackingRange(6).updateInterval(10).noSave().build("silver_knife_red");
-    public static final EntityType<SilverKnife> TYPE_GREEN = EntityType.Builder.<SilverKnife>of(SilverKnife::new, MobCategory.MISC)
-            .sized(0.25F, 0.25F).clientTrackingRange(6).updateInterval(10).noSave().build("silver_knife_green");
-    public static final EntityType<SilverKnife> TYPE_BLUE = EntityType.Builder.<SilverKnife>of(SilverKnife::new, MobCategory.MISC)
-            .sized(0.25F, 0.25F).clientTrackingRange(6).updateInterval(10).noSave().build("silver_knife_blue");
-    public static final EntityType<SilverKnife> TYPE_WHITE = EntityType.Builder.<SilverKnife>of(SilverKnife::new, MobCategory.MISC)
-            .sized(0.25F, 0.25F).clientTrackingRange(6).updateInterval(10).build("silver_knife_white");
+public class SilverKnifeEntity extends AbstractArrow{
+    public static final EntityType<SilverKnifeEntity> TYPE = EntityType.Builder.<SilverKnifeEntity>of(SilverKnifeEntity::new, MobCategory.MISC)
+            .sized(0.25F, 0.25F).clientTrackingRange(6).updateInterval(10).build("silver_knife");
     private final ItemStack item;
+    protected static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(SilverKnifeEntity.class, EntityDataSerializers.INT);
 
-    public SilverKnife(EntityType<? extends AbstractArrow> entityType, Level level) {
+    public SilverKnifeEntity(EntityType<? extends AbstractArrow> entityType, Level level) {
         super(entityType, level);
         this.item = ItemStack.EMPTY;
     }
 
-    public SilverKnife(EntityType<? extends AbstractArrow> entityType, LivingEntity living, Level level, ItemStack item) {
-        super(entityType, living, level);
+    public SilverKnifeEntity(LivingEntity living, Level level, ItemStack item, DanmakuColor color) {
+        super(TYPE, living, level);
         this.setOwner(living);
         this.setBaseDamage(2.5d);
         this.item = item.copy();
+        this.setColor(color);
     }
 
     @Override
@@ -67,6 +65,7 @@ public class SilverKnife extends AbstractArrow{
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
+        this.entityData.define(COLOR, -1);
     }
 
     //生存不消失
@@ -83,7 +82,6 @@ public class SilverKnife extends AbstractArrow{
         if (this.ownedBy(player) || this.getOwner() == null) {
             super.playerTouch(player);
         }
-
     }
 
     @Override
@@ -93,14 +91,7 @@ public class SilverKnife extends AbstractArrow{
 
     @Override
     protected ItemStack getPickupItem() {
-        EntityType<?> type = this.getType();
-        if (type == TYPE_RED) {
-            return new ItemStack(ModItems.silverKnifeRed.get());
-        }else  if (type == TYPE_GREEN) {
-            return new ItemStack(ModItems.silverKnifeGreen.get());
-        }else  if (type == TYPE_BLUE) {
-            return new ItemStack(ModItems.silverKnifeBlue.get());
-        }else return new ItemStack(ModItems.silverKnifeWhite.get());
+       return new ItemStack(ModItems.silverKnife.get());
     }
 
     @Override
@@ -115,5 +106,16 @@ public class SilverKnife extends AbstractArrow{
 
     public boolean isFoil() {
         return false;
+    }
+
+    public DanmakuColor getColor(){
+        int i = this.entityData.get(COLOR);
+        return i == -1 ? null : DanmakuColor.getColor(i);
+    }
+
+    public void setColor(DanmakuColor color){
+        if (color == null){
+            this.entityData.set(COLOR, -1);
+        }else this.entityData.set(COLOR, color.ordinal());
     }
 }

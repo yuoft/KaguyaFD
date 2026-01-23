@@ -5,7 +5,7 @@ package com.yuo.kaguya.Client.Model;// Made with Blockbench 5.0.5
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.yuo.kaguya.Entity.SilverKnife;
+import com.yuo.kaguya.Entity.SilverKnifeEntity;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -13,12 +13,8 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 
-public class SilverKnifeModel<T extends SilverKnife> extends EntityModel<T> {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_RED = new ModelLayerLocation(KaguyaUtils.fa("silver_knife_red"), "main");
-	public static final ModelLayerLocation LAYER_GREEN = new ModelLayerLocation(KaguyaUtils.fa("silver_knife_green"), "main");
-	public static final ModelLayerLocation LAYER_BLUE = new ModelLayerLocation(KaguyaUtils.fa("silver_knife_blue"), "main");
-	public static final ModelLayerLocation LAYER_WHITE = new ModelLayerLocation(KaguyaUtils.fa("silver_knife_white"), "main");
+public class SilverKnifeModel<T extends SilverKnifeEntity> extends EntityModel<T> {
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KaguyaUtils.fa("silver_knife"), "main");
 	private final ModelPart body;
 
 	public SilverKnifeModel(ModelPart root) {
@@ -38,7 +34,7 @@ public class SilverKnifeModel<T extends SilverKnife> extends EntityModel<T> {
 	}
 
 	@Override
-	public void setupAnim(SilverKnife entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(SilverKnifeEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
 	}
 

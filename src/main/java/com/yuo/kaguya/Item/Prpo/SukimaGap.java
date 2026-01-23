@@ -3,6 +3,7 @@ package com.yuo.kaguya.Item.Prpo;
 import com.yuo.kaguya.Entity.GapEntity;
 import com.yuo.kaguya.Entity.KaguyaLevelSaveData;
 import com.yuo.kaguya.Item.KaguyaPrpo;
+import com.yuo.kaguya.Item.ModColorItemUtils;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Item.Weapon.DanmakuDamageTypes;
 import com.yuo.kaguya.KaguyaUtils;
@@ -30,7 +31,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class SukimaGap extends KaguyaPrpo {
-    public static final String NBT_COLOR = "kaguya:gap_color";
 
     public SukimaGap() {
         super(new Properties().stacksTo(64));
@@ -67,7 +67,7 @@ public class SukimaGap extends KaguyaPrpo {
         BlockPos spawnPos = clickedPos.relative(clickedFace, 1);
         if (player == null) return InteractionResult.FAIL;
         if (isSpawn(level, spawnPos) && !hasGapEntity(level, spawnPos)) {
-            GapEntity gap = new GapEntity(level, null, spawnPos, player.getYRot());
+            GapEntity gap = new GapEntity(level, ModColorItemUtils.getColor(context.getItemInHand()), spawnPos, player.getYRot());
             if (!level.isClientSide) {
                 level.addFreshEntity(gap);
                 KaguyaLevelSaveData saveData = KaguyaLevelSaveData.get(level);
@@ -97,69 +97,14 @@ public class SukimaGap extends KaguyaPrpo {
         return !entityList.isEmpty();
     }
 
-    /**
-     * 创建带有颜色的物品堆栈
-     * @param color 颜色
-     */
-    public static ItemStack createColoredStack(Item item, DyeColor color) {
-        ItemStack stack = new ItemStack(item);
-        setColor(stack, color);
-        return stack;
-    }
-
-    /**
-     * 设置颜色到NBT
-     */
-    public static void setColor(ItemStack stack, DyeColor color) {
-        CompoundTag tag = stack.getOrCreateTag();
-        tag.putString(NBT_COLOR, color.name());
-        stack.setTag(tag);
-    }
-
-    /**
-     * 从NBT获取颜色
-     */
-    public static DyeColor getColor(ItemStack stack) {
-        CompoundTag tag = stack.getOrCreateTag();
-        if (tag.contains(NBT_COLOR)) {
-            String color = tag.getString(NBT_COLOR);
-            return DyeColor.byName(color, DyeColor.GRAY);
-        }
-        return null;
-    }
-
-    public static int getColor(ItemStack stack, int layer) {
-        if (hasColor(stack) && layer == 1) {
-            return getColor(stack).getTextColor();
-        }
-        return -1;
-    }
-
-    /**
-     * 是否有颜色tag
-     */
-    public static boolean hasColor(ItemStack stack) {
-        return stack.getOrCreateTag().contains(NBT_COLOR);
-    }
-
     @Override
     public Component getName(ItemStack stack) {
-        if (hasColor(stack)) {
-            DyeColor color = getColor(stack);
-            if (color != null) {
-                MutableComponent colorName = Component.translatable("info.kaguya.color." + color.getName()).append("-");
-                return colorName.append(super.getName(stack));
-            }
-        }
-        return super.getName(stack);
+        return ModColorItemUtils.getColorName(stack, super.getName(stack));
     }
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
-        if (hasColor(stack)) {
-            DyeColor color = getColor(stack);
-            tooltip.add(Component.translatable("info.kaguya.gap.color").append(Component.translatable("info.kaguya.color." + color.getName())));
-        }
+        ModColorItemUtils.appendColorText(stack, tooltip);
     }
 }

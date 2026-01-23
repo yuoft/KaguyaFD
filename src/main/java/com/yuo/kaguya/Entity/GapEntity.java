@@ -4,6 +4,8 @@ import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Item.Prpo.SukimaGap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -18,6 +20,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -34,11 +37,11 @@ public class GapEntity extends Entity {
         super(type, level);
     }
 
-    public GapEntity(Level level, DyeColor color, BlockPos pos, float pitch) {
+    public GapEntity(Level level, DanmakuColor color, BlockPos pos, float pitch) {
         super(TYPE, level);
         this.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
         this.setYRot(pitch);
-
+        this.setColor(color);
     }
 
     @Override
@@ -58,6 +61,13 @@ public class GapEntity extends Entity {
 //            if (this.tickCount >= maxTick) this.removeData();
 
             if (this.coolTime > 0) this.coolTime--;
+        }else {
+            if (this.tickCount % 20 == 0 && level.random.nextFloat() < 0.1f) {
+                Vec3 position = position();
+                for (int i = 0; i < 10; i++){
+                    level.addParticle(ParticleTypes.PORTAL, position.x, position.y + 0.5, position.z, 0.01D, 0.01D, 0.01D);
+                }
+            }
         }
     }
 
@@ -162,13 +172,15 @@ public class GapEntity extends Entity {
         return coolTime > 0;
     }
 
-    public void setColor(DyeColor color){
-        this.entityData.set(COLOR, color.getId());
+    public void setColor(DanmakuColor color){
+        if (color == null)
+            this.entityData.set(COLOR, -1);
+        else this.entityData.set(COLOR, color.ordinal());
     }
 
-    public DyeColor getColor(){
-        Integer colorId = this.entityData.get(COLOR);
-        return DyeColor.byId(colorId);
+    public DanmakuColor getColor(){
+        int colorId = this.entityData.get(COLOR);
+        return colorId == -1 ? null : DanmakuColor.getColor(colorId);
     }
 
     @Override

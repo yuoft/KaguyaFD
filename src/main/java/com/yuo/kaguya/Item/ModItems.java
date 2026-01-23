@@ -66,10 +66,7 @@ public class ModItems {
 	public static RegistryObject<Item> marisaHead = ITEMS.register("marisa_head", MarisaHelmet::new);
 
 	//武器
-	public static RegistryObject<Item> silverKnifeWhite = ITEMS.register("silver_knife_white", SilverKnifeItem::new);
-	public static RegistryObject<Item> silverKnifeRed = ITEMS.register("silver_knife_red", SilverKnifeItem::new);
-	public static RegistryObject<Item> silverKnifeBlue = ITEMS.register("silver_knife_blue", SilverKnifeItem::new);
-	public static RegistryObject<Item> silverKnifeGreen = ITEMS.register("silver_knife_green", SilverKnifeItem::new);
+	public static RegistryObject<Item> silverKnife = ITEMS.register("silver_knife", SilverKnife::new);
 	public static RegistryObject<Item> deathScythe = ITEMS.register("death_scythe", DeathScythe::new);
 	public static RegistryObject<Item> gungnir = ITEMS.register("gungnir", () -> new KaguyaWeapon(Tiers.DIAMOND));
 	public static RegistryObject<Item> hakureiOharaibou = ITEMS.register("hakurei_oharaibou", () -> new KaguyaWeapon(Tiers.DIAMOND));

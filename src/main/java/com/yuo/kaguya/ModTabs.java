@@ -1,12 +1,9 @@
 package com.yuo.kaguya;
 
 import com.yuo.kaguya.Item.*;
-import com.yuo.kaguya.Item.Prpo.GapFoldingUmbrella;
-import com.yuo.kaguya.Item.Weapon.SilverKnifeItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;

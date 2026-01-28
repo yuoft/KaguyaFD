@@ -3,13 +3,5 @@
     "textures": {
         "layer0": "kaguya:item/sukima_gap_0",
         "layer1": "kaguya:item/sukima_gap_1"
-    },
-    "overrides": [
-        {
-            "predicate": {
-                "kaguya:color": 0
-            },
-            "model": "kaguya:item/sukima_no_color"
-        }
-    ]
+    }
 }

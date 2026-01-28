@@ -1,6 +1,7 @@
 package com.yuo.kaguya.Menu;
 
 import com.yuo.kaguya.Item.DanmakuShotItem;
+import com.yuo.kaguya.Item.ModColorCraftItem;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -12,6 +13,6 @@ public class DanmakuSlot extends Slot {
 
     @Override
     public boolean mayPlace(ItemStack stack) {
-        return stack.getItem() instanceof DanmakuShotItem;
+        return stack.getItem() instanceof DanmakuShotItem || stack.getItem() instanceof ModColorCraftItem;
     }
 }

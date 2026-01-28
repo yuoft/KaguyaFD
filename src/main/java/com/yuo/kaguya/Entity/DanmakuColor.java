@@ -3,6 +3,7 @@ package com.yuo.kaguya.Entity;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.ItemStack;
 
 public enum DanmakuColor {
     // 各种颜色
@@ -62,21 +63,12 @@ public enum DanmakuColor {
                 return color;
             }
         }
-        return null;
-    }
-
-    public static DanmakuColor getColor(String colorName, boolean flag) {
-        for (DanmakuColor color : DanmakuColor.values()) {
-            if (color.getName().equals(colorName)) {
-                return color;
-            }
-        }
-        return flag ? null : random(RandomSource.create());
+        return GRAY; //为空默认返回灰色
     }
 
     public static DanmakuColor getColor(int index) {
         if (index < 0 || index >= values().length) {
-            return WHITE;
+            return GRAY;
         }
         return values()[index];
     }
@@ -139,5 +131,20 @@ public enum DanmakuColor {
      */
     public static DyeItem getDyeItemFromColor(DanmakuColor danmakuColor) {
         return DyeItem.byColor(DyeColor.byName(danmakuColor.getName(), DyeColor.CYAN));
+    }
+
+    public static DanmakuColor getColorFromDye(ItemStack dye){
+        if (dye.getItem() instanceof DyeItem dyeItem){ //染料
+            return DanmakuColor.getColorFromDye(dyeItem);
+        }
+        return DanmakuColor.GRAY;
+    }
+
+    /**
+     * @param flag 重载方法占位
+     */
+    public static ItemStack getDyeItemFromColor(DanmakuColor danmakuColor, boolean flag) {
+        DyeItem dyeItem = DyeItem.byColor(DyeColor.byName(danmakuColor.getName(), DyeColor.CYAN));
+        return new ItemStack(dyeItem);
     }
 }

@@ -173,14 +173,11 @@ public class GapEntity extends Entity {
     }
 
     public void setColor(DanmakuColor color){
-        if (color == null)
-            this.entityData.set(COLOR, -1);
-        else this.entityData.set(COLOR, color.ordinal());
+        this.entityData.set(COLOR, color.ordinal());
     }
 
     public DanmakuColor getColor(){
-        int colorId = this.entityData.get(COLOR);
-        return colorId == -1 ? null : DanmakuColor.getColor(colorId);
+        return DanmakuColor.getColor(this.entityData.get(COLOR));
     }
 
     @Override

@@ -17,15 +17,9 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 public class DanmakuRender extends EntityRenderer<DanmakuBase> {
-    private static final ResourceLocation DANMAKU_TEXTURE = KaguyaUtils.fa("textures/entity/danmaku.png");
-    private static final RenderType RENDER_TYPE = RenderType.itemEntityTranslucentCull(DANMAKU_TEXTURE);
 
     public DanmakuRender(EntityRendererProvider.Context renderManager) {
         super(renderManager);
-    }
-
-    private static void vertex(VertexConsumer bufferIn, Matrix4f pose, Matrix3f normal, double x, double y, double texU, double texV, int packedLight) {
-        bufferIn.vertex(pose, (float) x, (float) y, 0.0F).color(255, 255, 255, 255).uv((float) texU, (float) texV).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
     }
 
     @Override
@@ -33,34 +27,36 @@ public class DanmakuRender extends EntityRenderer<DanmakuBase> {
         // 获取相关数据
         DanmakuColor color = entity.getColor();
         DanmakuType type = entity.getDanmakuType();
-        // 材质宽度
-        int width = 416;
-        // 材质长度
-        int length = 128;
-
-        // 依据类型颜色开始定位材质位置（材质块都是 32 * 32 大小）
-        double startU = 32 * color.ordinal();
-        double startV = 32 * type.getResId();
 
         poseStack.pushPose();
         poseStack.translate(0, 0.1, 0);
         poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
         poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
-
-        VertexConsumer buffer = bufferIn.getBuffer(RENDER_TYPE);
-        PoseStack.Pose poseStackLast = poseStack.last();
-        Matrix4f pose = poseStackLast.pose();
-        Matrix3f normal = poseStackLast.normal();
-
-        vertex(buffer, pose, normal, -type.getSize(), type.getSize(), (startU + 0) / width, (startV + 0) / length, packedLightIn);
-        vertex(buffer, pose, normal, -type.getSize(), -type.getSize(), (startU + 0) / width, (startV + 32) / length, packedLightIn);
-        vertex(buffer, pose, normal, type.getSize(), -type.getSize(), (startU + 32) / width, (startV + 32) / length, packedLightIn);
-        vertex(buffer, pose, normal, type.getSize(), type.getSize(), (startU + 32) / width, (startV + 0) / length, packedLightIn);
+        renderQuad(bufferIn, poseStack, color, type, packedLightIn);
         poseStack.popPose();
     }
 
     @Override
     public ResourceLocation getTextureLocation(DanmakuBase entity) {
-        return DANMAKU_TEXTURE;
+        return KaguyaUtils.fa("textures/entity/danmaku/" + entity.getDanmakuType().getName() + ".png");
+    }
+
+    private static void renderQuad(MultiBufferSource bufferIn, PoseStack poseStack, DanmakuColor color, DanmakuType type, int packedLightIn){
+        ResourceLocation res = KaguyaUtils.fa("textures/entity/danmaku/" + type.getName() + ".png");
+        RenderType renderType = RenderType.itemEntityTranslucentCull(res);
+
+        VertexConsumer buffer = bufferIn.getBuffer(renderType);
+        PoseStack.Pose poseStackLast = poseStack.last();
+        Matrix4f pose = poseStackLast.pose();
+        Matrix3f normal = poseStackLast.normal();
+
+        vertex(buffer, pose, normal, -type.getSize(), type.getSize(), 0,0, color, packedLightIn);
+        vertex(buffer, pose, normal, -type.getSize(), -type.getSize(), 0,1, color, packedLightIn);
+        vertex(buffer, pose, normal, type.getSize(), -type.getSize(), 1,1, color, packedLightIn);
+        vertex(buffer, pose, normal, type.getSize(), type.getSize(), 1, 0, color, packedLightIn);
+    }
+
+    private static void vertex(VertexConsumer bufferIn, Matrix4f pose, Matrix3f normal, double x, double y, float u, float v, DanmakuColor color, int packedLight) {
+        bufferIn.vertex(pose, (float) x, (float) y, 0.0F).color(color.getRed(), color.getGreen(), color.getBlue(), 255).uv(u, v).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
     }
 }

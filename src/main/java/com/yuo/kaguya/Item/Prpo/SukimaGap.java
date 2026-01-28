@@ -3,16 +3,14 @@ package com.yuo.kaguya.Item.Prpo;
 import com.yuo.kaguya.Entity.GapEntity;
 import com.yuo.kaguya.Entity.KaguyaLevelSaveData;
 import com.yuo.kaguya.Item.KaguyaPrpo;
+import com.yuo.kaguya.Item.ModColorCraftItem;
 import com.yuo.kaguya.Item.ModColorItemUtils;
-import com.yuo.kaguya.Item.ModItems;
-import com.yuo.kaguya.Item.ModNoDataGen;
+import com.yuo.kaguya.Item.ModNoDataGenItem;
 import com.yuo.kaguya.Item.Weapon.DanmakuDamageTypes;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -20,8 +18,6 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
@@ -31,7 +27,7 @@ import net.minecraft.world.phys.AABB;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class SukimaGap extends KaguyaPrpo implements ModNoDataGen {
+public class SukimaGap extends KaguyaPrpo implements ModNoDataGenItem, ModColorCraftItem {
 
     public SukimaGap() {
         super(new Properties().stacksTo(64));

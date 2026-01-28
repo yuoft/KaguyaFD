@@ -109,13 +109,10 @@ public class SilverKnifeEntity extends AbstractArrow{
     }
 
     public DanmakuColor getColor(){
-        int i = this.entityData.get(COLOR);
-        return i == -1 ? null : DanmakuColor.getColor(i);
+        return DanmakuColor.getColor(this.entityData.get(COLOR));
     }
 
     public void setColor(DanmakuColor color){
-        if (color == null){
-            this.entityData.set(COLOR, -1);
-        }else this.entityData.set(COLOR, color.ordinal());
+        this.entityData.set(COLOR, color.ordinal());
     }
 }

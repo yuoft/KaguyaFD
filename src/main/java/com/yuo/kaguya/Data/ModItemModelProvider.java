@@ -3,12 +3,8 @@ package com.yuo.kaguya.Data;
 import com.yuo.kaguya.Item.DanmakuShotItem;
 import com.yuo.kaguya.Item.KaguyaMaterialItem;
 import com.yuo.kaguya.Item.ModItems;
-import com.yuo.kaguya.Item.ModNoDataGen;
-import com.yuo.kaguya.Item.Prpo.GapFoldingUmbrella;
+import com.yuo.kaguya.Item.ModNoDataGenItem;
 import com.yuo.kaguya.Item.Prpo.StoneBowl;
-import com.yuo.kaguya.Item.Prpo.SukimaGap;
-import com.yuo.kaguya.Item.Weapon.RemorseRod;
-import com.yuo.kaguya.Item.Weapon.SilverKnife;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -30,7 +26,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         for (RegistryObject<Item> entry : ModItems.ITEMS.getEntries()) {
             Item item = entry.get();
-            if (item instanceof ModNoDataGen || item instanceof BlockItem){
+            if (item instanceof ModNoDataGenItem || item instanceof BlockItem){
                 continue;
             }
 

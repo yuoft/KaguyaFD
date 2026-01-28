@@ -2,8 +2,7 @@ package com.yuo.kaguya.Item.Weapon;
 
 import com.yuo.kaguya.Event.ModEventHandler;
 import com.yuo.kaguya.Item.KaguyaWeapon;
-import com.yuo.kaguya.Item.ModNoDataGen;
-import net.minecraft.nbt.CompoundTag;
+import com.yuo.kaguya.Item.ModNoDataGenItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -14,7 +13,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.function.Consumer;
 
-public class RemorseRod extends KaguyaWeapon implements ModNoDataGen {
+public class RemorseRod extends KaguyaWeapon implements ModNoDataGenItem {
     public RemorseRod() {
         super(Tiers.STONE, 0, new Properties().durability(1));
     }

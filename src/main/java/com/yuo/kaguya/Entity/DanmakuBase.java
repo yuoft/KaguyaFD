@@ -2,6 +2,7 @@ package com.yuo.kaguya.Entity;
 
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Item.Weapon.DanmakuDamageTypes;
+import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
@@ -26,6 +27,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.NotNull;
 
 public class DanmakuBase extends ThrowableItemProjectile {
     public static final EntityType<DanmakuBase> TYPE = EntityType.Builder.<DanmakuBase>of(DanmakuBase::new, MobCategory.MISC)
@@ -153,6 +155,12 @@ public class DanmakuBase extends ThrowableItemProjectile {
         if (this.tickCount >= getMAX_TICKS_EXISTED()) {
             this.discard();
         }
+    }
+
+    @Override
+    protected @NotNull AABB makeBoundingBox() {
+        double inflate = (this.getDanmakuType().getSize() - 0.2d) / 2;
+        return new AABB(-0.125, 0.0, -0.125, 0.125, 0.25, 0.125).inflate(inflate).move(this.position());
     }
 
     //重力

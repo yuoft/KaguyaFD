@@ -217,10 +217,6 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', ModItems.danmakuMaterial.get())
                 .pattern("x x").pattern("   ").pattern("x x")
                 .unlockedBy("has_item", has(ModItems.lightShot.get())).save(consumer);
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.knifeShot.get(), 2)
-                .define('x', ModItems.danmakuMaterial.get())
-                .pattern("  x").pattern("xx ").pattern("xx ")
-                .unlockedBy("has_item", has(ModItems.knifeShot.get())).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.kunaiShot.get(), 2)
                 .define('x', ModItems.danmakuMaterial.get())
                 .pattern(" xx").pattern(" xx").pattern("x  ")

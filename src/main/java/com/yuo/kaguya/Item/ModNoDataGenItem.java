@@ -5,8 +5,8 @@ import com.yuo.kaguya.Kaguya;
 /**
  * 不会进行数据生成模型的物品
  */
-public interface ModNoDataGen {
-    default String getModName() {
+public interface ModNoDataGenItem {
+    default String getModDataName() {
         return Kaguya.MOD_ID;
     }
 }

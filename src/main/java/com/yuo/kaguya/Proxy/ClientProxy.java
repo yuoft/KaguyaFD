@@ -30,7 +30,7 @@ public class ClientProxy implements IProxy {
     public void clientSetup(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             setRemorseRodProperty(ModItems.remorseRod.get());
-            setSukimaGapProperty(ModItems.sukimaGap.get());
+//            setSukimaGapProperty(ModItems.sukimaGap.get());
             MenuScreens.register(ModMenuTypes.DANMAKU_CRAFT.get(), DanmakuCraftScreen::new);
         });
 //        ItemBlockRenderTypes.setRenderLayer(OreCropBlocks.customSapling.get(), RenderType.cutout());
@@ -38,8 +38,7 @@ public class ClientProxy implements IProxy {
 
     private void setRemorseRodProperty(Item item){
         ItemProperties.register(item, KaguyaUtils.fa("fix"), (stack, clientWorld, living, i)
-                -> living != null && stack.areShareTagsEqual(living.getItemInHand(InteractionHand.MAIN_HAND))
-                && stack.getDamageValue() > 0 ? 1.0F : 0.0F);
+                -> living != null && stack.getDamageValue() > 0 ? 1.0F : 0.0F);
     }
 
     private void setSukimaGapProperty(Item item){

@@ -1,10 +1,10 @@
 package com.yuo.kaguya.Entity;
 
 import com.yuo.kaguya.Item.ModItems;
+import com.yuo.kaguya.Item.Prpo.GapFoldingUmbrella;
 import com.yuo.kaguya.Item.Prpo.SukimaGap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -16,7 +16,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -28,9 +27,10 @@ import java.util.List;
 public class GapEntity extends Entity {
     public static final EntityType<GapEntity> TYPE = EntityType.Builder.<GapEntity>of(GapEntity::new, MobCategory.MISC)
             .sized(0.5f, 0.5f).clientTrackingRange(6).updateInterval(10).fireImmune().build("gap");
-    private static final int maxTick = 800;
+    private static final int maxTick = 20 * 60 * 5; //临时隙间持续时间 5m
     private static final String NBT_COLOR = "kaguya:gapEntity_color";
     private int coolTime; //传送冷却
+    private boolean isTicking;
     protected static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(GapEntity.class, EntityDataSerializers.INT);
 
     public GapEntity(EntityType<?> type, Level level) {
@@ -58,14 +58,14 @@ public class GapEntity extends Entity {
         }
 
         if (!level.isClientSide) {
-//            if (this.tickCount >= maxTick) this.removeData();
+            if (isTicking() && this.tickCount >= maxTick) this.removeData();
 
             if (this.coolTime > 0) this.coolTime--;
         }else {
             if (this.tickCount % 20 == 0 && level.random.nextFloat() < 0.1f) {
                 Vec3 position = position();
-                for (int i = 0; i < 10; i++){
-                    level.addParticle(ParticleTypes.PORTAL, position.x, position.y + 0.5, position.z, 0.01D, 0.01D, 0.01D);
+                for (int i = 0; i < 20; i++){
+                    level.addParticle(ParticleTypes.PORTAL, position.x, position.y + 0.5, position.z, random.nextGaussian(), random.nextGaussian(), random.nextGaussian());
                 }
             }
         }
@@ -76,7 +76,7 @@ public class GapEntity extends Entity {
      */
     public void removeData(){
         KaguyaLevelSaveData saveData = KaguyaLevelSaveData.get(level());
-        saveData.removePos(uuid);
+        saveData.removeData(uuid);
         this.discard();
     }
 
@@ -90,8 +90,8 @@ public class GapEntity extends Entity {
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
+        Level level = level();
         if (stack.getItem() instanceof SukimaGap){ //回收隙间
-            Level level = level();
             if (!level.isClientSide()){
                 this.removeData();
                 if (!player.getAbilities().instabuild){
@@ -106,7 +106,14 @@ public class GapEntity extends Entity {
                     }
                 }
             }
-
+            player.playSound(SoundEvents.ENCHANTMENT_TABLE_USE);
+        }else if (stack.getItem() instanceof GapFoldingUmbrella){
+            if (!level.isClientSide()){
+                this.removeData();
+                if (!player.getAbilities().instabuild){
+                    stack.setDamageValue(Math.max(0, stack.getDamageValue() - 1));
+                }
+            }
             player.playSound(SoundEvents.ENCHANTMENT_TABLE_USE);
         }
         return super.interact(player, hand);
@@ -130,6 +137,31 @@ public class GapEntity extends Entity {
     @Override
     public boolean shouldBeSaved() {
         return true; // 实体将被保存到世界文件中
+    }
+
+    @Override
+    public void onAddedToWorld() {
+        super.onAddedToWorld();
+
+//        // 注册到保存数据
+//        if (!level().isClientSide) {
+//            KaguyaLevelSaveData saveData = KaguyaLevelSaveData.get(level());
+//            saveData.addGapData(getUUID(), blockPosition(), getColor(), level().dimension());
+//
+//            // 更新实体状态
+//            saveData.updateEntityState(getUUID(), level().dimension(), blockPosition(), true);
+//        }
+    }
+
+    @Override
+    public void onRemovedFromWorld() {
+        super.onRemovedFromWorld();
+
+//        // 更新实体状态为未加载
+//        if (!level().isClientSide) {
+//            KaguyaLevelSaveData saveData = KaguyaLevelSaveData.get(level());
+//            saveData.updateEntityState(getUUID(), level().dimension(), blockPosition(), false);
+//        }
     }
 
     @Override
@@ -166,6 +198,14 @@ public class GapEntity extends Entity {
 
     public void setCoolTime(int coolTime) {
         this.coolTime = coolTime;
+    }
+
+    public boolean isTicking() {
+        return isTicking;
+    }
+
+    public void setTicking(boolean ticking) {
+        isTicking = ticking;
     }
 
     public boolean isTpCool(){

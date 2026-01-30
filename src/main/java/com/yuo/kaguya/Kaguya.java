@@ -29,6 +29,11 @@ public class Kaguya {
         ModMenuTypes.MENU_TYPES.register(modEventBus);
         ModTileTypes.BLOCK_ENTITY_TYPES.register(modEventBus);
         proxy.registerHandlers();
+
+        /**
+         * 隙间同色传送
+         * 光弹
+         */
     }
 
     /**

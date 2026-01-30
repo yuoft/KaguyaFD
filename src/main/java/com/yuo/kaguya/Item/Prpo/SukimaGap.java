@@ -11,6 +11,8 @@ import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -22,6 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.phys.AABB;
 
 import javax.annotation.Nullable;
@@ -68,7 +71,7 @@ public class SukimaGap extends KaguyaPrpo implements ModNoDataGenItem, ModColorC
             if (!level.isClientSide) {
                 level.addFreshEntity(gap);
                 KaguyaLevelSaveData saveData = KaguyaLevelSaveData.get(level);
-                saveData.addPos(gap.getUUID(), spawnPos);
+                saveData.addGapData(gap.getUUID(), spawnPos, gap.getColor(), level.dimension());
             }
             if (level.isClientSide){
                 player.playSound(SoundEvents.ENDERMAN_TELEPORT);
@@ -81,14 +84,14 @@ public class SukimaGap extends KaguyaPrpo implements ModNoDataGenItem, ModColorC
     }
 
     //是否可放置实体
-    private static boolean isSpawn(Level level, BlockPos pos) {
+    public static boolean isSpawn(Level level, BlockPos pos) {
         return level.getBlockState(pos).isAir() || level.getBlockState(pos).canBeReplaced();
     }
 
     /**
      * 当前坐标是否存在隙间
      */
-    private static boolean hasGapEntity(Level level, BlockPos pos) {
+    public static boolean hasGapEntity(Level level, BlockPos pos) {
         AABB aabb = new AABB(pos);
         List<GapEntity> entityList = level.getEntitiesOfClass(GapEntity.class, aabb);
         return !entityList.isEmpty();

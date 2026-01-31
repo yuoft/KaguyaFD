@@ -1,0 +1,14 @@
+{
+    "parent": "minecraft:item/handheld",
+    "textures": {
+        "layer0": "kaguya:item/weapon/hisyaku_1"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "kaguya:water": 1
+            },
+            "model": "kaguya:item/hisyaku_water"
+        }
+    ]
+}

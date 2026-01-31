@@ -83,7 +83,7 @@ public class ModItems {
 	public static RegistryObject<Item> yuyukoOugi = ITEMS.register("yuyuko_ougi", YuyukoFan::new);
 	public static RegistryObject<Item> kabenuke = ITEMS.register("kabenuke", WallPassingChisel::new);
 	public static RegistryObject<Item> gapFoldingUmbrella = ITEMS.register("gap_folding_umbrella", GapFoldingUmbrella::new);
-	public static RegistryObject<Item> hisyaku0 = ITEMS.register("hisyaku_0",() -> new KaguyaWeapon(Tiers.DIAMOND));
+	public static RegistryObject<Item> hisyaku = ITEMS.register("hisyaku", Hisyaku::new);
 	public static RegistryObject<Item> kappaWaterPistol = ITEMS.register("kappa_water_pistol", () -> new KaguyaWeapon(Tiers.DIAMOND));
 	public static RegistryObject<Item> magicBroom = ITEMS.register("magic_broom", () -> new KaguyaWeapon(Tiers.DIAMOND));
 	public static RegistryObject<Item> nuclearControlRod = ITEMS.register("nuclear_control_rod", () -> new KaguyaWeapon(Tiers.DIAMOND));

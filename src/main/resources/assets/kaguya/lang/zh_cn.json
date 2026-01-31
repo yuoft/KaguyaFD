@@ -32,7 +32,7 @@
 	"item.kaguya.hakurouken": "白楼剑",
 	"item.kaguya.heavenly_peach": "天界之桃",
 	"item.kaguya.hisou_sword": "绯想之剑",
-	"item.kaguya.hisyaku_0": "lang",
+	"item.kaguya.hisyaku": "船幽灵的长勺",
 	"item.kaguya.homing_amulet": "追踪灵符",
 	"item.kaguya.hotoke_hachi": "佛御石之钵",
 	"item.kaguya.hourai_eda": "蓬莱玉枝",
@@ -109,6 +109,7 @@
 	"entity.kaguya.beam_laser": "光束激光",
 	"entity.kaguya.danmaku_laser": "激光",
 	"entity.kaguya.gap": "隙间",
+	"entity.kaguya.gap_0": "临时隙间",
 
 	"container.kaguya.danmaku_craft": "弹幕工作台",
 
@@ -123,6 +124,9 @@
 	"text.kaguya.koyasugai.1": "蓬莱山辉夜所出符卡 \"难题「燕的子安贝 -永命线-」(難題「燕の子安貝　-永命線-」)\"与\"神宝「Life Spring Infinity(无限的生命之泉)」(神宝「ライフスプリングインフィニティ」)\"",
 	"text.kaguya.aaa.1": "无",
 
+	"info.kaguya.hisyaku.water_num": "容量：%s格",
+	"info.kaguya.hisyaku.true": "模式：吸水",
+	"info.kaguya.hisyaku.false": "模式：放水",
 	"info.kaguya.gap.color": "颜色：",
 	"info.kaguya.sukima_gap.no_tp": "无法传送!",
 	"info.kaguya.third_eye.entity": "实体名称：%s",

@@ -166,7 +166,7 @@ public class KaguyaLevelSaveData extends SavedData {
                 if (entity instanceof GapEntity gapEntity){
                     gapEntity.setCoolTime(20);
                 }
-                tpPos = data.getPos().relative(gap.getDirection().getClockWise(), 2);
+                tpPos = data.getPos().relative(gap.getDirection().getClockWise(), 1);
                 if (!dimension.equals(level.dimension())){ //跨纬度传送
                     ServerLevel level1 = level.getServer().getLevel(dimension);
                     if (level1 != null) {

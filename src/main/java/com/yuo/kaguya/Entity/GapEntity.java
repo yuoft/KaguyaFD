@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -29,9 +30,10 @@ public class GapEntity extends Entity {
             .sized(0.5f, 0.5f).clientTrackingRange(6).updateInterval(10).fireImmune().build("gap");
     private static final int maxTick = 20 * 60 * 5; //临时隙间持续时间 5m
     private static final String NBT_COLOR = "kaguya:gapEntity_color";
+    private static final String NBT_IS_TICKING = "kaguya:gapEntity_is_ticking";
     private int coolTime; //传送冷却
-    private boolean isTicking;
     protected static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(GapEntity.class, EntityDataSerializers.INT);
+    protected static final EntityDataAccessor<Boolean> IS_TICKING = SynchedEntityData.defineId(GapEntity.class, EntityDataSerializers.BOOLEAN);
 
     public GapEntity(EntityType<?> type, Level level) {
         super(type, level);
@@ -82,7 +84,7 @@ public class GapEntity extends Entity {
 
     @Override
     public void playerTouch(Player player) {
-        if (!isTpCool()){
+        if (this.getBoundingBox().intersects(player.getBoundingBox()) && !isTpCool()){
             KaguyaLevelSaveData.tpEntity(player, this, level());
         }
     }
@@ -117,6 +119,16 @@ public class GapEntity extends Entity {
             player.playSound(SoundEvents.ENCHANTMENT_TABLE_USE);
         }
         return super.interact(player, hand);
+    }
+
+    @Override
+    public Component getName() {
+        return isTicking() ? Component.translatable("entity.kaguya.gap_0") : super.getName();
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return isTicking() ? Component.translatable("entity.kaguya.gap_0") : super.getDisplayName();
     }
 
     @Override
@@ -201,11 +213,11 @@ public class GapEntity extends Entity {
     }
 
     public boolean isTicking() {
-        return isTicking;
+        return this.entityData.get(IS_TICKING);
     }
 
     public void setTicking(boolean ticking) {
-        isTicking = ticking;
+        this.entityData.set(IS_TICKING, ticking);
     }
 
     public boolean isTpCool(){
@@ -223,17 +235,20 @@ public class GapEntity extends Entity {
     @Override
     protected void defineSynchedData() {
         this.entityData.define(COLOR, -1);
+        this.entityData.define(IS_TICKING, false);
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         if (tag.contains(NBT_COLOR)) {
             this.entityData.set(COLOR, tag.getInt(NBT_COLOR));
+            this.entityData.set(IS_TICKING, tag.getBoolean(NBT_IS_TICKING));
         }
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
         tag.putInt(NBT_COLOR, this.entityData.get(COLOR));
+        tag.putBoolean(NBT_IS_TICKING, this.entityData.get(IS_TICKING));
     }
 }

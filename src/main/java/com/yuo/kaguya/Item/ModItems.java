@@ -55,7 +55,7 @@ public class ModItems {
 	public static RegistryObject<Item> hotokeHachi = ITEMS.register("hotoke_hachi", StoneBowl::new);
 	public static RegistryObject<Item> sukimaGap = ITEMS.register("sukima_gap", SukimaGap::new);
 	public static RegistryObject<Item> thirdEye = ITEMS.register("third_eye", Eye3rd::new);
-	public static RegistryObject<Item> pendulum = ITEMS.register("pendulum", KaguyaPrpo::new);
+	public static RegistryObject<Item> pendulum = ITEMS.register("pendulum", NazrinPendulum::new);
 	public static RegistryObject<Item> miniHakkero = ITEMS.register("mini_hakkero", MiniHakkero::new);
 	public static RegistryObject<Item> bloodOnmyoudama = ITEMS.register("blood_onmyoudama", YinYangOrb::new);
 

@@ -38,7 +38,7 @@ public class LaserRenderer extends EntityRenderer<DanmakuLaser> {
         float yaw = Mth.rotLerp(partialTicks, laser.yRotO, laser.getYRot()) * (Mth.PI / 180f);
         float pitch = Mth.lerp(partialTicks, laser.xRotO, laser.getXRot()) * (Mth.PI / 180f);
         this.laserModel.setupAnim(pitch, yaw);
-        this.laserModel.renderToBuffer(poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, color.getFloatRed(), color.getFloatGreen(), color.getFloatBlue(), 0.75f);
+        this.laserModel.renderToBuffer(poseStack, buffer, 15728880, OverlayTexture.NO_OVERLAY, color.getFloatRed(), color.getFloatGreen(), color.getFloatBlue(), 0.75f);
         poseStack.popPose();
 
         super.render(laser, entityYaw, partialTicks, poseStack, bufferSource, packedLight);

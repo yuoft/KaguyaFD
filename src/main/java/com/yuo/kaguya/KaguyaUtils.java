@@ -1,5 +1,6 @@
 package com.yuo.kaguya;
 
+import net.minecraft.ResourceLocationException;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
@@ -24,6 +25,14 @@ public class KaguyaUtils {
 
     public static ResourceLocation def(String path) {
         return new ResourceLocation(path);
+    }
+
+    public static ResourceLocation tayParse(String path) {
+        try {
+            return new ResourceLocation(path);
+        } catch (ResourceLocationException var2) {
+            return null;
+        }
     }
 
     /**

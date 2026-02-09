@@ -4,12 +4,12 @@ import com.google.gson.JsonObject;
 import com.yuo.kaguya.Entity.DanmakuColor;
 import com.yuo.kaguya.Item.ModColorItemUtils;
 import com.yuo.kaguya.Item.ModItems;
-import com.yuo.kaguya.Item.Prpo.SukimaGap;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -178,6 +178,28 @@ public class ModDataRecipes extends RecipeProvider {
         spawnColorRecipe(consumer, ModItems.sukimaGap.get());
         spawnColorRecipe(consumer, ModItems.gapFoldingUmbrella.get());
         spawnColorRecipe(consumer, ModItems.silverKnife.get());
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.pendulum.get(), 1)
+                .define('x', Items.IRON_INGOT).define('y', Items.DIAMOND)
+                .pattern(" x ").pattern("x x").pattern(" y ")
+                .unlockedBy("has_item", has(ModItems.pendulum.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.houraiEda.get(), 1)
+                .define('x', ModItems.houraiPearlYellow.get()).define('y', ModItems.houraiPearlRed.get()).define('z', ModItems.houraiPearlBlue.get())
+                .define('m', ModItems.houraiPearlGreen.get()).define('n', ModItems.houraiPearlPurple.get()).define('a', Items.GOLD_INGOT)
+                .pattern("xyz").pattern("man").pattern(" a ")
+                .unlockedBy("has_item", has(ModItems.houraiEda.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.ryuuTama.get(), 1)
+                .define('x', Items.GLOWSTONE).define('y', Items.WATER_BUCKET).define('z', Items.LAVA_BUCKET)
+                .define('m', ModItems.houraiPearlAqua.get())
+                .pattern("xyx").pattern("zmz").pattern("xyx")
+                .unlockedBy("has_item", has(ModItems.ryuuTama.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.kinkakuzi.get(), 1)
+                .define('x', ItemTags.PLANKS).define('y', Items.GOLD_BLOCK)
+                .pattern("xxx").pattern("yyy").pattern("   ")
+                .unlockedBy("has_item", has(ModItems.kinkakuzi.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.aja_red_stone.get(), 1)
+                .define('x', ModItems.houraiPearlRed.get())
+                .pattern("xxx").pattern("xxx").pattern("xxx")
+                .unlockedBy("has_item", has(ModItems.aja_red_stone.get())).save(consumer);
 
         //弹幕
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.crystalShot.get(), 4)

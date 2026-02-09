@@ -11,17 +11,23 @@ import com.yuo.kaguya.Tile.ModTileTypes;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod("kaguya")
 public class Kaguya {
 	public static final String MOD_ID = "kaguya";
     public static final IProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
-	public Kaguya() {
+	@SuppressWarnings("removal")
+    public Kaguya() {
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SERVER_CONFIG); //配置文件
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		//注册至mod总线
+        modEventBus.addListener(this::commonSetup);
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModTabs.TABS.register(modEventBus);
@@ -31,9 +37,12 @@ public class Kaguya {
         proxy.registerHandlers();
 
         /**
-         * 隙间同色传送
          * 光弹
          */
+    }
+
+    private void commonSetup(final FMLCommonSetupEvent event) {
+        Config.loadConfig();
     }
 
     /**

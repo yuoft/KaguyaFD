@@ -26,6 +26,7 @@ public class MarisaHelmet extends ArmorItem {
         super(ModArmorMaterials.MARISA, Type.HELMET, new Properties().stacksTo(1).durability(648));
     }
 
+    @SuppressWarnings("removal")
     @Override
     public void onArmorTick(ItemStack stack, Level level, Player player) {
         if (level.getDayTime() % 10 == 0) {

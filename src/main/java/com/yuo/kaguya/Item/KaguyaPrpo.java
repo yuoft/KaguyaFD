@@ -37,5 +37,8 @@ public class KaguyaPrpo extends Item {
         if (item == ModItems.mazinKyoukan.get()){
             components.add(Component.translatable("text.kaguya.mazin_kyoukan.1"));
         }
+        if (item == ModItems.aja_red_stone.get()){
+            components.add(Component.translatable("text.kaguya.aja_red_stone.1"));
+        }
     }
 }

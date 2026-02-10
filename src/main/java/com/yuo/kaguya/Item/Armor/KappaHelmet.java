@@ -37,6 +37,7 @@ public class KappaHelmet extends ArmorItem {
         return super.getAttributeModifiers(slot, stack);
     }
 
+    @SuppressWarnings("removal")
     @Override
     public void onArmorTick(ItemStack stack, Level level, Player player) {
         if (level.isRaining() && stack.getDamageValue() > 0 && level.getDayTime() % 20 == 0){

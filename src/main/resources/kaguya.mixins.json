@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "com.yuo.kaguya.Mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "kaguya.refmap.json",
+  "plugin": "com.yuo.kaguya.Mixin.MixinPlugin",
+  "mixins": [
+    "LightBoltRenderMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

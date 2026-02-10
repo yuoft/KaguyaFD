@@ -13,6 +13,7 @@ public class FireRatRobe extends ArmorItem {
         super(ModArmorMaterials.FIRE_RAT, Type.CHESTPLATE, new Properties().stacksTo(1).durability(232).fireResistant());
     }
 
+    @SuppressWarnings("removal")
     @Override
     public void onArmorTick(ItemStack stack, Level level, Player player) {
         if (!player.isCreative() && player.getRemainingFireTicks() > 0) {

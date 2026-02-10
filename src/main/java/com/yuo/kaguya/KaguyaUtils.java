@@ -18,6 +18,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("removal")
 public class KaguyaUtils {
     public static ResourceLocation fa(String path) {
         return new ResourceLocation(Kaguya.MOD_ID, path);

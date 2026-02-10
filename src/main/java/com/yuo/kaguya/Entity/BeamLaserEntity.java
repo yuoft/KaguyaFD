@@ -1,8 +1,5 @@
 package com.yuo.kaguya.Entity;
 
-import com.yuo.kaguya.KaguyaUtils;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -10,18 +7,18 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Fireball;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.List;
 
 public class BeamLaserEntity extends Entity {
+    public static final EntityType<BeamLaserEntity> TYPE = EntityType.Builder.<BeamLaserEntity>of(BeamLaserEntity::new, MobCategory.MISC)
+            .sized(0.5f, 0.5f).clientTrackingRange(32).updateInterval(1).build("beam_laser");
     // 用于数据同步的字段
     protected static final EntityDataAccessor<Float> START_X = SynchedEntityData.defineId(BeamLaserEntity.class, EntityDataSerializers.FLOAT);
     protected static final EntityDataAccessor<Float> START_Y = SynchedEntityData.defineId(BeamLaserEntity.class, EntityDataSerializers.FLOAT);
@@ -32,7 +29,7 @@ public class BeamLaserEntity extends Entity {
     protected static final EntityDataAccessor<Integer> AGE = SynchedEntityData.defineId(BeamLaserEntity.class, EntityDataSerializers.INT);
     protected static final EntityDataAccessor<Float> LENGTH = SynchedEntityData.defineId(BeamLaserEntity.class, EntityDataSerializers.FLOAT);
     protected static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(BeamLaserEntity.class, EntityDataSerializers.INT);
-    private final int maxAge = 200; // 存在1秒（20 ticks）
+    private int maxAge;
     private float damage;
     private Player owner;
     private Vec3 startPos;
@@ -40,6 +37,7 @@ public class BeamLaserEntity extends Entity {
     private Vec3 explosionPos;
     private double length;
     private int age = 0;
+    private boolean isExplosion;
 
     public BeamLaserEntity(EntityType<?> type, Level level) {
         super(type, level);
@@ -50,6 +48,9 @@ public class BeamLaserEntity extends Entity {
         this.explosionPos = Vec3.ZERO;
         this.length = 10.0;
         this.damage = 5.0f;
+        this.setExplosion(true);
+        this.setAge(0);
+        this.setMaxAge(200);
     }
 
     public BeamLaserEntity(Level level, Player owner, Vec3 startPos, Vec3 direction, Vec3 explosionPos, DanmakuColor color, double length) {
@@ -69,10 +70,12 @@ public class BeamLaserEntity extends Entity {
         // 设置实体位置为起点
         this.setPos(startPos.x, startPos.y, startPos.z);
         this.setAge(0);
+        this.setMaxAge(200);
         this.setStartPos(this.startPos);
         this.setLaserDirection(this.laserDirection);
         this.setLength((float) this.length);
         this.setColor(color);
+        this.setExplosion(true);
     }
 
     @Override
@@ -109,7 +112,7 @@ public class BeamLaserEntity extends Entity {
      * 爆炸
      */
     private void spawnExplosion(){
-        if (this.explosionPos == null) return;
+        if (this.explosionPos == null || !this.isExplosion()) return;
         level().explode(this, explosionPos.x, explosionPos.y, explosionPos.z,16f, ExplosionInteraction.BLOCK);
     }
 
@@ -221,6 +224,18 @@ public class BeamLaserEntity extends Entity {
 
     public int getMaxAge() {
         return maxAge;
+    }
+
+    public void setMaxAge(int maxAge) {
+        this.maxAge = maxAge;
+    }
+
+    public boolean isExplosion() {
+        return isExplosion;
+    }
+
+    public void setExplosion(boolean explosion) {
+        isExplosion = explosion;
     }
 
     // 序列化/反序列化方法

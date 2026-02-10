@@ -21,6 +21,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
  */
 public class ClientProxy implements IProxy {
 
+    @SuppressWarnings("removal")
     @Override
     public void registerHandlers() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();

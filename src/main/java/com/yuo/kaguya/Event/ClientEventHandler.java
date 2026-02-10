@@ -11,6 +11,8 @@ import com.yuo.kaguya.Item.Prpo.SukimaGap;
 import com.yuo.kaguya.Item.Weapon.SilverKnife;
 import com.yuo.kaguya.Kaguya;
 import net.minecraft.client.renderer.OutlineBufferSource;
+import net.minecraft.client.renderer.entity.BoatRenderer;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.Item;
@@ -39,6 +41,9 @@ public class ClientEventHandler {
         event.registerEntityRenderer(ModEntityTypes.DANMAKU_LASER.get(), LaserRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.BEAM_LASER.get(), BeamLaserRender::new);
         event.registerEntityRenderer(ModEntityTypes.GAP.get(), GapRender::new);
+        event.registerEntityRenderer(ModEntityTypes.KINKAKU_JI.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.GOLD_BOAT.get(), GoldBoatRender::new);
+        event.registerEntityRenderer(ModEntityTypes.DRAGON_NECK.get(), ThrownItemRenderer::new);
     }
 
     @SubscribeEvent

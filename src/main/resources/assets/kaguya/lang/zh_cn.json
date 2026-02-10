@@ -66,7 +66,6 @@
 	"item.kaguya.yuuka_parasol": "幽香的阳伞",
 	"item.kaguya.yuyuko_ougi": "幽幽子的扇子",
 	"item.kaguya.blood_onmyoudama": "渴望鲜血的阴阳玉",
-
 	"item.kaguya.silver_knife": "女仆小刀",
 
 	"item.kaguya.arrow_shot": "箭弹",
@@ -107,9 +106,13 @@
 	"entity.kaguya.danmaku_laser": "激光",
 	"entity.kaguya.gap": "隙间",
 	"entity.kaguya.gap_0": "临时隙间",
+	"entity.kaguya.kinkaku_ji": "金天花板",
+	"entity.kaguya.gold_raft": "金阁寺的一块天花板",
+	"entity.kaguya.dragon_neck": "闪电球",
 
 	"container.kaguya.danmaku_craft": "弹幕工作台",
 
+	"text.kaguya.aja_red_stone.1": "蓬莱山辉夜所出的新难题[艾哲红石]",
 	"text.kaguya.sukima_gap.1": "八云紫操纵空间的能力，能开辟一个内部充斥着眼睛的空间裂缝",
 	"text.kaguya.third_eye.1": "古明地觉的第三只眼",
 	"text.kaguya.kabenuke.1": "霍青娥发中所插的簪子",
@@ -121,6 +124,7 @@
 	"text.kaguya.koyasugai.1": "蓬莱山辉夜所出符卡 \"难题「燕的子安贝 -永命线-」(難題「燕の子安貝　-永命線-」)\"与\"神宝「Life Spring Infinity(无限的生命之泉)」(神宝「ライフスプリングインフィニティ」)\"",
 	"text.kaguya.aaa.1": "无",
 
+	"info.kaguya.aja_red_stone.no_light": "无法聚光！",
 	"info.kaguya.hisyaku.water_num": "容量：%s格",
 	"info.kaguya.hisyaku.true": "模式：吸水",
 	"info.kaguya.hisyaku.false": "模式：放水",

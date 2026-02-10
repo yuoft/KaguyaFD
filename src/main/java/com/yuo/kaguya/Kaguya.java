@@ -35,10 +35,6 @@ public class Kaguya {
         ModMenuTypes.MENU_TYPES.register(modEventBus);
         ModTileTypes.BLOCK_ENTITY_TYPES.register(modEventBus);
         proxy.registerHandlers();
-
-        /**
-         * 光弹
-         */
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

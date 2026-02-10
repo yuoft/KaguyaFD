@@ -1,4 +1,4 @@
-package com.yuo.kaguya.Item.Weapon;
+package com.yuo.kaguya.Item.Prpo;
 
 import com.yuo.kaguya.Entity.BeamLaserEntity;
 import com.yuo.kaguya.Entity.DanmakuColor;

@@ -9,8 +9,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 
-import java.util.Random;
-
 public class YuyukoFan extends KaguyaWeapon {
 
     public YuyukoFan() {
@@ -19,7 +17,7 @@ public class YuyukoFan extends KaguyaWeapon {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        DanmakuShootHelper.fanShapedShotDanmakuFly(level, player, 11, DanmakuColor.random(level.random));
+        DanmakuShootHelper.shootFanShapedDanmakuFly(level, player, 11, DanmakuColor.random(level.random));
         player.getCooldowns().addCooldown(this, 10);
         return super.use(level, player, hand);
     }

@@ -79,10 +79,10 @@ public abstract class LightBoltRenderMixin {
                             lvt_28_1_ *= (float)(n - 1) * 0.1F + 1.0F;
                         }
 
-                        endlessSword$quad(matrix4f, buffer, lvt_18_1_, lvt_19_1_, n, lvt_21_1_, lvt_22_1_, lvt_25_1_, lvt_25_1_, lvt_23_1_, lvt_27_1_, lvt_28_1_, false, false, true, false);
-                        endlessSword$quad(matrix4f, buffer, lvt_18_1_, lvt_19_1_, n, lvt_21_1_, lvt_22_1_, lvt_25_1_, lvt_25_1_, lvt_23_1_, lvt_27_1_, lvt_28_1_, true, false, true, true);
-                        endlessSword$quad(matrix4f, buffer, lvt_18_1_, lvt_19_1_, n, lvt_21_1_, lvt_22_1_, lvt_25_1_, lvt_25_1_, lvt_23_1_, lvt_27_1_, lvt_28_1_, true, true, false, true);
-                        endlessSword$quad(matrix4f, buffer, lvt_18_1_, lvt_19_1_, n, lvt_21_1_, lvt_22_1_, lvt_25_1_, lvt_25_1_, lvt_23_1_, lvt_27_1_, lvt_28_1_, false, true, false, false);
+                        kaguyaFD$quad(matrix4f, buffer, lvt_18_1_, lvt_19_1_, n, lvt_21_1_, lvt_22_1_, lvt_25_1_, lvt_25_1_, lvt_23_1_, lvt_27_1_, lvt_28_1_, false, false, true, false);
+                        kaguyaFD$quad(matrix4f, buffer, lvt_18_1_, lvt_19_1_, n, lvt_21_1_, lvt_22_1_, lvt_25_1_, lvt_25_1_, lvt_23_1_, lvt_27_1_, lvt_28_1_, true, false, true, true);
+                        kaguyaFD$quad(matrix4f, buffer, lvt_18_1_, lvt_19_1_, n, lvt_21_1_, lvt_22_1_, lvt_25_1_, lvt_25_1_, lvt_23_1_, lvt_27_1_, lvt_28_1_, true, true, false, true);
+                        kaguyaFD$quad(matrix4f, buffer, lvt_18_1_, lvt_19_1_, n, lvt_21_1_, lvt_22_1_, lvt_25_1_, lvt_25_1_, lvt_23_1_, lvt_27_1_, lvt_28_1_, false, true, false, false);
                     }
                 }
             }
@@ -91,7 +91,7 @@ public abstract class LightBoltRenderMixin {
     }
 
     @Unique
-    private static void endlessSword$quad(Matrix4f matrix4f, VertexConsumer consumer, float v, float v1, int i, float v2, float v3, float v4, float v5, float v6, float v7, float v8, boolean b, boolean b2, boolean b3, boolean b4) {
+    private static void kaguyaFD$quad(Matrix4f matrix4f, VertexConsumer consumer, float v, float v1, int i, float v2, float v3, float v4, float v5, float v6, float v7, float v8, boolean b, boolean b2, boolean b3, boolean b4) {
         Random random = new Random();
         float r1 = random.nextFloat();
         float g1 = random.nextFloat();

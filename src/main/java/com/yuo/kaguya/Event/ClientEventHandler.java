@@ -1,5 +1,7 @@
 package com.yuo.kaguya.Event;
 
+import com.yuo.endless.Entity.EntityRegistry;
+import com.yuo.endless.Entity.InfinityMobEntity;
 import com.yuo.kaguya.Client.Model.*;
 import com.yuo.kaguya.Client.Render.*;
 import com.yuo.kaguya.Entity.ModEntityTypes;
@@ -20,6 +22,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegistryObject;
@@ -44,6 +47,7 @@ public class ClientEventHandler {
         event.registerEntityRenderer(ModEntityTypes.KINKAKU_JI.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.GOLD_BOAT.get(), GoldBoatRender::new);
         event.registerEntityRenderer(ModEntityTypes.DRAGON_NECK.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.FROZEN_STATUE.get(), IceStatueRender::new);
     }
 
     @SubscribeEvent
@@ -79,4 +83,5 @@ public class ClientEventHandler {
         event.registerLayerDefinition(LaserModel.LAYER_LOCATION, LaserModel::createBodyLayer);
         event.registerLayerDefinition(GapModel.LAYER_LOCATION, GapModel::createBodyLayer);
     }
+
 }

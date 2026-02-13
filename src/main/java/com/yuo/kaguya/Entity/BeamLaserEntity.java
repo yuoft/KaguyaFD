@@ -100,7 +100,8 @@ public class BeamLaserEntity extends Entity {
         }
 
         try {
-            checkCollision();
+            if (tickCount % 2 == 0)
+                checkCollision();
         } catch (NullPointerException e) {
             // 如果发生NPE，记录错误并销毁实体
             System.err.println("BeamLaserEntity NPE in checkCollision: " + e.getMessage());

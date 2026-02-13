@@ -86,6 +86,11 @@ public class DanmakuBase extends ThrowableItemProjectile {
     }
 
     @Override
+    public boolean fireImmune() {
+        return true;
+    }
+
+    @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DANMAKU_TYPE, DanmakuType.TINY_BALL.ordinal());

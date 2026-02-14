@@ -32,5 +32,7 @@ public class ModEntityTypes {
             () -> GoldRaftEntity.TYPE);
     public static final RegistryObject<EntityType<DragonNeckEntity>> DRAGON_NECK = ENTITY_TYPES.register("dragon_neck",
             () -> DragonNeckEntity.TYPE);
+    public static final RegistryObject<EntityType<IceStatueEntity>> FROZEN_STATUE = ENTITY_TYPES.register("frozen_statue",
+            () -> IceStatueEntity.TYPE);
 
 }

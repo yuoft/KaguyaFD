@@ -24,4 +24,10 @@ public class ModRenderType extends RenderType {
                 .createCompositeState(true);
         return create("kaguya_heart_circle", DefaultVertexFormat.POSITION_COLOR_TEX, Mode.QUADS, 256, true, false, state);
     });
+
+    public static RenderType getIceCrackRenderType(ResourceLocation crackTex) {
+        RenderStateShard.TextureStateShard textureState = new TextureStateShard(crackTex, false, false);
+        RenderType.CompositeState rendererState = RenderType.CompositeState.builder().setTextureState(textureState).setShaderState(RenderType.RENDERTYPE_ENTITY_CUTOUT_SHADER).setTransparencyState(TRANSLUCENT_TRANSPARENCY).setDepthTestState(EQUAL_DEPTH_TEST).setCullState(NO_CULL).setLightmapState(LIGHTMAP).setOverlayState(OVERLAY).createCompositeState(false);
+        return create("ice_entity_type_crack", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, rendererState);
+    }
 }

@@ -1,5 +1,6 @@
 package com.yuo.kaguya.Event;
 
+import com.yuo.kaguya.Entity.IceStatueEntity;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Kaguya;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -7,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
@@ -14,22 +16,27 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Entity.RemovalReason;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
@@ -40,10 +47,32 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Kaguya.MOD_ID)
 public class ModEventHandler {
+    private static final RandomSource RANDOM = RandomSource.create();
 
     @SubscribeEvent
-    public static void onRightEntity(EntityInteract event){
+    public static void onAttackEntity(AttackEntityEvent event){
+        Entity target = event.getTarget();
+        Player player = event.getEntity();
+        Level level = event.getEntity().level();
+        if (target instanceof IceStatueEntity iceStatue) { //冰雕破坏
+            ItemStack handItem = player.getMainHandItem();
+            if (handItem.is(ItemTags.PICKAXES)){
+                iceStatue.playSound(SoundEvents.GLASS_HIT,2, 0.5F + (RANDOM.nextFloat() - RANDOM.nextFloat()) * 0.2F + 0.5F);
+                event.setCanceled(true);
 
+                iceStatue.setCrackAmount(iceStatue.getCrackAmount() + 1);
+                if (iceStatue.getCrackAmount() > 9){
+                    CompoundTag tag = new CompoundTag();
+                    iceStatue.saveWithoutId(tag);
+                    iceStatue.playSound(SoundEvents.GLASS_BREAK);
+                    if (!level.isClientSide()){
+                        iceStatue.spawnAtLocation(new ItemStack(Items.ICE), 1);
+                    }
+
+                    iceStatue.remove(RemovalReason.KILLED);
+                }
+            }
+        }
     }
 
     //添加附魔

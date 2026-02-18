@@ -29,6 +29,7 @@ public class DanmakuCraftTile extends BaseContainerBlockEntity {
     public static void serverTick(Level level, BlockPos pos, BlockState state, DanmakuCraftTile danmakuCraftTile) {
         ItemStack base = danmakuCraftTile.getItem(3);
         if (base.isEmpty()) {
+            danmakuCraftTile.setItem(4, ItemStack.EMPTY);
             return;
         }
         if (base.getItem() instanceof ModColorCraftItem) {
@@ -92,7 +93,7 @@ public class DanmakuCraftTile extends BaseContainerBlockEntity {
      * 判断材料格是否有物品
      */
     public boolean isInputEmpty(){
-        for (int i = 0; i < 3; i++) {
+        for (int i = 1; i < 3; i++) {
             if (!stacks.get(i).isEmpty()) return false;
         }
         return true;

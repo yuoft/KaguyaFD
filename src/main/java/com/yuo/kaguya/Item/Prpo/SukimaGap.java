@@ -44,7 +44,7 @@ public class SukimaGap extends KaguyaPrpo implements ModNoDataGenItem, ModColorC
             BlockPos pos = player.getOnPos();
             if (!level.isClientSide) {
                 living.teleportTo(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
-                living.hurt(DanmakuDamageTypes.danmaku(null, player), 1);
+                living.hurt(DanmakuDamageTypes.danmaku(player), 1);
             }
             if (level.isClientSide){
                 player.playSound(SoundEvents.ENDERMAN_TELEPORT);

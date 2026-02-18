@@ -39,9 +39,11 @@ public class ModColorItemUtils {
         if (tag.contains(NBT_COLOR)) {
             String color = tag.getString(NBT_COLOR);
             return DanmakuColor.getColor(color);
+        }else {
+           setColor(stack, DanmakuColor.GRAY);
         }
 
-        return null;
+        return DanmakuColor.GRAY;
     }
 
     /**

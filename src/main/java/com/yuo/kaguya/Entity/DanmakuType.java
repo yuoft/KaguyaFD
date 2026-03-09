@@ -27,6 +27,7 @@ public enum DanmakuType {
     MIDDLE_LASER(2, 3f,true, "middle_laser"), // 激光
     SHORT_LASER(1, 1.5f,true, "short_laser"), // 短激光
     WIND(0, 3f,true, "wind"), // 风弹
+    YINYANG_ORB(0.5, 3f,true, "yinyang_orb"), // 阴阳玉
     ;
 
     private final double size; //弹幕尺寸 或 其他用途

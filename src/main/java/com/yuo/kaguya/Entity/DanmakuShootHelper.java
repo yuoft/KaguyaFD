@@ -130,6 +130,17 @@ public class DanmakuShootHelper {
     }
 
     /**
+     * 发射阴阳玉
+     * @param maxRebound 最大反弹次数
+     */
+    public static void shootDanmakuOrb(Level level, LivingEntity living, float vel, float ina, float size, int maxRebound){
+        YinYangOrbEntity shot = new YinYangOrbEntity(level, living, size, maxRebound);
+        shot.setSize(size);
+        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel * 2, ina);
+        addEntityAndSound(level, living, shot);
+    }
+
+    /**
      * 随机发射单独渲染弹幕
      * @param level 世界
      * @param living 发射实体

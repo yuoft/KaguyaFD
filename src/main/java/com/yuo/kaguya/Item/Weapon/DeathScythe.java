@@ -53,7 +53,9 @@ public class DeathScythe extends KaguyaWeapon {
                 player.getCooldowns().addCooldown(this, cooldown);
 
                 int damageValue = (int) Math.ceil(chargeRatio * 10);
-                stack.hurtAndBreak(damageValue, player, e -> e.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+                if (!player.getAbilities().instabuild) {
+                    stack.hurtAndBreak(damageValue, player, e -> e.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+                }
 
                 // 播放音效（音调随蓄力变化）
                 float pitch = isPushing ? 0.8F + chargeRatio * 0.4F : 1.2F - chargeRatio * 0.4F;

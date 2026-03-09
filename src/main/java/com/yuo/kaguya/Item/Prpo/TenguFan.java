@@ -19,7 +19,7 @@ public class TenguFan extends KaguyaPrpo {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (!level.isClientSide()) {
-            DanmakuShootHelper.shootDanmakuWindPush(level, player, 0.25f, 0.1f, DanmakuColor.ORANGE, 1.0f);
+            DanmakuShootHelper.shootDanmakuWindPush(level, player, 0.35f, 0.1f, DanmakuColor.ORANGE, 1.0f);
             player.getCooldowns().addCooldown(this, 20);
             player.playSound(SoundEvents.ENCHANTMENT_TABLE_USE);
 

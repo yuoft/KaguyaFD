@@ -39,6 +39,7 @@ public class WindEntity extends DanmakuBase {
     @Override
     public void tick() {
         super.tick();
+        if (level().isClientSide) return;
         if (tickCount % 2 == 0 && !isPull()) moveEntity();
     }
 

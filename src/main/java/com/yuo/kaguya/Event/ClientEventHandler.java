@@ -48,6 +48,7 @@ public class ClientEventHandler {
         event.registerEntityRenderer(ModEntityTypes.GOLD_BOAT.get(), GoldBoatRender::new);
         event.registerEntityRenderer(ModEntityTypes.DRAGON_NECK.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.FROZEN_STATUE.get(), IceStatueRender::new);
+        event.registerEntityRenderer(ModEntityTypes.YINYANG_ORB.get(), YinYangOrbRenderer::new);
     }
 
     @SubscribeEvent

@@ -70,7 +70,7 @@ public class ModItems {
 	public static RegistryObject<Item> silverKnife = ITEMS.register("silver_knife", SilverKnife::new);
 	public static RegistryObject<Item> deathScythe = ITEMS.register("death_scythe", DeathScythe::new);
 	public static RegistryObject<Item> gungnir = ITEMS.register("gungnir", () -> new KaguyaWeapon(Tiers.DIAMOND));
-	public static RegistryObject<Item> hakureiOharaibou = ITEMS.register("hakurei_oharaibou", () -> new KaguyaWeapon(Tiers.DIAMOND));
+	public static RegistryObject<Item> hakureiOharaibou = ITEMS.register("hakurei_oharaibou", HakureiReimuStick::new);
 	public static RegistryObject<Item> hakurouken = ITEMS.register("hakurouken", () -> new KaguyaWeapon(Tiers.DIAMOND));
 	public static RegistryObject<Item> hisouSword = ITEMS.register("hisou_sword", HisouSword::new);
 	public static RegistryObject<Item> icicleSword = ITEMS.register("icicle_sword", IceSword::new);

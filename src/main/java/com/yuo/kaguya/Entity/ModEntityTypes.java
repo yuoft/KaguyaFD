@@ -21,6 +21,8 @@ public class ModEntityTypes {
             () -> DanmakuLaser.TYPE);
     public static final RegistryObject<EntityType<WindEntity>> WIND = ENTITY_TYPES.register("wind",
             () -> WindEntity.TYPE);
+    public static final RegistryObject<EntityType<YinYangOrbEntity>> YINYANG_ORB = ENTITY_TYPES.register("yinyang_orb",
+            () -> YinYangOrbEntity.TYPE);
 
     public static final RegistryObject<EntityType<BeamLaserEntity>> BEAM_LASER = ENTITY_TYPES.register("beam_laser",
             () -> BeamLaserEntity.TYPE);

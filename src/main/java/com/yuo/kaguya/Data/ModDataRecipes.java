@@ -213,6 +213,10 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('a', Items.STICK)
                 .pattern("xyx").pattern("zyy").pattern("azx")
                 .unlockedBy("has_item", has(ModItems.tenguFan.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.hakureiOharaibou.get(), 1)
+                .define('x', Items.PAPER).define('y', ModItems.onmyoudama.get()).define('z', Items.STICK)
+                .pattern("xxy").pattern(" zx").pattern("z x")
+                .unlockedBy("has_item", has(ModItems.hakureiOharaibou.get())).save(consumer);
 
         //弹幕
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.crystalShot.get(), 4)

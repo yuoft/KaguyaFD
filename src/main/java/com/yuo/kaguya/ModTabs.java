@@ -46,6 +46,10 @@ public class ModTabs {
 							ItemStack stack = new ItemStack(item);
 //							GapFoldingUmbrella.setColor(stack, DyeColor.GRAY);
 							output.accept(stack);
+						}else if ((item == ModItems.yuukaParasol.get())){
+							ItemStack stack = new ItemStack(item);
+							stack.enchant(Enchantments.KNOCKBACK, 3);
+							output.accept(stack);
 						}
 						else output.accept(new ItemStack(item));
 					}

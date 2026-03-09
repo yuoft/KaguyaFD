@@ -6,6 +6,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -13,12 +14,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class WindEntity extends DanmakuBase {
     public static final EntityType<WindEntity> TYPE = EntityType.Builder.<WindEntity>of(WindEntity::new, MobCategory.MISC)
             .sized(0.25F, 0.25f).clientTrackingRange(6).updateInterval(10).noSave().build("wind");
 
+    protected boolean isPull;
     public WindEntity(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
         super(entityType, level);
     }
@@ -36,7 +39,18 @@ public class WindEntity extends DanmakuBase {
     @Override
     public void tick() {
         super.tick();
-        if (tickCount % 2 == 0) moveEntity();
+        if (tickCount % 2 == 0 && !isPull()) moveEntity();
+    }
+
+    @Override
+    protected void knockbackTarget(LivingEntity target) {
+        if (isPull()){
+            double d0 = Math.max(0.001, 1.0 - target.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
+            Vec3 vec3 = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize().scale(5 * d0);
+            if (vec3.lengthSqr() > 0.0) {
+                target.push(vec3.x, 0.25, vec3.z);
+            }
+        }else super.knockbackTarget(target);
     }
 
     /**
@@ -112,5 +126,13 @@ public class WindEntity extends DanmakuBase {
                 }
             }
         }
+    }
+
+    public boolean isPull() {
+        return isPull;
+    }
+
+    public void setPull(boolean pull) {
+        isPull = pull;
     }
 }

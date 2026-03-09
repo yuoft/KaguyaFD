@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:item/handheld",
+    "textures": {
+        "layer0": "kaguya:item/weapon/yuuka_parasol_open"
+    }
+}

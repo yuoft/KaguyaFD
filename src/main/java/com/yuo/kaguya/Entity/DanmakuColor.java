@@ -12,11 +12,11 @@ public enum DanmakuColor {
     MAGENTA(0xff00fe, "magenta"), //品红色
     LIGHT_BLUE(0x007fff, "light_blue"), //淡蓝色
     YELLOW(0xfeff00, "yellow"),
-    LIME(0x7fff00, "lime"), //淡绿色
+    LIME(0x7fff00, "lime"), //黄绿色
     PINK(0xff007f, "pink"), //粉色
     GRAY(0x8c8c8c, "gray"), //灰色
     LIGHT_GRAY(0xd3c9d3, "light_gray"), //淡灰色
-    CYAN(0x1dfeff, "cyan"), //青绿色
+    CYAN(0x1dfeff, "cyan"), //青色
     PURPLE(0x7f00ff, "purple"), //紫色
     BLUE(0x0000ff, "blue"),
     BROWN(0x8b5d13, "brown"), //棕色

@@ -79,7 +79,7 @@ public class ModItems {
 	public static RegistryObject<Item> onbashira = ITEMS.register("onbashira", Onbashira::new);
 	public static RegistryObject<Item> roukanSword = ITEMS.register("roukan_sword", Roukanken::new);
 	public static RegistryObject<Item> toyosatomimiSword = ITEMS.register("toyosatomimi_sword", SacredSword::new);
-	public static RegistryObject<Item> yuukaParasol = ITEMS.register("yuuka_parasol", () -> new KaguyaWeapon(Tiers.DIAMOND));
+	public static RegistryObject<Item> yuukaParasol = ITEMS.register("yuuka_parasol", YuukaParasol::new);
 	public static RegistryObject<Item> yuyukoOugi = ITEMS.register("yuyuko_ougi", YuyukoFan::new);
 	public static RegistryObject<Item> kabenuke = ITEMS.register("kabenuke", WallPassingChisel::new);
 	public static RegistryObject<Item> gapFoldingUmbrella = ITEMS.register("gap_folding_umbrella", GapFoldingUmbrella::new);
@@ -87,7 +87,7 @@ public class ModItems {
 	public static RegistryObject<Item> kappaWaterPistol = ITEMS.register("kappa_water_pistol", () -> new KaguyaWeapon(Tiers.DIAMOND));
 	public static RegistryObject<Item> magicBroom = ITEMS.register("magic_broom", () -> new KaguyaWeapon(Tiers.DIAMOND));
 	public static RegistryObject<Item> nuclearControlRod = ITEMS.register("nuclear_control_rod", () -> new KaguyaWeapon(Tiers.DIAMOND));
-	public static RegistryObject<Item> tenguFan = ITEMS.register("tengu_fan", () -> new KaguyaWeapon(Tiers.DIAMOND));
+	public static RegistryObject<Item> tenguFan = ITEMS.register("tengu_fan", TenguFan::new);
 	public static RegistryObject<Item> uchidenoKoduchi = ITEMS.register("uchideno_koduchi", () -> new KaguyaWeapon(Tiers.DIAMOND));
 	public static RegistryObject<Item> mikoStick = ITEMS.register("miko_stick", WindStick::new);
 

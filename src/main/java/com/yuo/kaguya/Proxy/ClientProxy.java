@@ -5,6 +5,7 @@ import com.yuo.kaguya.Item.ModColorItemUtils;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Item.Prpo.Hisyaku;
 import com.yuo.kaguya.Item.Prpo.SukimaGap;
+import com.yuo.kaguya.Item.Weapon.YuukaParasol;
 import com.yuo.kaguya.Menu.ModMenuTypes;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -33,6 +34,7 @@ public class ClientProxy implements IProxy {
         event.enqueueWork(() -> {
             setRemorseRodProperty(ModItems.remorseRod.get());
             setHisyakuProperty(ModItems.hisyaku.get());
+            setParasolProperty(ModItems.yuukaParasol.get());
             MenuScreens.register(ModMenuTypes.DANMAKU_CRAFT.get(), DanmakuCraftScreen::new);
         });
 //        ItemBlockRenderTypes.setRenderLayer(OreCropBlocks.customSapling.get(), RenderType.cutout());
@@ -46,5 +48,10 @@ public class ClientProxy implements IProxy {
     private void setHisyakuProperty(Item item){
         ItemProperties.register(item, KaguyaUtils.fa("water"), (stack, clientWorld, living, i)
                 -> living != null && stack.getOrCreateTag().getInt(Hisyaku.NBT_WATER_NUM) > 0 ? 1.0F : 0.0F);
+    }
+
+    private void setParasolProperty(Item item){
+        ItemProperties.register(item, KaguyaUtils.fa("open"), (stack, clientWorld, living, i)
+                -> living != null && YuukaParasol.isOpen(stack) ? 1.0F : 0.0F);
     }
 }

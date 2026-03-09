@@ -22,7 +22,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -35,11 +34,11 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.ItemCraftedEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -48,6 +47,27 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = Kaguya.MOD_ID)
 public class ModEventHandler {
     private static final RandomSource RANDOM = RandomSource.create();
+
+    @SubscribeEvent
+    public static void onTick(PlayerTickEvent event){
+        Player player = event.player;
+        if (isPlayerFalling(player)){
+            ItemStack mainHandItem = player.getMainHandItem();
+            ItemStack offhandItem = player.getOffhandItem();
+
+            boolean flag = false;
+
+            if (mainHandItem.getItem() == ModItems.yuukaParasol.get()) {
+                flag = true;
+            }else if (offhandItem.getItem() == ModItems.yuukaParasol.get()) {
+                flag = true;
+            }
+
+            if (flag) {
+                player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 0, 0));
+            }
+        }
+    }
 
     @SubscribeEvent
     public static void onAttackEntity(AttackEntityEvent event){
@@ -86,6 +106,8 @@ public class ModEventHandler {
             crafting.enchant(Enchantments.ALL_DAMAGE_PROTECTION, 5);
         }else if (item == ModItems.suwakoHead.get()){
             crafting.enchant(Enchantments.THORNS, 10);
+        }else if (item == ModItems.yuukaParasol.get()){
+            crafting.enchant(Enchantments.KNOCKBACK, 3);
         }
     }
 
@@ -177,5 +199,25 @@ public class ModEventHandler {
         }
 
         return ItemStack.EMPTY;
+    }
+
+    /**
+     * 玩家是否处于下落状态
+     */
+    public static boolean isPlayerFalling(Player player) {
+        // 基础检查：不在地面上，且垂直速度为负
+        if (player.onGround() || player.getDeltaMovement().y >= 0) {
+            return false;
+        }
+
+        // 额外检查：排除攀爬、游泳、飞行等状态
+        //  在梯子上或藤蔓上 在水中 使用鞘翅滑翔
+        if (player.isVisuallyCrawling() || player.isInWater() || player.isFallFlying()) {
+            return false;
+        }
+
+        if (player.getAbilities().mayfly) return false;
+
+        return !player.getAbilities().instabuild && !player.level().isClientSide; //生存模式
     }
 }

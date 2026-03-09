@@ -31,7 +31,7 @@ public class WindRenderer extends EntityRenderer<WindEntity> {
         poseStack.translate(0.0D, -1, 0.0D);
         poseStack.mulPose(Axis.YP.rotationDegrees(mul));
 
-        this.model.renderToBuffer(poseStack, buffer.getBuffer(RenderType.entityTranslucent(TEXTURE)), packedLight, OverlayTexture.NO_OVERLAY, 1,1,1,1f);
+        this.model.renderToBuffer(poseStack, buffer.getBuffer(RenderType.entityTranslucent(TEXTURE)), packedLight, OverlayTexture.NO_OVERLAY, color.getFloatRed(),color.getFloatGreen(),color.getFloatBlue(),0.8f);
         poseStack.popPose();
         super.render(wind, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }

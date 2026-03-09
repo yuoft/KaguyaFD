@@ -2,6 +2,7 @@ package com.yuo.kaguya.Entity;
 
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Item.Weapon.DanmakuDamageTypes;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
@@ -19,7 +20,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
@@ -34,6 +38,7 @@ public class DanmakuBase extends ThrowableItemProjectile {
     protected DanmakuType danmakuType;
     protected DanmakuColor danmakuColor;
     protected boolean isDanmakuPierce; //是否在击中实体后销毁
+    protected boolean isSpawnFlower; //是否在落在草地后生成花
     protected static final EntityDataAccessor<Integer> DANMAKU_TYPE = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.INT); //弹幕类型--圆，方，星。。。
     protected static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.INT); //弹幕颜色
     protected static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.FLOAT); //弹幕攻击伤害
@@ -123,7 +128,7 @@ public class DanmakuBase extends ThrowableItemProjectile {
                     }
 
                     if (!level().isClientSide) {
-                        this.knockbackTarget(owner, target);
+                        this.knockbackTarget(target);
                         this.doDamageEffects(owner, target);
                         if (!isDanmakuPierce()) this.discard();
                     }
@@ -132,10 +137,86 @@ public class DanmakuBase extends ThrowableItemProjectile {
         }
     }
 
+    @Override
+    protected void onHitBlock(BlockHitResult result) {
+        super.onHitBlock(result);
+
+        BlockPos pos = result.getBlockPos();
+        Level level = level();
+        if (!level.isClientSide) {
+            BlockState state = level.getBlockState(pos);
+            if (state.getBlock() == Blocks.GRASS_BLOCK && this.isSpawnFlower){
+                BlockPos above = pos.above();
+                DanmakuColor color = this.getColor();
+                BlockState flowerByColor = getFlowerByColor(color);
+                level.setBlockAndUpdate(above, flowerByColor);
+                this.discard();
+            }
+        }
+    }
+
+    /**
+     * 根据弹幕颜色在草地上生成对应的花
+     */
+    private BlockState getFlowerByColor(DanmakuColor color) {
+        BlockState state;
+        switch (color) {
+            case WHITE:
+                state = Blocks.LILY_OF_THE_VALLEY.defaultBlockState();
+                break; // 白色 -> 铃兰
+            case ORANGE:
+                state = Blocks.ORANGE_TULIP.defaultBlockState();
+                break; // 橙色 -> 橙色郁金香
+            case MAGENTA:
+                state = Blocks.ALLIUM.defaultBlockState();
+                break; //绒球葱
+            case LIGHT_BLUE:
+                state = Blocks.BLUE_ORCHID.defaultBlockState();
+                break;  // 淡蓝色 -> 兰花
+            case YELLOW:
+                state = Blocks.DANDELION.defaultBlockState();
+                break; // 黄色 -> 蒲公英
+            case PINK:
+                state = Blocks.PINK_TULIP.defaultBlockState();
+                break; // 粉红色郁金香
+
+            // 淡灰色 -> 滨菊 或 蓝花美耳草 或 白色郁金香
+            case LIGHT_GRAY: {
+                int r = random.nextInt(3);
+                if (r == 0) state = Blocks.OXEYE_DAISY.defaultBlockState();    // 滨菊
+                else if (r == 1) state = Blocks.AZURE_BLUET.defaultBlockState(); // 蓝花美耳草
+                else state = Blocks.WHITE_TULIP.defaultBlockState();          // 白色郁金香
+            }
+            break;
+            case BLUE:
+                state = Blocks.CORNFLOWER.defaultBlockState();
+                break;  // 蓝色 -> 矢车菊
+            case GREEN:
+                state = Blocks.FERN.defaultBlockState();
+                break;    // 蕨
+
+            // 红色 -> 红色郁金香 或 虞美人
+            case RED: {
+                int r = random.nextInt(2);
+                if (r == 0) state = Blocks.RED_TULIP.defaultBlockState();    // 红色郁金香
+                else state = Blocks.POPPY.defaultBlockState();    // 虞美人
+            }
+            break;
+            case BLACK:
+                state = Blocks.WITHER_ROSE.defaultBlockState();
+                break; // 黑色 -> 凋零玫瑰
+
+            default:
+                state = Blocks.DEAD_BUSH.defaultBlockState();
+                break; // 默认 -> 枯萎灌木
+        }
+        return state;
+    }
+
     /**
      * 弹幕击退
      */
-    private void knockbackTarget(LivingEntity owner, LivingEntity target) {
+    protected void knockbackTarget(LivingEntity target) {
         double d0 = Math.max(0.0, 1.0 - target.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
         Vec3 vec3 = this.getDeltaMovement().multiply(1.0, 0.0, 1.0).normalize().scale(0.2 * d0);
         if (vec3.lengthSqr() > 0.0) {
@@ -217,5 +298,13 @@ public class DanmakuBase extends ThrowableItemProjectile {
 
     public void setDanmakuPierce(boolean danmakuPierce) {
         isDanmakuPierce = danmakuPierce;
+    }
+
+    public boolean isSpawnFlower() {
+        return isSpawnFlower;
+    }
+
+    public void setSpawnFlower(boolean spawnFlower) {
+        isSpawnFlower = spawnFlower;
     }
 }

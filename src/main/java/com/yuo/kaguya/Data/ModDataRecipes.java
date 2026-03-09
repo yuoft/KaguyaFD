@@ -9,7 +9,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -30,7 +29,7 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', ModItems.smallPotion.get())
                 .pattern("xxx").pattern("xxx").pattern("xxx")
                 .unlockedBy("has_item", has(ModItems.bigPotion.get())).save(consumer);
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.danmakuMaterial.get(), 64).requires(Items.GLOWSTONE_DUST).requires(Items.GUNPOWDER)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.danmakuMaterial.get(), 64).requires(Items.GLOWSTONE_DUST).requires(Items.GUNPOWDER).requires(Items.AMETHYST_SHARD)
                 .unlockedBy("has_item", has(ModItems.danmakuMaterial.get())).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.extend.get(), 1)
                 .define('x', ModItems.smallPotion.get()).define('y', Items.TOTEM_OF_UNDYING)
@@ -204,6 +203,16 @@ public class ModDataRecipes extends RecipeProvider {
 //                .define('x', Items.BLUE_ICE).define('x', ModItems.houraiPearlAqua.get())
 //                .pattern("  x").pattern("xx ").pattern("yx ")
 //                .unlockedBy("has_item", has(ModItems.icicleSword.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.yuukaParasol.get(), 1)
+                .define('x', ItemTags.SMALL_FLOWERS).define('y', ItemTags.TALL_FLOWERS).define('z', ModItems.houraiPearlOrange.get())
+                .define('a', Items.IRON_INGOT)
+                .pattern("xyz").pattern(" ay").pattern("a x")
+                .unlockedBy("has_item", has(ModItems.yuukaParasol.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.tenguFan.get(), 1)
+                .define('x', Items.ORANGE_DYE).define('y', Items.RED_DYE).define('z', ItemTags.LEAVES)
+                .define('a', Items.STICK)
+                .pattern("xyx").pattern("zyy").pattern("azx")
+                .unlockedBy("has_item", has(ModItems.tenguFan.get())).save(consumer);
 
         //弹幕
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.crystalShot.get(), 4)

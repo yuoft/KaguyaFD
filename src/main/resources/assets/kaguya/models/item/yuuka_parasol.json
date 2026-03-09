@@ -1,0 +1,14 @@
+{
+    "parent": "minecraft:item/handheld",
+    "textures": {
+        "layer0": "kaguya:item/weapon/yuuka_parasol"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "kaguya:open": 1
+            },
+            "model": "kaguya:item/yuuka_parasol_open"
+        }
+    ]
+}

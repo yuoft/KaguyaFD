@@ -38,6 +38,17 @@ public class DanmakuShootHelper {
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
         addEntityAndSound(level, living, shot);
     }
+    /**
+     * 直线发射落地生成花的弹幕--圆形
+     */
+    public static void shootDanmakuFlower(Level level, LivingEntity living, float vel, float ina, DanmakuColor color, DanmakuType type){
+        DanmakuBase shot = new DanmakuBase(level, living, type, color);
+        shot.setSpawnFlower(true);
+        shot.setGravityVelocity(0.01f);
+        shot.setColor(color);
+        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
+        addEntityAndSound(level, living, shot);
+    }
 
     /**
      * 直线发射弹幕--蝶形
@@ -90,6 +101,17 @@ public class DanmakuShootHelper {
         WindEntity shot = new WindEntity(level, living, color);
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
         shot.setDamage(damage);
+        addEntityAndSound(level, living, shot);
+    }
+
+    /**
+     * 直线发射大击退弹幕--旋风
+     */
+    public static void shootDanmakuWindPush(Level level, LivingEntity living, float vel, float ina, DanmakuColor color, float damage){
+        WindEntity shot = new WindEntity(level, living, color);
+        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
+        shot.setDamage(damage);
+        shot.setPull(true);
         addEntityAndSound(level, living, shot);
     }
 

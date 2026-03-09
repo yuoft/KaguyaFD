@@ -48,7 +48,6 @@ public class YinYangOrbEntity extends DanmakuBase{
 
     @Override
     protected void onHitBlock(BlockHitResult result) {
-        if (this.level().isClientSide) return;
         if (this.reboundNum >= MAX_REBOUND) {
             this.discard();
             return;
@@ -80,8 +79,6 @@ public class YinYangOrbEntity extends DanmakuBase{
     protected void onHitEntity(EntityHitResult result) {
         // 调用父类方法处理伤害
         super.onHitEntity(result);
-
-        if (this.level().isClientSide) return;
 
         // 如果弹幕没有销毁（可能是穿透模式），则进行反弹
         if (this.isAlive()) {

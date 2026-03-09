@@ -33,7 +33,7 @@ public class HakureiReimuStick extends KaguyaWeapon {
             float chargeRatio = KaguyaUtils.getChargeRatio(this.getUseDuration(stack), timeLeft, 40);
 
             if (!level.isClientSide) {
-                DanmakuShootHelper.shootDanmakuOrb(level, player, DanmakuShootHelper.VAL_DEF / 4, DanmakuShootHelper.INA_DEF, chargeRatio, 5);
+                DanmakuShootHelper.shootDanmakuOrb(level, player, DanmakuShootHelper.VAL_DEF / 4, DanmakuShootHelper.INA_DEF, chargeRatio, 10);
 
                 player.getCooldowns().addCooldown(this, 20);
                 if (!player.getAbilities().instabuild) {

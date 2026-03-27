@@ -23,6 +23,8 @@ public class ModEntityTypes {
             () -> WindEntity.TYPE);
     public static final RegistryObject<EntityType<YinYangOrbEntity>> YINYANG_ORB = ENTITY_TYPES.register("yinyang_orb",
             () -> YinYangOrbEntity.TYPE);
+    public static final RegistryObject<EntityType<BigOrbEntity>> BIG_ORB = ENTITY_TYPES.register("big_orb",
+            () -> BigOrbEntity.TYPE);
 
     public static final RegistryObject<EntityType<BeamLaserEntity>> BEAM_LASER = ENTITY_TYPES.register("beam_laser",
             () -> BeamLaserEntity.TYPE);

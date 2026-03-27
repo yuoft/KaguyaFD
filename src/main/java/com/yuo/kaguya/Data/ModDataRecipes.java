@@ -9,9 +9,11 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -217,6 +219,15 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', Items.PAPER).define('y', ModItems.onmyoudama.get()).define('z', Items.STICK)
                 .pattern("xxy").pattern(" zx").pattern("z x")
                 .unlockedBy("has_item", has(ModItems.hakureiOharaibou.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.kappaWaterPistol.get(), 1)
+                .define('x', Items.LAPIS_LAZULI).define('y', Tags.Items.GLASS).define('z', Items.PISTON)
+                .define('a', Items.TRIPWIRE_HOOK).define('b', Items.GLASS_BOTTLE)
+                .pattern("xxx").pattern("yyz").pattern(" ab")
+                .unlockedBy("has_item", has(ModItems.kappaWaterPistol.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.nuclearControlRod.get(), 1)
+                .define('x', Items.BLAZE_ROD).define('y', Items.OBSIDIAN)
+                .pattern("xyx").pattern("xyx").pattern("xyx")
+                .unlockedBy("has_item", has(ModItems.nuclearControlRod.get())).save(consumer);
 
         //弹幕
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.crystalShot.get(), 4)

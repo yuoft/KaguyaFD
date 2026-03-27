@@ -38,7 +38,6 @@ public class YinYangOrbEntity extends DanmakuBase{
         this.setDanmakuType(this.danmakuType);
         this.setColor(this.danmakuColor);
         this.setGravityVelocity(0.01f);
-        this.setMaxTicksExisted(MAX_TICKS_EXISTED);
         this.setDanmakuPierce(true);
         this.setDamage(size * 2 * danmakuType.getDamage());
         this.MAX_REBOUND = MAX_REBOUND;

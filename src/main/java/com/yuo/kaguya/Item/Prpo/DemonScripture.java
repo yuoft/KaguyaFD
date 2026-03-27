@@ -37,7 +37,7 @@ public class DemonScripture extends KaguyaPrpo {
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity living, int i) {
         if (living instanceof Player player) {
-            float chargeRatio = KaguyaUtils.getChargeRatio(getUseDuration(stack), i, 40);
+            float chargeRatio = KaguyaUtils.getChargeRatio(getUseDuration(stack), i);
             ItemStack itemByPlayer = KaguyaUtils.findItemByPlayer(player, Items.REDSTONE_BLOCK);
             if (chargeRatio > 0.1f){
                 boolean hasExp = player.experienceLevel >= 5 || player.isCreative();

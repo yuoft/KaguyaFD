@@ -39,7 +39,7 @@ public class YinYangOrb extends KaguyaPrpo {
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity living, int i) {
         if (living instanceof Player player) {
-            float chargeRatio = KaguyaUtils.getChargeRatio(getUseDuration(stack), i, 40);
+            float chargeRatio = KaguyaUtils.getChargeRatio(getUseDuration(stack), i);
             if (chargeRatio > 0.1f){
                 Entity entity = KaguyaUtils.getHitEntity(player.getEyePosition(), player.getViewVector(1.0f), level, player, 64);
                 if (entity instanceof LivingEntity le) {

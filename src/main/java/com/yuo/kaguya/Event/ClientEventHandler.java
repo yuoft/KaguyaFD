@@ -4,6 +4,7 @@ import com.yuo.endless.Entity.EntityRegistry;
 import com.yuo.endless.Entity.InfinityMobEntity;
 import com.yuo.kaguya.Client.Model.*;
 import com.yuo.kaguya.Client.Render.*;
+import com.yuo.kaguya.Entity.BigOrbEntity;
 import com.yuo.kaguya.Entity.ModEntityTypes;
 import com.yuo.kaguya.Item.ModColorItemUtils;
 import com.yuo.kaguya.Item.ModItems;
@@ -49,6 +50,7 @@ public class ClientEventHandler {
         event.registerEntityRenderer(ModEntityTypes.DRAGON_NECK.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.FROZEN_STATUE.get(), IceStatueRender::new);
         event.registerEntityRenderer(ModEntityTypes.YINYANG_ORB.get(), YinYangOrbRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.BIG_ORB.get(), BigOrbRenderer::new);
     }
 
     @SubscribeEvent

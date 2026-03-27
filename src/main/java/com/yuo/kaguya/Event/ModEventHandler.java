@@ -7,6 +7,7 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
@@ -43,6 +44,8 @@ import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = Kaguya.MOD_ID)
 public class ModEventHandler {
@@ -170,14 +173,14 @@ public class ModEventHandler {
      */
     @OnlyIn(Dist.CLIENT)
     public static void playTotem(ItemStack stack, Entity entity) {
-        Minecraft instance = Minecraft.getInstance();
-        ClientLevel world = instance.level;
-        if (world != null) {
-            instance.particleEngine.createTrackingEmitter(entity, ParticleTypes.TOTEM_OF_UNDYING, 30);
+        Minecraft mc = Minecraft.getInstance();
+        ClientLevel world = mc.level;
+        if (world != null){
+            mc.particleEngine.createTrackingEmitter(entity, ParticleTypes.TOTEM_OF_UNDYING, 30);
             world.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundEvents.TOTEM_USE, entity.getSoundSource(), 1.0F, 1.0F, false);
-            instance.gameRenderer.displayItemActivation(stack);
+            if (mc.player == entity)
+                mc.gameRenderer.displayItemActivation(stack);
         }
-
     }
 
     /**

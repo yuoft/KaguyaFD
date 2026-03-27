@@ -1,7 +1,6 @@
 package com.yuo.kaguya.Item.Weapon;
 
 import com.yuo.kaguya.Entity.DanmakuShootHelper;
-import com.yuo.kaguya.Item.KaguyaPrpo;
 import com.yuo.kaguya.Item.KaguyaWeapon;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.world.InteractionHand;
@@ -30,10 +29,10 @@ public class HakureiReimuStick extends KaguyaWeapon {
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
         if (entity instanceof Player player) {
-            float chargeRatio = KaguyaUtils.getChargeRatio(this.getUseDuration(stack), timeLeft, 40);
+            float chargeRatio = KaguyaUtils.getChargeRatio(this.getUseDuration(stack), timeLeft);
 
             if (!level.isClientSide) {
-                DanmakuShootHelper.shootDanmakuOrb(level, player, DanmakuShootHelper.VAL_DEF / 4, DanmakuShootHelper.INA_DEF, chargeRatio, 10);
+                DanmakuShootHelper.shootDanmakuYYOrb(level, player, DanmakuShootHelper.VAL_DEF / 4, DanmakuShootHelper.INA_DEF, chargeRatio, 10);
 
                 player.getCooldowns().addCooldown(this, 20);
                 if (!player.getAbilities().instabuild) {

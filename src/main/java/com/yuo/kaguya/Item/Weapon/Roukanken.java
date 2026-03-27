@@ -58,7 +58,7 @@ public class Roukanken extends KaguyaWeapon {
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
         if (entity instanceof Player player) {
-            float chargeRatio = KaguyaUtils.getChargeRatio(this.getUseDuration(stack), timeLeft, 40);
+            float chargeRatio = KaguyaUtils.getChargeRatio(this.getUseDuration(stack), timeLeft);
             if (chargeRatio >= 0.2f) {
                 // 执行冲锋
                 performCharge(level, player, chargeRatio);

@@ -5,6 +5,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
@@ -38,6 +39,7 @@ public class DanmakuShootHelper {
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
         addEntityAndSound(level, living, shot);
     }
+
     /**
      * 直线发射落地生成花的弹幕--圆形
      */
@@ -46,6 +48,17 @@ public class DanmakuShootHelper {
         shot.setSpawnFlower(true);
         shot.setGravityVelocity(0.01f);
         shot.setColor(color);
+        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
+        addEntityAndSound(level, living, shot);
+    }
+
+    /**
+     * 直线发射重力弹幕--圆形
+     */
+    public static void shootDanmakuGravity(Level level, LivingEntity living, float vel, float ina, DanmakuType type){
+        DanmakuBase shot = new DanmakuBase(level, living, type, DanmakuColor.BLUE);
+        shot.setGravityVelocity(0.01f);
+        shot.setColor(DanmakuColor.BLUE);
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
         addEntityAndSound(level, living, shot);
     }
@@ -116,7 +129,6 @@ public class DanmakuShootHelper {
     }
 
     /**
-     *
      * 直线发射弹幕--激光
      * @param living 发射实体
      * @param vel 速度
@@ -133,11 +145,35 @@ public class DanmakuShootHelper {
      * 发射阴阳玉
      * @param maxRebound 最大反弹次数
      */
-    public static void shootDanmakuOrb(Level level, LivingEntity living, float vel, float ina, float size, int maxRebound){
+    public static void shootDanmakuYYOrb(Level level, LivingEntity living, float vel, float ina, float size, int maxRebound){
         YinYangOrbEntity shot = new YinYangOrbEntity(level, living, size, maxRebound);
         shot.setSize(size);
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel * 2, ina);
         addEntityAndSound(level, living, shot);
+    }
+
+    /**
+     * 发射爆炸大玉
+     */
+    public static void shootDanmakuBigOrb(Level level, LivingEntity living, float vel, float ina, float size){
+        BigOrbEntity shot = new BigOrbEntity(level, living, size);
+        shot.setSize(size);
+        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel * 2, ina);
+        addEntityAndSound(level, living, shot);
+
+        // 后坐力
+        if (!level.isClientSide){
+            // 计算击退方向（玩家面朝方向的相反方向）
+            Vec3 lookVec = living.getLookAngle();
+            double knockbackX = -lookVec.x * size * 1.5;
+            double knockbackZ = -lookVec.z * size * 1.5;
+            double knockbackY = -lookVec.y * size * 1.5;
+
+            // 使用原版击退方法
+            living.knockback(size * 1.5, -lookVec.x, -lookVec.z);
+            living.setDeltaMovement(living.getDeltaMovement().add(knockbackX, knockbackY, knockbackZ));
+            living.hurtMarked = true;
+        }
     }
 
     /**

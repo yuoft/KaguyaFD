@@ -3,8 +3,7 @@ package com.yuo.kaguya.Client.Render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import com.yuo.kaguya.Entity.DanmakuColor;
-import com.yuo.kaguya.Entity.DanmakuType;
+import com.yuo.kaguya.Entity.BigOrbEntity;
 import com.yuo.kaguya.Entity.YinYangOrbEntity;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -16,15 +15,15 @@ import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
-public class YinYangOrbRenderer extends EntityRenderer<YinYangOrbEntity> {
-    private static final ResourceLocation TEXTURE = KaguyaUtils.fa("textures/entity/yy_orb.png");
+public class BigOrbRenderer extends EntityRenderer<BigOrbEntity> {
+    private static final ResourceLocation TEXTURE = KaguyaUtils.fa("textures/entity/big_orb.png");
 
-    public YinYangOrbRenderer(EntityRendererProvider.Context context) {
+    public BigOrbRenderer(EntityRendererProvider.Context context) {
         super(context);
     }
 
     @Override
-    public void render(YinYangOrbEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLight) {
+    public void render(BigOrbEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLight) {
         float size = entity.getSize();
 
         poseStack.pushPose();
@@ -48,7 +47,7 @@ public class YinYangOrbRenderer extends EntityRenderer<YinYangOrbEntity> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(YinYangOrbEntity entity) {
+    public ResourceLocation getTextureLocation(BigOrbEntity entity) {
         return TEXTURE;
     }
 

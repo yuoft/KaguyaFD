@@ -75,6 +75,17 @@ public class KaguyaUtils {
     }
 
     /**
+     * 物品蓄力程度
+     *
+     * @param maxUseTime 物品最大蓄力时间
+     * @param timeLeft   物品已蓄力时间
+     */
+    public static float getChargeRatio(int maxUseTime, int timeLeft) {
+        int useDuration = maxUseTime - timeLeft;
+        return Math.min((float) useDuration / 40, 1.0F);
+    }
+
+    /**
      * 简单粒子激光
      */
     public static void spawnParticleLaser(Player player, Level level) {

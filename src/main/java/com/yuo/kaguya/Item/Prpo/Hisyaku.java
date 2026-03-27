@@ -27,7 +27,7 @@ public class Hisyaku extends KaguyaPrpo implements ModNoDataGenItem {
     public static final String NBT_WATER_NUM = "kaguya:water_number";
 
     public Hisyaku() {
-        super(new Properties().stacksTo(1).durability(60));
+        super(new Properties().durability(60));
     }
 
     @Override

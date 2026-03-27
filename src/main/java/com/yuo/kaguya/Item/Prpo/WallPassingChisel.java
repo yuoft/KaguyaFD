@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class WallPassingChisel extends KaguyaWeapon {
 
     public WallPassingChisel() {
-        super(Tiers.IRON, -2, new Properties().stacksTo(1).durability(122));
+        super(Tiers.IRON, -2, new Properties().durability(122));
     }
 
     @Override

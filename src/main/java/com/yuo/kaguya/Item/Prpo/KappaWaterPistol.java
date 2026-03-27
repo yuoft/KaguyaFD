@@ -26,7 +26,7 @@ import java.util.function.Consumer;
 
 public class KappaWaterPistol extends KaguyaWeapon {
     public KappaWaterPistol(){
-        super(Tiers.IRON, 0, new Properties().stacksTo(1).durability(39));
+        super(Tiers.IRON, 0, new Properties().durability(39));
     }
 
     @Override

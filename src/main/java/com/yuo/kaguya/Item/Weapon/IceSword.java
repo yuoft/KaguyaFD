@@ -11,7 +11,7 @@ import net.minecraft.world.item.Tiers;
 
 public class IceSword extends KaguyaWeapon {
     public IceSword() {
-        super(Tiers.DIAMOND, 0, new Properties().stacksTo(1).durability(30));
+        super(Tiers.DIAMOND, 0, new Properties().durability(30));
     }
 
     @Override

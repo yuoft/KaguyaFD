@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 
 public class StoneBowl extends PickaxeItem {
     public StoneBowl() {
-        super(Tiers.DIAMOND, 1, -2.8f, new Properties().stacksTo(1).durability(Integer.MAX_VALUE));
+        super(Tiers.DIAMOND, 1, -2.8f, new Properties().durability(Integer.MAX_VALUE));
     }
 
     @Override

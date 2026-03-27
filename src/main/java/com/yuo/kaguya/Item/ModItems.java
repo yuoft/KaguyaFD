@@ -69,13 +69,13 @@ public class ModItems {
 	//武器
 	public static RegistryObject<Item> silverKnife = ITEMS.register("silver_knife", SilverKnife::new);
 	public static RegistryObject<Item> deathScythe = ITEMS.register("death_scythe", DeathScythe::new);
-	public static RegistryObject<Item> gungnir = ITEMS.register("gungnir", () -> new KaguyaWeapon(Tiers.DIAMOND));
+	public static RegistryObject<Item> gungnir = ITEMS.register("gungnir", Gungnir::new);
 	public static RegistryObject<Item> hakureiOharaibou = ITEMS.register("hakurei_oharaibou", HakureiReimuStick::new);
 	public static RegistryObject<Item> hakurouken = ITEMS.register("hakurouken", () -> new KaguyaWeapon(Tiers.DIAMOND));
 	public static RegistryObject<Item> hisouSword = ITEMS.register("hisou_sword", HisouSword::new);
 	public static RegistryObject<Item> icicleSword = ITEMS.register("icicle_sword", IceSword::new);
 	public static RegistryObject<Item> remorseRod = ITEMS.register("remorse_rod", RemorseRod::new);
-	public static RegistryObject<Item> laevateinn = ITEMS.register("laevateinn", () -> new KaguyaWeapon(Tiers.DIAMOND));
+	public static RegistryObject<Item> laevateinn = ITEMS.register("laevateinn", Laevateinn::new);
 	public static RegistryObject<Item> onbashira = ITEMS.register("onbashira", Onbashira::new);
 	public static RegistryObject<Item> roukanSword = ITEMS.register("roukan_sword", Roukanken::new);
 	public static RegistryObject<Item> toyosatomimiSword = ITEMS.register("toyosatomimi_sword", SacredSword::new);

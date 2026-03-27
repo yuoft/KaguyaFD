@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
 public class YinYangOrb extends KaguyaPrpo {
 
     public YinYangOrb() {
-        super(new Properties().stacksTo(1).durability(150));
+        super(new Properties().durability(150));
     }
 
     @Override

@@ -14,7 +14,7 @@ import java.util.List;
 public class HisouSword extends KaguyaWeapon {
     private Entity entity;
     public HisouSword() {
-        super(Tiers.NETHERITE, 5, new Properties().stacksTo(1).defaultDurability(200).rarity(Rarity.UNCOMMON));
+        super(Tiers.NETHERITE, 5, new Properties().defaultDurability(200).rarity(Rarity.UNCOMMON));
     }
 
     @Override

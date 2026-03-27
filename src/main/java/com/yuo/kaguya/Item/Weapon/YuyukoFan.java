@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 public class YuyukoFan extends KaguyaWeapon {
 
     public YuyukoFan() {
-        super(Tiers.DIAMOND, 3, new Properties().stacksTo(1).defaultDurability(233).rarity(Rarity.UNCOMMON));
+        super(Tiers.DIAMOND, 3, new Properties().defaultDurability(233).rarity(Rarity.UNCOMMON));
     }
 
     @Override

@@ -17,7 +17,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class MiniHakkero extends KaguyaPrpo {
     public MiniHakkero() {
-        super(new Properties().stacksTo(1).durability(99));
+        super(new Properties().durability(99));
     }
 
     @Override

@@ -228,6 +228,15 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', Items.BLAZE_ROD).define('y', Items.OBSIDIAN)
                 .pattern("xyx").pattern("xyx").pattern("xyx")
                 .unlockedBy("has_item", has(ModItems.nuclearControlRod.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.gungnir.get(), 1)
+                .define('x', ModItems.longLaser.get()).define('y', Items.REDSTONE_BLOCK)
+                .pattern("xxy").pattern(" yx").pattern("y x")
+                .unlockedBy("has_item", has(ModItems.gungnir.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.laevateinn.get(), 1)
+                .define('x', Items.BLAZE_POWDER).define('y', Items.BLAZE_ROD).define('z', ModItems.houraiPearlOrange.get())
+                .define('a', Items.GOLDEN_SWORD)
+                .pattern(" xy").pattern("xzx").pattern("ax")
+                .unlockedBy("has_item", has(ModItems.laevateinn.get())).save(consumer);
 
         //弹幕
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.crystalShot.get(), 4)

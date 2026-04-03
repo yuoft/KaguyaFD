@@ -45,6 +45,7 @@ public class DanmakuRender extends EntityRenderer<DanmakuBase> {
         PoseStack.Pose poseStackLast = poseStack.last();
         Matrix4f pose = poseStackLast.pose();
         Matrix3f normal = poseStackLast.normal();
+        poseStack.scale(1.1f, 1.1f, 1.1f);
 
         // 使用更高的亮度值（15是最大亮度）
         int glowLight = 15728880; // 对应亮度15
@@ -66,7 +67,7 @@ public class DanmakuRender extends EntityRenderer<DanmakuBase> {
     }
 
     private static void vertexGlow(VertexConsumer bufferIn, Matrix4f pose, Matrix3f normal, double x, double y, float u, float v, float r, float g, float b, int packedLight) {
-        bufferIn.vertex(pose, (float) x, (float) y, 0.0F).color(r, g, b, 0.8f).uv(u, v).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
+        bufferIn.vertex(pose, (float) x, (float) y, 0.0F).color(r, g, b, 0.15f).uv(u, v).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
     }
 
     @Override

@@ -20,19 +20,19 @@ public enum DanmakuType {
     TALISMAN(0.3d, 2.5f,false, "talisman"), // 牌弹
     KUMAI(0.4d, 2.0f,false, "kunai"), // 苦无弹
     HEART(0.5d, 2.0f,false, "heart"), // 心弹
-    BUTTER_FLY(0, 5f,true, "button_fly"), // 蝶弹
-    ARROW_SHOT(0, 2.5f,true, "arrow_shot"), // 箭弹
-    BEAM_LASER(0, 5f,true, "beam_laser"), // 光束激光
+    BUTTER_FLY(0.25d, 5f,true, "button_fly"), // 蝶弹
+    ARROW_SHOT(0.2d, 2.5f,true, "arrow_shot"), // 箭弹
+    BEAM_LASER(0.25, 5f,true, "beam_laser"), // 光束激光
     LONG_LASER(3, 4.5f,true, "long_laser"), // 长激光
     MIDDLE_LASER(2, 3f,true, "middle_laser"), // 激光
     SHORT_LASER(1, 1.5f,true, "short_laser"), // 短激光
-    WIND(0, 3f,true, "wind"), // 风弹
+    WIND(0.25d, 3f,true, "wind"), // 风弹
     YINYANG_ORB(0.5, 3f,true, "yinyang_orb"), // 阴阳玉
     ;
 
-    private final double size; //弹幕尺寸 或 其他用途
-    private final float damage;
-    private final boolean isAloneRender;
+    private final double size; //弹幕尺寸/碰撞箱 或 其他用途
+    private final float damage; //基础伤害
+    private final boolean isAloneRender; //是否单独渲染 非通用弹幕
     private final String name;
 
     /**

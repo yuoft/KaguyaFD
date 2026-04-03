@@ -5,7 +5,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
@@ -85,6 +85,7 @@ public class DanmakuShootHelper {
      */
     public static void shootDanmakuArrow(Level level, LivingEntity living, float vel, float ina, DanmakuColor color){
         DanmakuArrow shot = new DanmakuArrow(level, living, color);
+        shot.setDeltaMovement(living.getViewVector(1.0F));
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
         addEntityAndSound(level, living, shot);
     }
@@ -150,6 +151,16 @@ public class DanmakuShootHelper {
         shot.setSize(size);
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel * 2, ina);
         addEntityAndSound(level, living, shot);
+    }
+
+    /**
+     * 发射神枪「冈格尼尔之枪」
+     */
+    public static void shootDanmakuGungnir(Level level, LivingEntity living, float vel, float ina){
+        DanmakuLaser shot0 = new DanmakuLaser(level, living, DanmakuType.LONG_LASER, DanmakuColor.RED);
+        shot0.setMainLaser(true);
+        shot0.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel * 2, ina);
+        addEntityAndSound(level, living, shot0);
     }
 
     /**

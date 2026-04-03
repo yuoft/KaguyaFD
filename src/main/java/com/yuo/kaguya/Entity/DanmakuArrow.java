@@ -2,6 +2,7 @@ package com.yuo.kaguya.Entity;
 
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 
 public class DanmakuArrow extends DanmakuBase {
@@ -9,7 +10,7 @@ public class DanmakuArrow extends DanmakuBase {
             .sized(0.25F, 0.25F).clientTrackingRange(6).updateInterval(10).noSave().build("danmaku_arrow");
 
 
-    public DanmakuArrow(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
+    public DanmakuArrow(EntityType<? extends ThrowableProjectile> entityType, Level level) {
         super(entityType, level);
         this.danmakuType = DanmakuType.ARROW_SHOT;
     }

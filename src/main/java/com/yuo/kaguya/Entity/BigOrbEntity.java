@@ -8,6 +8,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraft.world.phys.AABB;
@@ -21,7 +22,7 @@ public class BigOrbEntity extends DanmakuBase{
             .sized(0.1F, 0.1f).clientTrackingRange(6).updateInterval(10).noSave().build("big_orb");
     protected static final EntityDataAccessor<Float> SIZE = SynchedEntityData.defineId(BigOrbEntity.class, EntityDataSerializers.FLOAT); //弹幕大小
 
-    public BigOrbEntity(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
+    public BigOrbEntity(EntityType<? extends ThrowableProjectile> entityType, Level level) {
         super(entityType, level);
     }
 

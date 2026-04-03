@@ -2,6 +2,7 @@ package com.yuo.kaguya.Entity;
 
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
@@ -10,7 +11,7 @@ public class DanmakuButterfly extends DanmakuBase {
             .sized(0.5F, 0.25F).clientTrackingRange(6).updateInterval(10).noSave().build("danmaku_fly");
     private static final int MAX_TICKS_EXISTED = 2000;
 
-    public DanmakuButterfly(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
+    public DanmakuButterfly(EntityType<? extends ThrowableProjectile> entityType, Level level) {
         super(entityType, level);
         this.danmakuType = DanmakuType.BUTTER_FLY;
     }

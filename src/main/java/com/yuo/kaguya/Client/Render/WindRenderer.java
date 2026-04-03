@@ -28,7 +28,7 @@ public class WindRenderer extends EntityRenderer<WindEntity> {
 
         DanmakuColor color = wind.getColor();
         float mul = (wind.tickCount + partialTicks) * 5.0f;
-        poseStack.translate(0.0D, -1, 0.0D);
+        poseStack.translate(0.0D, -1.25, 0.0D);
         poseStack.mulPose(Axis.YP.rotationDegrees(mul));
 
         this.model.renderToBuffer(poseStack, buffer.getBuffer(RenderType.entityTranslucent(TEXTURE)), packedLight, OverlayTexture.NO_OVERLAY, color.getFloatRed(),color.getFloatGreen(),color.getFloatBlue(),0.8f);

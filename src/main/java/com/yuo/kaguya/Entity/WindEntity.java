@@ -10,6 +10,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,7 +23,7 @@ public class WindEntity extends DanmakuBase {
             .sized(0.25F, 0.25f).clientTrackingRange(6).updateInterval(10).noSave().build("wind");
 
     protected boolean isPull;
-    public WindEntity(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
+    public WindEntity(EntityType<? extends ThrowableProjectile> entityType, Level level) {
         super(entityType, level);
     }
 

@@ -235,7 +235,7 @@ public class ModDataRecipes extends RecipeProvider {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.laevateinn.get(), 1)
                 .define('x', Items.BLAZE_POWDER).define('y', Items.BLAZE_ROD).define('z', ModItems.houraiPearlOrange.get())
                 .define('a', Items.GOLDEN_SWORD)
-                .pattern(" xy").pattern("xzx").pattern("ax")
+                .pattern(" xy").pattern("xzx").pattern("ax ")
                 .unlockedBy("has_item", has(ModItems.laevateinn.get())).save(consumer);
 
         //弹幕

@@ -25,11 +25,9 @@ public class LaserModel extends EntityModel<DanmakuLaser> {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition laser = partdefinition.addOrReplaceChild("laser", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 1.5708F));
+		PartDefinition laser = partdefinition.addOrReplaceChild("laser", CubeListBuilder.create().texOffs(-16, 0).addBox(-2.0F, 0.0F, -8.0F, 4.0F, 0.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 16.0F, 0.0F, 0.0F, 0.0F, 1.5708F));
 
-		PartDefinition h_r1 = laser.addOrReplaceChild("h_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -16.0F, 0.0F, 4.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -8.0F, -1.5708F, 0.0F, 0.0F));
-
-		PartDefinition w_r1 = laser.addOrReplaceChild("w_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -16.0F, 0.0F, 4.0F, 16.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -8.0F, -1.5708F, 0.0F, 1.5708F));
+		PartDefinition w_r1 = laser.addOrReplaceChild("w_r1", CubeListBuilder.create().texOffs(-16, 0).addBox(-3.0F, 0.0F, -8.0F, 4.0F, 0.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 1.5708F));
 
 		return LayerDefinition.create(meshdefinition, 16, 16);
 	}

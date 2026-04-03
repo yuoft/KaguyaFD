@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.ThrownTridentRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -32,12 +33,16 @@ public class LaserRenderer extends EntityRenderer<DanmakuLaser> {
         DanmakuColor color = laser.getColor();
         DanmakuType danmakuType = laser.getDanmakuType();
         float size = 0.5f * danmakuType.getIntSize();
+
         poseStack.pushPose();
-        poseStack.scale(1, size,1);
-        poseStack.translate(0, -1.25, 0);
-        float yaw = Mth.rotLerp(partialTicks, laser.yRotO, laser.getYRot()) * (Mth.PI / 180f);
-        float pitch = Mth.lerp(partialTicks, laser.xRotO, laser.getXRot()) * (Mth.PI / 180f);
-        this.laserModel.setupAnim(pitch, yaw);
+        Vec3 vec3 = laser.getDeltaMovement();
+        float yaw = (float) (-Mth.atan2(vec3.x, vec3.z) * Mth.RAD_TO_DEG);
+        float pitch = (float) (-Mth.atan2(vec3.y, vec3.horizontalDistance()) * Mth.RAD_TO_DEG);
+        poseStack.mulPose(Axis.YP.rotationDegrees(-yaw));
+        poseStack.mulPose(Axis.XP.rotationDegrees(pitch));
+        poseStack.scale(0.5f, size,0.5f);
+        poseStack.translate(0, -0.9f, 0f);
+
         this.laserModel.renderToBuffer(poseStack, buffer, 15728880, OverlayTexture.NO_OVERLAY, color.getFloatRed(), color.getFloatGreen(), color.getFloatBlue(), 0.75f);
         poseStack.popPose();
 

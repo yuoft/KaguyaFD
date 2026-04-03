@@ -2,6 +2,7 @@ package com.yuo.kaguya.Entity;
 
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Item.Weapon.DanmakuDamageTypes;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -10,6 +11,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -18,6 +20,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -29,7 +32,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
-public class DanmakuBase extends ThrowableItemProjectile {
+public class DanmakuBase extends ThrowableProjectile {
     public static final EntityType<DanmakuBase> TYPE = EntityType.Builder.<DanmakuBase>of(DanmakuBase::new, MobCategory.MISC)
             .sized(0.25F, 0.25F).clientTrackingRange(6).updateInterval(10).noSave().build("danmaku");
 
@@ -44,13 +47,13 @@ public class DanmakuBase extends ThrowableItemProjectile {
     protected static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.FLOAT); //弹幕攻击伤害
     protected static final EntityDataAccessor<Float> GRAVITY = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.FLOAT); //重力
 
-    public DanmakuBase(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
+    public DanmakuBase(EntityType<? extends ThrowableProjectile> entityType, Level level) {
         super(entityType, level);
         if (danmakuType == null)
             this.danmakuType = DanmakuType.TINY_BALL;
     }
 
-    public DanmakuBase(EntityType<? extends ThrowableItemProjectile> entityType, Level level, LivingEntity living) {
+    public DanmakuBase(EntityType<? extends ThrowableProjectile> entityType, Level level, LivingEntity living) {
         super(entityType, living, level);
         if (danmakuType == null)
             this.danmakuType = DanmakuType.TINY_BALL;
@@ -82,18 +85,12 @@ public class DanmakuBase extends ThrowableItemProjectile {
     }
 
     @Override
-    protected Item getDefaultItem() {
-        return ModItems.heartShot.get();
-    }
-
-    @Override
     public boolean fireImmune() {
         return true;
     }
 
     @Override
     protected void defineSynchedData() {
-        super.defineSynchedData();
         this.entityData.define(DANMAKU_TYPE, DanmakuType.TINY_BALL.ordinal());
         this.entityData.define(COLOR, DanmakuColor.GREEN.ordinal());
         this.entityData.define(DAMAGE, DanmakuType.TINY_BALL.getDamage());
@@ -234,6 +231,14 @@ public class DanmakuBase extends ThrowableItemProjectile {
     @Override
     public void tick() {
         super.tick();
+        Vec3 vec3 = this.getDeltaMovement();
+        if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
+            double d0 = vec3.horizontalDistance();
+            this.setYRot((float)(Mth.atan2(vec3.x, vec3.z) * 57.2957763671875));
+            this.setXRot((float)(Mth.atan2(vec3.y, d0) * 57.2957763671875));
+            this.yRotO = this.getYRot();
+            this.xRotO = this.getXRot();
+        }
         if (this.tickCount >= getMAX_TICKS_EXISTED()) {
             this.discard();
         }
@@ -242,6 +247,9 @@ public class DanmakuBase extends ThrowableItemProjectile {
     @Override
     protected @NotNull AABB makeBoundingBox() {
         double inflate = (this.getDanmakuType().getSize() - 0.2d) / 2;
+        if (this.getDanmakuType().getName().contains("laser")){ //激光模型box
+            inflate = 0d;
+        }
         return new AABB(-0.125, 0.0, -0.125, 0.125, 0.25, 0.125).inflate(inflate).move(this.position());
     }
 

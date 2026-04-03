@@ -73,9 +73,9 @@ public class DanmakuShotItem extends Item {
         DanmakuColor danmakuColor = DanmakuColor.getColor(color);
         switch (danmakuType) {
             case BUTTER_FLY -> DanmakuShootHelper.shootDanmakuFly(world, player, VAL_DEF / 2, INA_DEF, danmakuColor);
-            case ARROW_SHOT -> DanmakuShootHelper.shootDanmakuArrow(world, player, VAL_DEF, INA_DEF, danmakuColor);
+            case ARROW_SHOT -> DanmakuShootHelper.shootDanmakuArrow(world, player, VAL_DEF / 10f, INA_DEF, danmakuColor);
             case LONG_LASER, MIDDLE_LASER, SHORT_LASER ->
-                    DanmakuShootHelper.shootDanmakuLaser(world, player, VAL_DEF, INA_DEF, danmakuType, danmakuColor);
+                    DanmakuShootHelper.shootDanmakuLaser(world, player, VAL_DEF / 20f, INA_DEF, danmakuType, danmakuColor);
             default -> DanmakuShootHelper.shootDanmaku(world, player, VAL_DEF, INA_DEF, danmakuColor, danmakuType);
         }
 

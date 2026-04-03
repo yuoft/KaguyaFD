@@ -10,6 +10,7 @@ import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -30,17 +31,17 @@ public class ArrowShotRender extends EntityRenderer<DanmakuArrow> {
         VertexConsumer vertexConsumer = bufferSource.getBuffer(this.arrowModel.renderType(getTextureLocation(arrow)));
 
         poseStack.pushPose();
-        poseStack.scale(0.5F, 0.5F, 0.5F);
-        poseStack.translate(0,-1.25f,0);
-//        float yaw = Mth.rotLerp(partialTicks, arrow.yRotO, arrow.getYRot()) * (Mth.PI / 180f) - 90 * (Mth.PI / 180f);
-//        float pitch = Mth.lerp(partialTicks, arrow.xRotO, arrow.getXRot()) * (Mth.PI / 180f);
-//        this.arrowModel.setRotationAngles(pitch, yaw);
+//        poseStack.scale(0.5F, 0.5F, 0.5F);
+//        poseStack.translate(0,-1.25f,0);
 
         Vec3 vec3 = arrow.getDeltaMovement();
         float yaw = (float) (-Mth.atan2(vec3.x, vec3.z) * Mth.RAD_TO_DEG); //计算水平旋转角
         float pitch = (float) (-Mth.atan2(vec3.y, vec3.horizontalDistance()) * Mth.RAD_TO_DEG); //计算俯仰角
         poseStack.mulPose(Axis.YP.rotationDegrees(-yaw));
         poseStack.mulPose(Axis.XP.rotationDegrees(pitch));
+
+        poseStack.scale(0.5F, 0.5F, 0.5F);
+        poseStack.translate(0,-1.4f,-0.25f);
 
         this.arrowModel.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, color.getFloatRed(), color.getFloatGreen(), color.getFloatBlue(), 0.75f);
         poseStack.popPose();

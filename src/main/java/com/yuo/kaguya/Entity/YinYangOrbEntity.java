@@ -8,6 +8,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -24,7 +25,7 @@ public class YinYangOrbEntity extends DanmakuBase{
     protected boolean isRebounding; // 是否正在反弹（用于避免重复反弹）
     protected static final EntityDataAccessor<Float> SIZE = SynchedEntityData.defineId(YinYangOrbEntity.class, EntityDataSerializers.FLOAT); //弹幕大小
 
-    public YinYangOrbEntity(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
+    public YinYangOrbEntity(EntityType<? extends ThrowableProjectile> entityType, Level level) {
         super(entityType, level);
         this.MAX_REBOUND = 3;
         this.reboundNum = 0;

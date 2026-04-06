@@ -183,7 +183,7 @@ public class Roukanken extends KaguyaWeapon {
     /**
      * 生成冲锋粒子效果
      */
-    private void spawnChargeParticles(Level level, Player player, Vec3 direction, float distance, float chargeRatio) {
+    public static void spawnChargeParticles(Level level, Player player, Vec3 direction, float distance, float chargeRatio) {
         if (!level.isClientSide) return;
 
         Vec3 startPos = player.position().add(0, 0.5, 0);

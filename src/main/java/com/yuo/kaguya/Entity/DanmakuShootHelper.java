@@ -1,11 +1,11 @@
 package com.yuo.kaguya.Entity;
 
+import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
@@ -143,6 +143,26 @@ public class DanmakuShootHelper {
     }
 
     /**
+     * 直线发射弹幕盾
+     * @param living 发射实体
+     * @param vel 速度
+     * @param ina 误差
+     */
+    public static void shootDanmakuRebound(Level level, LivingEntity living, float vel, float ina){
+        ReboundEntity shot = new ReboundEntity(level, living);
+        Vec3 vec3 = living.position().add(living.getLookAngle().scale(2)).add(0,1.5,0);
+        shot.setPos(vec3);
+        // 计算从反弹盾指向玩家的水平方向角度
+        double dx = living.getX() - vec3.x;
+        double dz = living.getZ() - vec3.z;
+        float yaw = (float) Math.toDegrees(Math.atan2(dz, dx)) - 90f;
+        shot.setYRot(yaw);
+        shot.setXRot(0); // 水平旋转，不倾斜
+        level.addFreshEntity(shot);
+        level.playSound(null, living.getX(), living.getY(), living.getZ(), SoundEvents.SHIELD_BLOCK, living.getSoundSource(), 1.0f, 0.8f);
+    }
+
+    /**
      * 发射阴阳玉
      * @param maxRebound 最大反弹次数
      */
@@ -156,11 +176,12 @@ public class DanmakuShootHelper {
     /**
      * 发射神枪「冈格尼尔之枪」
      */
-    public static void shootDanmakuGungnir(Level level, LivingEntity living, float vel, float ina){
-        DanmakuLaser shot0 = new DanmakuLaser(level, living, DanmakuType.LONG_LASER, DanmakuColor.RED);
-        shot0.setMainLaser(true);
-        shot0.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel * 2, ina);
-        addEntityAndSound(level, living, shot0);
+    public static void shootDanmakuGungnir(Level level, LivingEntity living, float vel, float ina, int num){
+        DanmakuLaser laser = new DanmakuLaser(level, living, DanmakuType.LONG_LASER, DanmakuColor.RED);
+        laser.setMainLaser(true);
+        laser.setTotalLasers(num);
+        laser.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel * 2, ina);
+        addEntityAndSound(level, living, laser);
     }
 
     /**

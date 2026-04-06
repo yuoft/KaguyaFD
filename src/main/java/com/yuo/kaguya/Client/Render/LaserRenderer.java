@@ -40,8 +40,8 @@ public class LaserRenderer extends EntityRenderer<DanmakuLaser> {
         float pitch = (float) (-Mth.atan2(vec3.y, vec3.horizontalDistance()) * Mth.RAD_TO_DEG);
         poseStack.mulPose(Axis.YP.rotationDegrees(-yaw));
         poseStack.mulPose(Axis.XP.rotationDegrees(pitch));
-        poseStack.scale(0.5f, size,0.5f);
-        poseStack.translate(0, -0.9f, 0f);
+        poseStack.scale(0.5f, 0.5f, size);
+        poseStack.translate(0, -1.0f, -0.15f * danmakuType.getIntSize()); //左右 上下 前后
 
         this.laserModel.renderToBuffer(poseStack, buffer, 15728880, OverlayTexture.NO_OVERLAY, color.getFloatRed(), color.getFloatGreen(), color.getFloatBlue(), 0.75f);
         poseStack.popPose();

@@ -112,6 +112,9 @@
 	"entity.kaguya.frozen_statue": "冰雕",
 	"entity.kaguya.yinyang_orb": "阴阳玉",
 	"entity.kaguya.big_orb": "爆炸玉",
+	"entity.kaguya.danmaku_laser": "从属激光",
+	"entity.kaguya.cross_entity": "十字架",
+	"entity.kaguya.rebound_shield": "反弹盾",
 
 	"container.kaguya.danmaku_craft": "弹幕工作台",
 
@@ -127,6 +130,7 @@
 	"text.kaguya.koyasugai.1": "蓬莱山辉夜所出符卡 \"难题「燕的子安贝 -永命线-」(難題「燕の子安貝　-永命線-」)\"与\"神宝「Life Spring Infinity(无限的生命之泉)」(神宝「ライフスプリングインフィニティ」)\"",
 	"text.kaguya.aaa.1": "无",
 
+	"info.kaguya.gungnir.no_exp": "经验值不足！",
 	"info.kaguya.aja_red_stone.no_light": "无法聚光！",
 	"info.kaguya.hisyaku.water_num": "容量：%s格",
 	"info.kaguya.hisyaku.true": "模式：吸水",

@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 
 public class RemorseRod extends KaguyaWeapon implements ModNoDataGenItem {
     public RemorseRod() {
-        super(Tiers.STONE, 0, new Properties().durability(1));
+        super(Tiers.STONE, new Properties().durability(1));
     }
 
     @Override

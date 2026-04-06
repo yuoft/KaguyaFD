@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class HakureiReimuStick extends KaguyaWeapon {
     public HakureiReimuStick() {
-        super(Tiers.DIAMOND, 0, new Properties().durability(89));
+        super(Tiers.DIAMOND, new Properties().durability(89));
     }
 
     @Override

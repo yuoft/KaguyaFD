@@ -13,7 +13,7 @@ import net.minecraft.world.phys.AABB;
 
 public class SacredSword extends KaguyaWeapon {
     public SacredSword() {
-        super(Tiers.DIAMOND, 3, new Properties().durability(250));
+        super(Tiers.DIAMOND, new Properties().durability(250));
     }
 
     @Override

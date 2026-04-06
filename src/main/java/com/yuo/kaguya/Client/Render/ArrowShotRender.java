@@ -41,7 +41,7 @@ public class ArrowShotRender extends EntityRenderer<DanmakuArrow> {
         poseStack.mulPose(Axis.XP.rotationDegrees(pitch));
 
         poseStack.scale(0.5F, 0.5F, 0.5F);
-        poseStack.translate(0,-1.4f,-0.25f);
+        poseStack.translate(0,-1.0f,-0.25f);
 
         this.arrowModel.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, color.getFloatRed(), color.getFloatGreen(), color.getFloatBlue(), 0.75f);
         poseStack.popPose();

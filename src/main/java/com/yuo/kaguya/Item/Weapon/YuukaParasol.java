@@ -18,7 +18,7 @@ public class YuukaParasol extends KaguyaWeapon implements ModNoDataGenItem {
     private static final String NBT_OPEN = "kaguya_parasol_open";
 
     public YuukaParasol() {
-        super(Tiers.DIAMOND, 0, new Properties().durability(60));
+        super(Tiers.DIAMOND, new Properties().durability(60));
     }
 
     @Override

@@ -1,0 +1,62 @@
+package com.yuo.kaguya.Client.Render;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
+import com.yuo.kaguya.Entity.BigOrbEntity;
+import com.yuo.kaguya.Entity.ReboundEntity;
+import com.yuo.kaguya.KaguyaUtils;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+
+public class ReboundRender extends EntityRenderer<ReboundEntity> {
+    private static final ResourceLocation TEXTURE = KaguyaUtils.fa("textures/entity/rebound.png");
+
+    public ReboundRender(EntityRendererProvider.Context context) {
+        super(context);
+    }
+
+    @Override
+    public void render(ReboundEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLight) {
+
+        poseStack.pushPose();
+        poseStack.translate(0, 0.5f, 0);
+
+        float face = entity.getFaceY();
+//        float yaw = (float) (-Mth.atan2(face.x, face.z) * Mth.RAD_TO_DEG); //计算水平旋转角
+        poseStack.mulPose(Axis.YP.rotationDegrees(-face));
+
+        RenderType renderType = RenderType.entityTranslucent(getTextureLocation(entity));
+
+        VertexConsumer buffer = bufferIn.getBuffer(renderType);
+        PoseStack.Pose poseStackLast = poseStack.last();
+        Matrix4f pose = poseStackLast.pose();
+        Matrix3f normal = poseStackLast.normal();
+
+        double size = 1d;
+
+        vertex(buffer, pose, normal, -size, size, 0, 0, packedLight);
+        vertex(buffer, pose, normal, -size, -size, 0, 1, packedLight);
+        vertex(buffer, pose, normal, size, -size, 1, 1, packedLight);
+        vertex(buffer, pose, normal, size, size, 1, 0, packedLight);
+
+        poseStack.popPose();
+    }
+
+    @Override
+    public ResourceLocation getTextureLocation(ReboundEntity entity) {
+        return TEXTURE;
+    }
+
+    private static void vertex(VertexConsumer bufferIn, Matrix4f pose, Matrix3f normal, double x, double y, float u, float v, int packedLight) {
+        bufferIn.vertex(pose, (float) x, (float) y, 0.0F).color(1,1,1, 1.0f).uv(u, v).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).normal(normal, 0.0F, 1.0F, 0.0F).endVertex();
+    }
+}

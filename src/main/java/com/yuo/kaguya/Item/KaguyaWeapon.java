@@ -20,6 +20,10 @@ public class KaguyaWeapon extends SwordItem {
         super(tier, damage, -2.4f, properties);
     }
 
+    public KaguyaWeapon(Tier tier, Properties properties) {
+        super(tier, 3, -2.4f, properties);
+    }
+
     public KaguyaWeapon(Tier tier, int damage, float speed, Properties properties) {
         super(tier, damage, speed, properties);
     }

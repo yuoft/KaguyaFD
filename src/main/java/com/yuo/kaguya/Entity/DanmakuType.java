@@ -27,7 +27,8 @@ public enum DanmakuType {
     MIDDLE_LASER(2, 3f,true, "middle_laser"), // 激光
     SHORT_LASER(1, 1.5f,true, "short_laser"), // 短激光
     WIND(0.25d, 3f,true, "wind"), // 风弹
-    YINYANG_ORB(0.5, 3f,true, "yinyang_orb"), // 阴阳玉
+    YINYANG_ORB(0.5d, 3f,true, "yinyang_orb"), // 阴阳玉
+    REBOUND_SHIELD(0.2d, 0,true, "rebound_shield"), // 反弹盾
     ;
 
     private final double size; //弹幕尺寸/碰撞箱 或 其他用途

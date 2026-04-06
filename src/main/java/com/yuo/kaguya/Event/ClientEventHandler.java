@@ -43,6 +43,7 @@ public class ClientEventHandler {
         event.registerEntityRenderer(ModEntityTypes.DANMAKU_ARROW.get(), ArrowShotRender::new);
         event.registerEntityRenderer(ModEntityTypes.WIND.get(), WindRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.DANMAKU_LASER.get(), LaserRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.DANMAKU_LASER0.get(), LaserRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.BEAM_LASER.get(), BeamLaserRender::new);
         event.registerEntityRenderer(ModEntityTypes.GAP.get(), GapRender::new);
         event.registerEntityRenderer(ModEntityTypes.KINKAKU_JI.get(), ThrownItemRenderer::new);
@@ -51,6 +52,8 @@ public class ClientEventHandler {
         event.registerEntityRenderer(ModEntityTypes.FROZEN_STATUE.get(), IceStatueRender::new);
         event.registerEntityRenderer(ModEntityTypes.YINYANG_ORB.get(), YinYangOrbRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.BIG_ORB.get(), BigOrbRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.CROSS_ENTITY.get(), CrossRender::new);
+        event.registerEntityRenderer(ModEntityTypes.REBOUND_SHIELD.get(), ReboundRender::new);
     }
 
     @SubscribeEvent
@@ -85,6 +88,7 @@ public class ClientEventHandler {
         event.registerLayerDefinition(WindChargeModel.LAYER_LOCATION, WindChargeModel::createBodyLayer);
         event.registerLayerDefinition(LaserModel.LAYER_LOCATION, LaserModel::createBodyLayer);
         event.registerLayerDefinition(GapModel.LAYER_LOCATION, GapModel::createBodyLayer);
+        event.registerLayerDefinition(CrossModel.LAYER_LOCATION, CrossModel::createBodyLayer);
     }
 
 }

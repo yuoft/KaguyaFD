@@ -248,9 +248,9 @@ public class DanmakuBase extends ThrowableProjectile {
     protected @NotNull AABB makeBoundingBox() {
         double inflate = (this.getDanmakuType().getSize() - 0.2d) / 2;
         if (this.getDanmakuType().getName().contains("laser")){ //激光模型box
-            inflate = 0d;
+            inflate = -0.05d;
         }
-        return new AABB(-0.125, 0.0, -0.125, 0.125, 0.25, 0.125).inflate(inflate).move(this.position());
+        return new AABB(-0.125, -0.125, -0.125, 0.125, 0.125, 0.125).inflate(inflate).move(this.position());
     }
 
     //重力

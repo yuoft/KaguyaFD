@@ -15,7 +15,7 @@ import net.minecraft.world.level.Level;
 
 public class WindStick extends KaguyaWeapon {
     public WindStick() {
-        super(Tiers.DIAMOND, 0, new Properties().durability(50));
+        super(Tiers.DIAMOND, new Properties().durability(50));
     }
 
     @Override

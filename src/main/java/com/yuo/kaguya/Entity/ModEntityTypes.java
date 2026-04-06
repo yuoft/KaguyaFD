@@ -19,12 +19,16 @@ public class ModEntityTypes {
             () -> DanmakuArrow.TYPE);
     public static final RegistryObject<EntityType<DanmakuLaser>> DANMAKU_LASER = ENTITY_TYPES.register("danmaku_laser",
             () -> DanmakuLaser.TYPE);
+    public static final RegistryObject<EntityType<DanmakuLaser0>> DANMAKU_LASER0 = ENTITY_TYPES.register("danmaku_laser0",
+            () -> DanmakuLaser0.TYPE);
     public static final RegistryObject<EntityType<WindEntity>> WIND = ENTITY_TYPES.register("wind",
             () -> WindEntity.TYPE);
     public static final RegistryObject<EntityType<YinYangOrbEntity>> YINYANG_ORB = ENTITY_TYPES.register("yinyang_orb",
             () -> YinYangOrbEntity.TYPE);
     public static final RegistryObject<EntityType<BigOrbEntity>> BIG_ORB = ENTITY_TYPES.register("big_orb",
             () -> BigOrbEntity.TYPE);
+    public static final RegistryObject<EntityType<ReboundEntity>> REBOUND_SHIELD = ENTITY_TYPES.register("rebound_shield",
+            () -> ReboundEntity.TYPE);
 
     public static final RegistryObject<EntityType<BeamLaserEntity>> BEAM_LASER = ENTITY_TYPES.register("beam_laser",
             () -> BeamLaserEntity.TYPE);
@@ -38,5 +42,7 @@ public class ModEntityTypes {
             () -> DragonNeckEntity.TYPE);
     public static final RegistryObject<EntityType<IceStatueEntity>> FROZEN_STATUE = ENTITY_TYPES.register("frozen_statue",
             () -> IceStatueEntity.TYPE);
+    public static final RegistryObject<EntityType<CrossEntity>> CROSS_ENTITY = ENTITY_TYPES.register("cross_entity",
+            () -> CrossEntity.TYPE);
 
 }

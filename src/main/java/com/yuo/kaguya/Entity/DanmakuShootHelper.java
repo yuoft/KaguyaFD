@@ -44,10 +44,37 @@ public class DanmakuShootHelper {
     /**
      * 怪物弹幕
      */
-    public static void shootDanmakuMob(Level level, LivingEntity living, float base, DanmakuColor color, DanmakuType type){
+    public static void shootDanmakuMob(Level level, LivingEntity living, LivingEntity target, float base, DanmakuColor color, DanmakuType type){
         DanmakuBase shot = new DanmakuBase(level, living, type, color);
         shot.setDamage(shot.getDamage() * base);
-        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, VAL_DEF / 2, INA_DEF);
+        // 计算向目标发射的方向
+        if (target != null) {
+            double dx = target.getX() - living.getX();
+            double dy = target.getEyeY() - living.getEyeY(); // 瞄准目标的眼睛位置
+            double dz = target.getZ() - living.getZ();
+            double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+            // 归一化方向向量
+            double vx = dx / distance;
+            double vy = dy / distance;
+            double vz = dz / distance;
+
+            // 添加一点随机偏移
+            float inaccuracy = INA_DEF;
+            vx += (level.random.nextGaussian() * 0.0075 * inaccuracy);
+            vy += (level.random.nextGaussian() * 0.0075 * inaccuracy);
+            vz += (level.random.nextGaussian() * 0.0075 * inaccuracy);
+
+            // 重新归一化
+            double newDistance = Math.sqrt(vx * vx + vy * vy + vz * vz);
+            vx = vx / newDistance * VAL_DEF / 4;
+            vy = vy / newDistance * VAL_DEF / 4;
+            vz = vz / newDistance * VAL_DEF / 4;
+
+            shot.setDeltaMovement(vx, vy, vz);
+        } else {
+            shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, VAL_DEF / 4, INA_DEF);
+        }
         addEntityAndSound(level, living, shot);
     }
 
@@ -349,7 +376,7 @@ public class DanmakuShootHelper {
      */
     private static void addEntityAndSound(Level level, LivingEntity living, DanmakuBase shot){
         level.addFreshEntity(shot);
-        level.playSound(null, living.getX(), living.getY(), living.getZ(), InitSounds.MAID_DANMAKU_ATTACK.get(), living.getSoundSource(), 1.0f, 0.8f);
+        level.playSound(null, living.getX(), living.getY(), living.getZ(), SoundEvents.ARROW_SHOOT, living.getSoundSource(), 1.0f, 1.0f);
     }
 
     /**

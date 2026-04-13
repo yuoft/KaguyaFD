@@ -2,6 +2,7 @@ package com.yuo.kaguya.Client.Render.Mob;
 
 import com.github.tartaricacid.touhoulittlemaid.client.animation.HardcodedAnimationManger;
 import com.github.tartaricacid.touhoulittlemaid.client.model.bedrock.BedrockModel;
+import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.EntityFairyRenderer;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.GeckoEntityMaidRenderer;
 import com.github.tartaricacid.touhoulittlemaid.client.resource.CustomPackLoader;
 import com.github.tartaricacid.touhoulittlemaid.client.resource.pojo.MaidModelInfo;
@@ -98,7 +99,7 @@ public class YSMModelRender extends MobRenderer<BaseMobEntity, BedrockModel<Base
 
         // 应用实体旋转（关键修正）
         this.setupRotations(mob, poseStack, lerpedAge, lerpBodyRot, partialTicks);
-        poseStack.mulPose(Axis.ZP.rotationDegrees(180));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(180)); //获取的模型上下颠倒
 
         ResourceLocation texture = getTextureLocation(mob);
         RenderType renderType = RenderType.entityCutoutNoCull(texture);

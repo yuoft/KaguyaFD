@@ -1,8 +1,10 @@
 package com.yuo.kaguya.Entity.Mob;
 
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
+import com.github.tartaricacid.touhoulittlemaid.entity.monster.EntityFairy;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
+import com.yuo.kaguya.Entity.DanmakuColor;
 import com.yuo.kaguya.Entity.DanmakuShootHelper;
 import com.yuo.kaguya.Entity.DanmakuType;
 import com.yuo.kaguya.Entity.ModEntityTypes;
@@ -24,6 +26,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
@@ -47,16 +50,28 @@ public class BaseMobEntity extends Monster implements IMaid, RangedAttackMob {
         this.setModelId(getRegId(type.getDescriptionId()));
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (this.tickCount % 20 == 0) {
+            this.heal(1);
+        }
+    }
+
+    @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new RangeAttackGoal(this, 6, 1.0d)); //攻击
-        this.goalSelector.addGoal(2, new ModAttackGoal(this, 1.0D, false)); //攻击
-        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, EntityMaid.class, 8.0F));
-        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this)); //随机看向目标
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D)); //移动
-//        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers(Monster.class)); //被攻击后呼叫所有怪物帮助
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true)); //主动攻击
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Animal.class, false));
+        this.goalSelector.addGoal(1, new RangeAttackGoal(this, 6, 1.0d)); // 远程攻击
+        this.goalSelector.addGoal(2, new ModAttackGoal(this, 1.2D, false, 6)); // 近战攻击
+        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0D)); // 随机移动
+        this.goalSelector.addGoal(4, new MoveTowardsTargetGoal(this, 1.0D, 32.0F)); // 如果看到玩家，向玩家移动
+        // 看向实体
+        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, EntityMaid.class, 8.0F));
+        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+        // 攻击目标选择
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Animal.class, false));
     }
 
     //属性
@@ -69,7 +84,7 @@ public class BaseMobEntity extends Monster implements IMaid, RangedAttackMob {
                 .add(Attributes.ATTACK_DAMAGE, 8.0D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.3D)
                 .add(Attributes.FOLLOW_RANGE, 32.0D)
-                .add(Attributes.ARMOR, 2.0d);
+                .add(Attributes.ARMOR, 10.0d);
     }
 
     @Override
@@ -118,8 +133,19 @@ public class BaseMobEntity extends Monster implements IMaid, RangedAttackMob {
             case NORMAL -> damageBase = 1.5F;
             case HARD -> damageBase = 2.0F;
         }
-
-        DanmakuShootHelper.shootDanmakuMob(this.level(), this, damageBase, null, DanmakuType.MEDIUM_BALL);
+        DanmakuColor color = DanmakuColor.GRAY;
+        if (this.getType() == ModEntityTypes.HAKUREI_REIMU.get()){
+            color = DanmakuColor.RED;
+        } else if (this.getType() == ModEntityTypes.KIRISAME_MARISA.get()){
+            color = DanmakuColor.BLACK;
+        } else if (this.getType() == ModEntityTypes.RUMIA.get()){
+            color = DanmakuColor.BLUE;
+        } else if (this.getType() == ModEntityTypes.CIRNO.get()){
+            color = DanmakuColor.LIGHT_BLUE;
+        } else if (this.getType() == ModEntityTypes.KOCHIYA_SANAE.get()){
+            color = DanmakuColor.GREEN;
+        }
+        DanmakuShootHelper.shootDanmakuMob(this.level(), this, target, damageBase, color, DanmakuType.random(this.level().random));
     }
 
     @Override
@@ -131,22 +157,6 @@ public class BaseMobEntity extends Monster implements IMaid, RangedAttackMob {
             if (random.nextDouble() < 0.2 + looting * 0.05)
                 this.spawnAtLocation(ModItems.icicleSword.get(), 1);
         }
-    }
-
-    @Override
-    protected @NotNull InteractionResult mobInteract(Player player, InteractionHand hand) {
-        Level level = this.level();
-        if (!level.isClientSide && this.getType() == ModEntityTypes.KOCHIYA_SANAE.get()) {
-            ItemStack handItem = player.getItemInHand(hand);
-            if (handItem.getItem() == Items.GOLDEN_APPLE && handItem.getCount() >= 3){
-                handItem.shrink(2);
-                player.addItem(ModItems.byoukiheiyuMamori.get().getDefaultInstance());
-                level.addFreshEntity(new ExperienceOrb(level, this.getX(), getY(), getZ(),10));
-                level.playSound(player, this, SoundEvents.VILLAGER_WORK_TOOLSMITH, SoundSource.AMBIENT, 1.0f, 1.0f);
-                return InteractionResult.SUCCESS;
-            }
-        }
-        return super.mobInteract(player, hand);
     }
 
     public void setModelId(String modelId) {

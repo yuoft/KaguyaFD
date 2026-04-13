@@ -1,6 +1,7 @@
 package com.yuo.kaguya.Entity;
 
 import com.yuo.kaguya.Entity.Mob.BaseMobEntity;
+import com.yuo.kaguya.Entity.Mob.SanaeMob;
 import com.yuo.kaguya.Kaguya;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -64,8 +65,8 @@ public class ModEntityTypes {
     public static final RegistryObject<EntityType<BaseMobEntity>> CIRNO = ENTITY_TYPES.register("cirno",
             () -> EntityType.Builder.of(BaseMobEntity::new, MobCategory.MONSTER).sized(sizeWidth, sizeHeight)
                     .clientTrackingRange(trackingRange).updateInterval(updateInterval).build("cirno"));
-    public static final RegistryObject<EntityType<BaseMobEntity>> KOCHIYA_SANAE = ENTITY_TYPES.register("kochiya_sanae",
-            () -> EntityType.Builder.of(BaseMobEntity::new, MobCategory.CREATURE).sized(sizeWidth, sizeHeight)
+    public static final RegistryObject<EntityType<SanaeMob>> KOCHIYA_SANAE = ENTITY_TYPES.register("kochiya_sanae",
+            () -> EntityType.Builder.of(SanaeMob::new, MobCategory.CREATURE).sized(sizeWidth, sizeHeight)
                     .clientTrackingRange(trackingRange).updateInterval(updateInterval).build("kochiya_sanae"));
 
 }

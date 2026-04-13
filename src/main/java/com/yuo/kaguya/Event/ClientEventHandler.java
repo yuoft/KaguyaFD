@@ -1,10 +1,8 @@
 package com.yuo.kaguya.Event;
 
-import com.yuo.endless.Entity.EntityRegistry;
-import com.yuo.endless.Entity.InfinityMobEntity;
 import com.yuo.kaguya.Client.Model.*;
 import com.yuo.kaguya.Client.Render.*;
-import com.yuo.kaguya.Entity.BigOrbEntity;
+import com.yuo.kaguya.Client.Render.Mob.YSMModelRender;
 import com.yuo.kaguya.Entity.ModEntityTypes;
 import com.yuo.kaguya.Item.ModColorItemUtils;
 import com.yuo.kaguya.Item.ModItems;
@@ -13,17 +11,12 @@ import com.yuo.kaguya.Item.Prpo.GapFoldingUmbrella;
 import com.yuo.kaguya.Item.Prpo.SukimaGap;
 import com.yuo.kaguya.Item.Weapon.SilverKnife;
 import com.yuo.kaguya.Kaguya;
-import net.minecraft.client.renderer.OutlineBufferSource;
-import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegistryObject;
@@ -54,6 +47,12 @@ public class ClientEventHandler {
         event.registerEntityRenderer(ModEntityTypes.BIG_ORB.get(), BigOrbRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.CROSS_ENTITY.get(), CrossRender::new);
         event.registerEntityRenderer(ModEntityTypes.REBOUND_SHIELD.get(), ReboundRender::new);
+
+        event.registerEntityRenderer(ModEntityTypes.HAKUREI_REIMU.get(), YSMModelRender::new);
+        event.registerEntityRenderer(ModEntityTypes.KIRISAME_MARISA.get(), YSMModelRender::new);
+        event.registerEntityRenderer(ModEntityTypes.RUMIA.get(), YSMModelRender::new);
+        event.registerEntityRenderer(ModEntityTypes.CIRNO.get(), YSMModelRender::new);
+        event.registerEntityRenderer(ModEntityTypes.KOCHIYA_SANAE.get(), YSMModelRender::new);
     }
 
     @SubscribeEvent

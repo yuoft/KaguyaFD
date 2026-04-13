@@ -1,29 +1,36 @@
 package com.yuo.kaguya.Event;
 
+import com.github.tartaricacid.touhoulittlemaid.config.subconfig.MiscConfig;
+import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
+import com.yuo.endless.NetWork.NetWorkHandler;
+import com.yuo.endless.NetWork.TotemPacket;
 import com.yuo.kaguya.Entity.IceStatueEntity;
+import com.yuo.kaguya.Entity.Mob.BaseMobEntity;
+import com.yuo.kaguya.Entity.ModEntityTypes;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Kaguya;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.UUIDUtil;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -31,25 +38,82 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.network.PacketDistributor;
 
-import java.util.UUID;
+import java.util.Collection;
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Kaguya.MOD_ID)
 public class ModEventHandler {
     private static final RandomSource RANDOM = RandomSource.create();
+
+    @SubscribeEvent
+    public static void onEntityJoin(MobSpawnEvent event){
+        Mob entity = event.getEntity();
+        if (entity instanceof WanderingTrader wanderingTrader){
+            ServerLevelAccessor level = event.getLevel();
+            RandomSource random = level.getRandom();
+            if (random.nextDouble() < 0.2){
+                level.addFreshEntity(new BaseMobEntity(ModEntityTypes.KOCHIYA_SANAE.get(), level.getLevel()));
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void addMobSpawnInfo(LevelEvent.PotentialSpawns event) {
+        LevelAccessor var2 = event.getLevel();
+        if (var2 instanceof ServerLevel level) {
+
+            ResourceLocation dimension = level.dimension().location();
+            if (event.getMobCategory() == MobCategory.MONSTER && dimensionIsOkay(dimension)) {
+                List<SpawnerData> spawnerData = event.getSpawnerDataList();
+                boolean canZombieSpawn = spawnerData.stream().anyMatch((data) -> data.type.equals(EntityType.ZOMBIE));
+                MobSpawnSettings.SpawnerData SPAWNER_DATA0 = new MobSpawnSettings.SpawnerData(ModEntityTypes.HAKUREI_REIMU.get(), 2, 1, 1);
+                MobSpawnSettings.SpawnerData SPAWNER_DATA1 = new MobSpawnSettings.SpawnerData(ModEntityTypes.KIRISAME_MARISA.get(), 2, 1, 1);
+                MobSpawnSettings.SpawnerData SPAWNER_DATA2 = new MobSpawnSettings.SpawnerData(ModEntityTypes.RUMIA.get(), 2, 1, 1);
+                MobSpawnSettings.SpawnerData SPAWNER_DATA3 = new MobSpawnSettings.SpawnerData(ModEntityTypes.CIRNO.get(), 2, 1, 1);
+                if (canZombieSpawn) {
+                    event.addSpawnerData(SPAWNER_DATA0);
+                    event.addSpawnerData(SPAWNER_DATA1);
+                    event.addSpawnerData(SPAWNER_DATA2);
+                    event.addSpawnerData(SPAWNER_DATA3);
+                }
+            }
+        }
+
+    }
+
+    @SubscribeEvent
+    public static void onEntityDrop(LivingDropsEvent event) {
+        LivingEntity entity = event.getEntity();
+        Level level = entity.level();
+        BlockPos pos = entity.getOnPos();
+        int lootingLevel = event.getLootingLevel();
+        if (entity.getType() == InitEntities.FAIRY.get()){
+            int i = Mth.randomBetweenInclusive(level.random, 1, 1 + lootingLevel);
+            Collection<ItemEntity> drops = event.getDrops();
+            addDropItem(drops, level, pos, ModItems.smallPotion.get(), i);
+            addDropItem(drops, level, pos, ModItems.thPotion.get(), i);
+            addDropItem(drops, level, pos, ModItems.danmakuMaterial.get(), i);
+        }
+    }
 
     @SubscribeEvent
     public static void onTick(PlayerTickEvent event){
@@ -137,9 +201,9 @@ public class ModEventHandler {
         if (event.getEntity() instanceof Player player) {
             ItemStack totem = getPlayerBagItem(player, ModItems.extend.get());
             if (!totem.isEmpty()){
-                playTotem(totem, player);
+                NetWorkHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new TotemPacket(totem, player));
                 if (player instanceof ServerPlayer serverplayer) {
-                    serverplayer.awardStat(Stats.ITEM_USED.get(Items.TOTEM_OF_UNDYING), 1);
+                    serverplayer.awardStat(Stats.ITEM_USED.get(ModItems.extend.get()), 1);
                     CriteriaTriggers.USED_TOTEM.trigger(serverplayer, totem);
                 }
                 player.removeAllEffects();
@@ -166,21 +230,15 @@ public class ModEventHandler {
         }
     }
 
+    private static boolean dimensionIsOkay(ResourceLocation id) {
+        return !MiscConfig.MAID_FAIRY_BLACKLIST_DIMENSION.get().contains(id.toString());
+    }
+
     /**
-     * 播放图腾动画
-     * @param stack 动画物品
-     * @param entity 对谁播放
+     * 添加掉落
      */
-    @OnlyIn(Dist.CLIENT)
-    public static void playTotem(ItemStack stack, Entity entity) {
-        Minecraft mc = Minecraft.getInstance();
-        ClientLevel world = mc.level;
-        if (world != null){
-            mc.particleEngine.createTrackingEmitter(entity, ParticleTypes.TOTEM_OF_UNDYING, 30);
-            world.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundEvents.TOTEM_USE, entity.getSoundSource(), 1.0F, 1.0F, false);
-            if (mc.player == entity)
-                mc.gameRenderer.displayItemActivation(stack);
-        }
+    public static void addDropItem(Collection<ItemEntity> drops, Level level, BlockPos pos, Item item, int number){
+        drops.add(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(item, number)));
     }
 
     /**

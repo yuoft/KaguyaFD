@@ -1,5 +1,6 @@
 package com.yuo.kaguya.Entity;
 
+import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -37,6 +38,16 @@ public class DanmakuShootHelper {
     public static void shootDanmaku(Level level, LivingEntity living, float vel, float ina, DanmakuColor color, DanmakuType type){
         DanmakuBase shot = new DanmakuBase(level, living, type, color);
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
+        addEntityAndSound(level, living, shot);
+    }
+
+    /**
+     * 怪物弹幕
+     */
+    public static void shootDanmakuMob(Level level, LivingEntity living, float base, DanmakuColor color, DanmakuType type){
+        DanmakuBase shot = new DanmakuBase(level, living, type, color);
+        shot.setDamage(shot.getDamage() * base);
+        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, VAL_DEF / 2, INA_DEF);
         addEntityAndSound(level, living, shot);
     }
 
@@ -338,7 +349,7 @@ public class DanmakuShootHelper {
      */
     private static void addEntityAndSound(Level level, LivingEntity living, DanmakuBase shot){
         level.addFreshEntity(shot);
-        level.playSound(null, living.getX(), living.getY(), living.getZ(), SoundEvents.SNOWBALL_THROW, living.getSoundSource(), 1.0f, 0.8f);
+        level.playSound(null, living.getX(), living.getY(), living.getZ(), InitSounds.MAID_DANMAKU_ATTACK.get(), living.getSoundSource(), 1.0f, 0.8f);
     }
 
     /**

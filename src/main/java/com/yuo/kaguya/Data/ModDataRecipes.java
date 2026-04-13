@@ -1,5 +1,6 @@
 package com.yuo.kaguya.Data;
 
+import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import com.google.gson.JsonObject;
 import com.yuo.kaguya.Entity.DanmakuColor;
 import com.yuo.kaguya.Item.ModColorItemUtils;
@@ -241,6 +242,14 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', Items.IRON_INGOT).define('y', ModItems.soulTorch.get()).define('z', Items.STICK)
                 .pattern("  x").pattern("yx ").pattern("z  ")
                 .unlockedBy("has_item", has(ModItems.hakurouken.get())).save(consumer);
+
+        //女仆联动弹幕
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.smallPotion.get(), 5).requires(InitItems.POWER_POINT.get())
+                .unlockedBy("has_item", has(ModItems.smallPotion.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, InitItems.POWER_POINT.get(), 1)
+                .define('x', ModItems.smallPotion.get())
+                .pattern(" x ").pattern("xxx").pattern(" x ")
+                .unlockedBy("has_item", has(InitItems.POWER_POINT.get())).save(consumer);
 
         //弹幕
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.crystalShot.get(), 4)

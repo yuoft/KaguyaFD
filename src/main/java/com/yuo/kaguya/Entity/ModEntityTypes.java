@@ -1,7 +1,9 @@
 package com.yuo.kaguya.Entity;
 
+import com.yuo.kaguya.Entity.Mob.BaseMobEntity;
 import com.yuo.kaguya.Kaguya;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -44,5 +46,26 @@ public class ModEntityTypes {
             () -> IceStatueEntity.TYPE);
     public static final RegistryObject<EntityType<CrossEntity>> CROSS_ENTITY = ENTITY_TYPES.register("cross_entity",
             () -> CrossEntity.TYPE);
+
+    private static final float sizeWidth = 0.6f;
+    private static final float sizeHeight = 1.5f;
+    private static final int trackingRange = 16;
+    private static final int updateInterval = 1;
+
+    public static final RegistryObject<EntityType<BaseMobEntity>> HAKUREI_REIMU = ENTITY_TYPES.register("hakurei_reimu",
+            () -> EntityType.Builder.of(BaseMobEntity::new, MobCategory.MONSTER).sized(sizeWidth, sizeHeight)
+                    .clientTrackingRange(trackingRange).updateInterval(updateInterval).build("hakurei_reimu"));
+    public static final RegistryObject<EntityType<BaseMobEntity>> KIRISAME_MARISA = ENTITY_TYPES.register("kirisame_marisa",
+            () -> EntityType.Builder.of(BaseMobEntity::new, MobCategory.MONSTER).sized(sizeWidth, sizeHeight)
+                    .clientTrackingRange(trackingRange).updateInterval(updateInterval).build("kirisame_marisa"));
+    public static final RegistryObject<EntityType<BaseMobEntity>> RUMIA = ENTITY_TYPES.register("rumia",
+            () -> EntityType.Builder.of(BaseMobEntity::new, MobCategory.MONSTER).sized(sizeWidth, sizeHeight)
+                    .clientTrackingRange(trackingRange).updateInterval(updateInterval).build("rumia"));
+    public static final RegistryObject<EntityType<BaseMobEntity>> CIRNO = ENTITY_TYPES.register("cirno",
+            () -> EntityType.Builder.of(BaseMobEntity::new, MobCategory.MONSTER).sized(sizeWidth, sizeHeight)
+                    .clientTrackingRange(trackingRange).updateInterval(updateInterval).build("cirno"));
+    public static final RegistryObject<EntityType<BaseMobEntity>> KOCHIYA_SANAE = ENTITY_TYPES.register("kochiya_sanae",
+            () -> EntityType.Builder.of(BaseMobEntity::new, MobCategory.CREATURE).sized(sizeWidth, sizeHeight)
+                    .clientTrackingRange(trackingRange).updateInterval(updateInterval).build("kochiya_sanae"));
 
 }

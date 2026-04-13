@@ -26,6 +26,10 @@ public class KaguyaUtils {
         return new ResourceLocation(Kaguya.MOD_ID, path);
     }
 
+    public static ResourceLocation fa(String id, String path) {
+        return new ResourceLocation(id, path);
+    }
+
     public static ResourceLocation def(String path) {
         return new ResourceLocation(path);
     }

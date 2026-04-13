@@ -36,7 +36,9 @@ public class RecoveryCharm extends KaguyaPrpo {
             if (useDuration >= 10) {
                 if (!level.isClientSide) {
                     player.removeAllEffects();
-                    player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 60, 3));
+                    player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 120, 3));
+                    player.heal(player.getMaxHealth() - player.getHealth());
+                    player.getFoodData().eat(20, 20);
 
                     level.playSound((Player) null, player.getOnPos(), SoundEvents.PLAYER_LEVELUP, SoundSource.PLAYERS, 1.0F, 1.0F);
                     if (!player.getAbilities().instabuild) {

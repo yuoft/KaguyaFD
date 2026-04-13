@@ -1,11 +1,9 @@
 package com.yuo.kaguya.Event;
 
-import com.github.tartaricacid.touhoulittlemaid.config.subconfig.MiscConfig;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.yuo.endless.NetWork.NetWorkHandler;
 import com.yuo.endless.NetWork.TotemPacket;
 import com.yuo.kaguya.Entity.IceStatueEntity;
-import com.yuo.kaguya.Entity.Mob.BaseMobEntity;
 import com.yuo.kaguya.Entity.ModEntityTypes;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Kaguya;
@@ -29,8 +27,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -38,7 +34,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData;
 import net.minecraft.world.level.block.LeavesBlock;
@@ -46,7 +41,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.ItemCraftedEvent;
@@ -63,18 +57,11 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = Kaguya.MOD_ID)
 public class ModEventHandler {
     private static final RandomSource RANDOM = RandomSource.create();
-
-    @SubscribeEvent
-    public static void onEntityJoin(MobSpawnEvent event){
-        Mob entity = event.getEntity();
-        if (entity instanceof WanderingTrader wanderingTrader){
-            ServerLevelAccessor level = event.getLevel();
-            RandomSource random = level.getRandom();
-            if (random.nextDouble() < 0.2){
-                level.addFreshEntity(new BaseMobEntity(ModEntityTypes.KOCHIYA_SANAE.get(), level.getLevel()));
-            }
-        }
-    }
+    private static MobSpawnSettings.SpawnerData SPAWNER_DATA0;
+    private static MobSpawnSettings.SpawnerData SPAWNER_DATA1;
+    private static MobSpawnSettings.SpawnerData SPAWNER_DATA2;
+    private static MobSpawnSettings.SpawnerData SPAWNER_DATA3;
+    private static MobSpawnSettings.SpawnerData SPAWNER_DATA4;
 
     @SubscribeEvent
     public static void addMobSpawnInfo(LevelEvent.PotentialSpawns event) {
@@ -85,15 +72,26 @@ public class ModEventHandler {
             if (event.getMobCategory() == MobCategory.MONSTER && dimensionIsOkay(dimension)) {
                 List<SpawnerData> spawnerData = event.getSpawnerDataList();
                 boolean canZombieSpawn = spawnerData.stream().anyMatch((data) -> data.type.equals(EntityType.ZOMBIE));
-                MobSpawnSettings.SpawnerData SPAWNER_DATA0 = new MobSpawnSettings.SpawnerData(ModEntityTypes.HAKUREI_REIMU.get(), 2, 1, 1);
-                MobSpawnSettings.SpawnerData SPAWNER_DATA1 = new MobSpawnSettings.SpawnerData(ModEntityTypes.KIRISAME_MARISA.get(), 2, 1, 1);
-                MobSpawnSettings.SpawnerData SPAWNER_DATA2 = new MobSpawnSettings.SpawnerData(ModEntityTypes.RUMIA.get(), 2, 1, 1);
-                MobSpawnSettings.SpawnerData SPAWNER_DATA3 = new MobSpawnSettings.SpawnerData(ModEntityTypes.CIRNO.get(), 2, 1, 1);
+                if (SPAWNER_DATA0 == null){
+                    SPAWNER_DATA0 = new MobSpawnSettings.SpawnerData(ModEntityTypes.HAKUREI_REIMU.get(), 2, 1, 1);
+                    SPAWNER_DATA1 = new MobSpawnSettings.SpawnerData(ModEntityTypes.KIRISAME_MARISA.get(), 2, 1, 1);
+                    SPAWNER_DATA2 = new MobSpawnSettings.SpawnerData(ModEntityTypes.RUMIA.get(), 2, 1, 1);
+                    SPAWNER_DATA3 = new MobSpawnSettings.SpawnerData(ModEntityTypes.CIRNO.get(), 2, 1, 1);
+                }
                 if (canZombieSpawn) {
                     event.addSpawnerData(SPAWNER_DATA0);
                     event.addSpawnerData(SPAWNER_DATA1);
                     event.addSpawnerData(SPAWNER_DATA2);
                     event.addSpawnerData(SPAWNER_DATA3);
+                }
+            }else if (event.getMobCategory() == MobCategory.CREATURE && dimensionIsOverworld(dimension)){
+                List<SpawnerData> spawnerData = event.getSpawnerDataList();
+                boolean canSpawn = spawnerData.stream().anyMatch((data) -> data.type.equals(EntityType.WANDERING_TRADER));
+                if (SPAWNER_DATA4 == null){
+                    SPAWNER_DATA4 = new MobSpawnSettings.SpawnerData(ModEntityTypes.KOCHIYA_SANAE.get(), 5, 1, 1);
+                }
+                if (canSpawn){
+                    event.addSpawnerData(SPAWNER_DATA0);
                 }
             }
         }
@@ -231,7 +229,11 @@ public class ModEventHandler {
     }
 
     private static boolean dimensionIsOkay(ResourceLocation id) {
-        return !MiscConfig.MAID_FAIRY_BLACKLIST_DIMENSION.get().contains(id.toString());
+        return id.equals(Level.OVERWORLD.location()) || id.equals(Level.NETHER.location()) || id.equals(Level.END.location());
+    }
+
+    private static boolean dimensionIsOverworld(ResourceLocation id) {
+        return id.equals(Level.OVERWORLD.location());
     }
 
     /**

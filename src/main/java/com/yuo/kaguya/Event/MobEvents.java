@@ -22,4 +22,5 @@ public class MobEvents {
         event.put(ModEntityTypes.CIRNO.get(), BaseMobEntity.createAttributes().build());
         event.put(ModEntityTypes.KOCHIYA_SANAE.get(), BaseMobEntity.createAttributes().build());
     }
+
 }

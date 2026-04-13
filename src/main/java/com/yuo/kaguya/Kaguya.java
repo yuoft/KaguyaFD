@@ -2,6 +2,7 @@ package com.yuo.kaguya;
 
 import com.yuo.kaguya.Block.ModBlocks;
 import com.yuo.kaguya.Entity.ModEntityTypes;
+import com.yuo.kaguya.Event.MobEvents;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Menu.ModMenuTypes;
 import com.yuo.kaguya.Proxy.ClientProxy;

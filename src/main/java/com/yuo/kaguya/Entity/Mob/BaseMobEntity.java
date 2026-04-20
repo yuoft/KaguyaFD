@@ -1,41 +1,37 @@
 package com.yuo.kaguya.Entity.Mob;
 
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
-import com.github.tartaricacid.touhoulittlemaid.entity.monster.EntityFairy;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
-import com.yuo.kaguya.Entity.DanmakuColor;
-import com.yuo.kaguya.Entity.DanmakuShootHelper;
-import com.yuo.kaguya.Entity.DanmakuType;
-import com.yuo.kaguya.Entity.ModEntityTypes;
+import com.yuo.kaguya.Entity.*;
 import com.yuo.kaguya.Item.ModItems;
-import net.minecraft.core.BlockPos;
+import com.yuo.kaguya.Item.Weapon.DanmakuDamageTypes;
+import com.yuo.kaguya.KaguyaUtils;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
+import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
@@ -88,9 +84,14 @@ public class BaseMobEntity extends Monster implements IMaid, RangedAttackMob {
                 .add(Attributes.ARMOR, 10.0d);
     }
 
-    public static boolean canSpawn(EntityType<? extends Monster> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        // 基础怪物生成规则
-        return Monster.checkMonsterSpawnRules(type, level, spawnType, pos, random);
+    @Override
+    public boolean hurt(DamageSource source, float value) {
+        if (DanmakuDamageTypes.isDanmaku(source)){
+            value *= 1.5f;
+        }else {
+            value *= 0.75f;
+        }
+        return super.hurt(source, value);
     }
 
     @Override
@@ -134,6 +135,7 @@ public class BaseMobEntity extends Monster implements IMaid, RangedAttackMob {
     @Override
     public void performRangedAttack(LivingEntity target, float distanceFactor) {
         float damageBase = 1.0F;
+        Level level = this.level();
         Difficulty difficulty = target.level().getDifficulty();
         switch (difficulty) {
             case NORMAL -> damageBase = 1.5F;
@@ -151,18 +153,56 @@ public class BaseMobEntity extends Monster implements IMaid, RangedAttackMob {
         } else if (this.getType() == ModEntityTypes.KOCHIYA_SANAE.get()){
             color = DanmakuColor.GREEN;
         }
-        DanmakuShootHelper.shootDanmakuMob(this.level(), this, target, damageBase, color, DanmakuType.random(this.level().random));
+
+        boolean flag = this.random.nextDouble() > 0.8;
+        if (flag){
+            if (this.getType() == ModEntityTypes.HAKUREI_REIMU.get()){
+                DanmakuShootHelper.shootDanmakuMobReimu(level, this, target, damageBase);
+            }else if (this.getType() == ModEntityTypes.KIRISAME_MARISA.get()){
+                KaguyaUtils.spawnLaser(this, level, false);
+            }
+        } else DanmakuShootHelper.shootDanmakuMobBase(level, this, target, damageBase, color, DanmakuType.random(level.random));
     }
+
+    @Override
+    protected void populateDefaultEquipmentSlots(RandomSource randomSource, DifficultyInstance difficultyInstance) {
+        super.populateDefaultEquipmentSlots(randomSource, difficultyInstance);
+//        if (this.getType() == ModEntityTypes.HAKUREI_REIMU.get()){
+//            this.setItemSlot(EquipmentSlot.MAINHAND, ModItems.hakureiOharaibou.get().getDefaultInstance());
+//        }
+    }
+
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
+        spawnData = super.finalizeSpawn(level, difficulty, spawnType, spawnData, dataTag);
+        if (this.getType() == ModEntityTypes.HAKUREI_REIMU.get()) {
+            this.setItemSlot(EquipmentSlot.MAINHAND, ModItems.hakureiOharaibou.get().getDefaultInstance());
+        }
+        return spawnData;
+    }
+
+    //不被蛛网减速
+    @Override
+    public void makeStuckInBlock(BlockState pState, Vec3 pMotionMultiplier) {
+        if (!pState.is(Blocks.COBWEB))
+            super.makeStuckInBlock(pState, pMotionMultiplier);
+    }
+
 
     @Override
     protected void dropCustomDeathLoot(DamageSource source, int looting, boolean b) {
         super.dropCustomDeathLoot(source, looting, b);
-        Level level = this.level();
-        RandomSource random = level.random;
         if (this.getType() == ModEntityTypes.CIRNO.get()){
             if (random.nextDouble() < 0.2 + looting * 0.05)
                 this.spawnAtLocation(ModItems.icicleSword.get(), 1);
         }
+
+        this.spawnAtLocation(ModItems.danmakuMaterial.get(), Mth.randomBetweenInclusive(random, 8, 32));
+    }
+
+    @Override
+    public int getExperienceReward() {
+        return super.getExperienceReward() * 2;
     }
 
     public void setModelId(String modelId) {

@@ -9,6 +9,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -77,7 +78,7 @@ public class SanaeMob extends BaseMobEntity implements NeutralMob {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurt(DamageSource source, float value) {
         if (!this.level().isClientSide) {
             Entity attacker = source.getEntity();
             if (attacker instanceof LivingEntity livingAttacker) {
@@ -89,7 +90,7 @@ public class SanaeMob extends BaseMobEntity implements NeutralMob {
                 this.alertOthers(livingAttacker);
             }
         }
-        return super.hurt(source, amount);
+        return super.hurt(source, value);
     }
 
     // 通知附近同类型实体一起攻击
@@ -101,6 +102,12 @@ public class SanaeMob extends BaseMobEntity implements NeutralMob {
                 .filter(mob -> mob != this && mob.getTarget() == null)
                 .filter(mob -> !mob.isAlliedTo(attacker))
                 .forEach(mob -> mob.setTarget(attacker));
+    }
+
+    @Override
+    protected void dropCustomDeathLoot(DamageSource source, int looting, boolean b) {
+        super.dropCustomDeathLoot(source, looting, b);
+        this.spawnAtLocation(Items.EMERALD, Mth.randomBetweenInclusive(random, 2,16));
     }
 
     // ========== 辅助方法 ==========

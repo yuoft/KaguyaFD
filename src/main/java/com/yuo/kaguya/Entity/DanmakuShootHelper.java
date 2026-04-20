@@ -1,7 +1,5 @@
 package com.yuo.kaguya.Entity;
 
-import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
-import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -44,9 +42,30 @@ public class DanmakuShootHelper {
     /**
      * 怪物弹幕
      */
-    public static void shootDanmakuMob(Level level, LivingEntity living, LivingEntity target, float base, DanmakuColor color, DanmakuType type){
+    public static void shootDanmakuMobBase(Level level, LivingEntity living, LivingEntity target, float base, DanmakuColor color, DanmakuType type){
         DanmakuBase shot = new DanmakuBase(level, living, type, color);
         shot.setDamage(shot.getDamage() * base);
+        mobToPlayer(level, target, living, shot, VAL_DEF / 4);
+    }
+
+    /**
+     * 灵梦发射阴阳玉
+     */
+    public static void shootDanmakuMobReimu(Level level, LivingEntity living, LivingEntity target, float base){
+        float size = Mth.randomBetweenInclusive(level.random, 3, 7) * 0.1f;
+        YinYangOrbEntity shot = new YinYangOrbEntity(level, living, size, 3);
+        shot.setSize(size);
+        shot.setDamage(shot.getDamage() * base);
+        mobToPlayer(level, target, living, shot, VAL_DEF / 2);
+    }
+
+    /**
+     * 向目标发射弹幕
+     * @param target 目标
+     * @param living 发射实体
+     * @param shot 弹幕
+     */
+    private static void mobToPlayer(Level level, LivingEntity target, LivingEntity living, DanmakuBase shot, float val){
         // 计算向目标发射的方向
         if (target != null) {
             double dx = target.getX() - living.getX();
@@ -67,13 +86,13 @@ public class DanmakuShootHelper {
 
             // 重新归一化
             double newDistance = Math.sqrt(vx * vx + vy * vy + vz * vz);
-            vx = vx / newDistance * VAL_DEF / 4;
-            vy = vy / newDistance * VAL_DEF / 4;
-            vz = vz / newDistance * VAL_DEF / 4;
+            vx = vx / newDistance * val;
+            vy = vy / newDistance * val;
+            vz = vz / newDistance * val;
 
             shot.setDeltaMovement(vx, vy, vz);
         } else {
-            shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, VAL_DEF / 4, INA_DEF);
+            shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, val, INA_DEF);
         }
         addEntityAndSound(level, living, shot);
     }

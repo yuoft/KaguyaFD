@@ -31,7 +31,7 @@ public class BeamLaserEntity extends Entity {
     protected static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(BeamLaserEntity.class, EntityDataSerializers.INT);
     private int maxAge;
     private float damage;
-    private Player owner;
+    private LivingEntity owner;
     private Vec3 startPos;
     private Vec3 laserDirection;
     private Vec3 explosionPos;
@@ -53,7 +53,7 @@ public class BeamLaserEntity extends Entity {
         this.setMaxAge(200);
     }
 
-    public BeamLaserEntity(Level level, Player owner, Vec3 startPos, Vec3 direction, Vec3 explosionPos, DanmakuColor color, double length) {
+    public BeamLaserEntity(Level level, LivingEntity owner, Vec3 startPos, Vec3 direction, Vec3 explosionPos, DanmakuColor color, double length) {
         this(ModEntityTypes.BEAM_LASER.get(), level);
 
         // 确保参数不为null

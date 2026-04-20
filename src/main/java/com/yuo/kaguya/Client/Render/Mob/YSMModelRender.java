@@ -18,6 +18,7 @@ public class YSMModelRender extends MobRenderer<BaseMobEntity, BedrockModel<Base
     public YSMModelRender(Context context) {
         super(context, new BedrockModel<>(), 0.5F);
         this.maidRenderer = new EntityMaidRenderer(context);
+        this.addLayer(new YSMHeldItemLayer(this, context.getItemInHandRenderer()));
     }
 
 

@@ -1,10 +1,14 @@
 package com.yuo.kaguya;
 
+import com.yuo.kaguya.Entity.BeamLaserEntity;
+import com.yuo.kaguya.Entity.DanmakuColor;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -40,6 +44,39 @@ public class KaguyaUtils {
         } catch (ResourceLocationException var2) {
             return null;
         }
+    }
+
+    /**
+     * 发射信标激光
+     * @param isExplosion 是否爆炸
+     */
+    public static void spawnLaser(LivingEntity living, Level level, boolean isExplosion){
+        // 计算视线方向
+        Vec3 eyePosition = living.getEyePosition();
+        Vec3 lookDirection = living.getViewVector(1.0F);
+        Vec3 actualEnd = KaguyaUtils.getHitVec(eyePosition, lookDirection, level, living);
+        double beamLength = eyePosition.distanceTo(actualEnd);
+        if (beamLength < 1) {
+            beamLength = 1;
+        }
+        if (!isExplosion && beamLength > 16){
+            beamLength = 16;
+        }
+
+        DanmakuColor danmakuColor = DanmakuColor.random(level.random);
+
+        try {
+            BeamLaserEntity laser = new BeamLaserEntity(level, living, eyePosition, lookDirection, actualEnd, danmakuColor, beamLength);
+            if (!isExplosion)
+                laser.setExplosion(false);
+            level.addFreshEntity(laser);
+        } catch (Exception e) {
+            System.err.println("Error creating laser beam: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        level.playSound(null, living.getX(), living.getY(), living.getZ(), SoundEvents.BEACON_ACTIVATE, SoundSource.PLAYERS, 1.0F, 1.0F);
+
     }
 
     /**
@@ -117,7 +154,7 @@ public class KaguyaUtils {
      * @param eyePosition   玩家视线位置
      * @param lookDirection 玩家视线方向
      */
-    public static Vec3 getHitVec(Vec3 eyePosition, Vec3 lookDirection, Level level, Player player) {
+    public static Vec3 getHitVec(Vec3 eyePosition, Vec3 lookDirection, Level level, LivingEntity living) {
         // 确保方向不为零向量
         if (lookDirection.lengthSqr() < 0.0001) {
             lookDirection = new Vec3(0, 1, 0); // 默认向上
@@ -127,7 +164,7 @@ public class KaguyaUtils {
         Vec3 endPosition = eyePosition.add(lookDirection.scale(maxDistance));
 
         // 进行方块碰撞检测
-        HitResult hitResult = level.clip(new ClipContext(eyePosition, endPosition, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
+        HitResult hitResult = level.clip(new ClipContext(eyePosition, endPosition, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, living));
 
         // 确定光束实际终点
         Vec3 actualEnd;

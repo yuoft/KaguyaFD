@@ -73,10 +73,10 @@ public class ModEventHandler {
                 List<SpawnerData> spawnerData = event.getSpawnerDataList();
                 boolean canZombieSpawn = spawnerData.stream().anyMatch((data) -> data.type.equals(EntityType.ZOMBIE));
                 if (SPAWNER_DATA0 == null){
-                    SPAWNER_DATA0 = new MobSpawnSettings.SpawnerData(ModEntityTypes.HAKUREI_REIMU.get(), 2, 1, 1);
-                    SPAWNER_DATA1 = new MobSpawnSettings.SpawnerData(ModEntityTypes.KIRISAME_MARISA.get(), 2, 1, 1);
-                    SPAWNER_DATA2 = new MobSpawnSettings.SpawnerData(ModEntityTypes.RUMIA.get(), 2, 1, 1);
-                    SPAWNER_DATA3 = new MobSpawnSettings.SpawnerData(ModEntityTypes.CIRNO.get(), 2, 1, 1);
+                    SPAWNER_DATA0 = new MobSpawnSettings.SpawnerData(ModEntityTypes.HAKUREI_REIMU.get(), 2, 0, 1);
+                    SPAWNER_DATA1 = new MobSpawnSettings.SpawnerData(ModEntityTypes.KIRISAME_MARISA.get(), 2, 0, 1);
+                    SPAWNER_DATA2 = new MobSpawnSettings.SpawnerData(ModEntityTypes.RUMIA.get(), 2, 0, 1);
+                    SPAWNER_DATA3 = new MobSpawnSettings.SpawnerData(ModEntityTypes.CIRNO.get(), 2, 0, 1);
                 }
                 if (canZombieSpawn) {
                     event.addSpawnerData(SPAWNER_DATA0);
@@ -88,7 +88,7 @@ public class ModEventHandler {
                 List<SpawnerData> spawnerData = event.getSpawnerDataList();
                 boolean canSpawn = spawnerData.stream().anyMatch((data) -> data.type.equals(EntityType.WANDERING_TRADER));
                 if (SPAWNER_DATA4 == null){
-                    SPAWNER_DATA4 = new MobSpawnSettings.SpawnerData(ModEntityTypes.KOCHIYA_SANAE.get(), 5, 1, 1);
+                    SPAWNER_DATA4 = new MobSpawnSettings.SpawnerData(ModEntityTypes.KOCHIYA_SANAE.get(), 5, 0, 1);
                 }
                 if (canSpawn){
                     event.addSpawnerData(SPAWNER_DATA0);
@@ -261,6 +261,7 @@ public class ModEventHandler {
                 return stack;
         }
 
+        if (player.isCreative()) return item.getDefaultInstance();
         return ItemStack.EMPTY;
     }
 

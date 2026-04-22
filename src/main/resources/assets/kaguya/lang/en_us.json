@@ -36,7 +36,6 @@
 	"item.kaguya.homing_amulet": "Homing Talisman",
 	"item.kaguya.hotoke_hachi": "Hotoke Hachi",
 	"item.kaguya.hourai_eda": "Hourai Branch",
-	"item.kaguya.houtou": "Houtou",
 	"item.kaguya.ibukihyou": "Ibukihyou",
 	"item.kaguya.icicle_sword": "Icicle Sword",
 	"item.kaguya.kabenuke": "Wall-Piercing Chisel",
@@ -110,6 +109,15 @@
 	"entity.kaguya.gold_raft": "Kinkaku-ji Ceiling Plank",
 	"entity.kaguya.dragon_neck": "Lightning Ball",
 	"entity.kaguya.frozen_statue": "Ice Statue",
+	"entity.kaguya.yinyang_orb": "Yin-Yang Orb",
+	"entity.kaguya.big_orb": "Explosive Orb",
+	"entity.kaguya.cross_entity": "Crucifix",
+	"entity.kaguya.rebound_shield": "Rebound Shield",
+	"entity.kaguya.hakurei_reimu": "Hakurei Reimu",
+	"entity.kaguya.kirisame_marisa": "Kirisame Marisa",
+	"entity.kaguya.rumia": "Rumia",
+	"entity.kaguya.cirno": "Cirno",
+	"entity.kaguya.kochiya_sanae": "Kochiya Sanae",
 
 	"container.kaguya.danmaku_craft": "Danmaku Crafting Table",
 
@@ -125,6 +133,7 @@
 	"text.kaguya.koyasugai.1": "Kaguya's spell card \"Robe of Fire Rat\" and \"Life Spring Infinity\"",
 	"text.kaguya.aaa.1": "None",
 
+	"info.kaguya.gungnir.no_exp": "No experience！",
 	"info.kaguya.aja_red_stone.no_light": "Cannot gather light!",
 	"info.kaguya.hisyaku.water_num": "Capacity: %s",
 	"info.kaguya.hisyaku.true": "Mode: Absorb",

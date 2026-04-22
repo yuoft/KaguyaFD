@@ -7,6 +7,7 @@ import com.yuo.kaguya.Entity.IceStatueEntity;
 import com.yuo.kaguya.Entity.ModEntityTypes;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Kaguya;
+import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -104,12 +105,18 @@ public class ModEventHandler {
         Level level = entity.level();
         BlockPos pos = entity.getOnPos();
         int lootingLevel = event.getLootingLevel();
-        if (entity.getType() == InitEntities.FAIRY.get()){
+        Collection<ItemEntity> drops = event.getDrops();
+        EntityType<?> type = entity.getType();
+
+        if (type == InitEntities.FAIRY.get()){
             int i = Mth.randomBetweenInclusive(level.random, 1, 1 + lootingLevel);
-            Collection<ItemEntity> drops = event.getDrops();
             addDropItem(drops, level, pos, ModItems.smallPotion.get(), i);
             addDropItem(drops, level, pos, ModItems.thPotion.get(), i);
             addDropItem(drops, level, pos, ModItems.danmakuMaterial.get(), i);
+        }else if (type == EntityType.VILLAGER){
+            if (level.random.nextDouble() < 0.05 + lootingLevel * 0.03){
+                addDropItem(drops, level, pos, ModItems.soulTorch.get(), 1);
+            }
         }
     }
 
@@ -197,7 +204,7 @@ public class ModEventHandler {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onDeath(LivingDeathEvent event) {
         if (event.getEntity() instanceof Player player) {
-            ItemStack totem = getPlayerBagItem(player, ModItems.extend.get());
+            ItemStack totem = KaguyaUtils.getPlayerBagItem(player, ModItems.extend.get());
             if (!totem.isEmpty()){
                 NetWorkHandler.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new TotemPacket(totem, player));
                 if (player instanceof ServerPlayer serverplayer) {
@@ -241,28 +248,6 @@ public class ModEventHandler {
      */
     public static void addDropItem(Collection<ItemEntity> drops, Level level, BlockPos pos, Item item, int number){
         drops.add(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(item, number)));
-    }
-
-    /**
-     * 获取玩家背包中的物品
-     * @param player 玩家
-     */
-    public static ItemStack getPlayerBagItem(Player player, Item item){
-        ItemStack mainhand = player.getMainHandItem();
-        if (mainhand.getItem() == item){
-            return mainhand;
-        }
-        ItemStack offhand = player.getOffhandItem();
-        if (offhand.getItem() == item){
-            return offhand;
-        }
-        for (ItemStack stack : player.getInventory().items) {
-            if (stack.getItem() == item)
-                return stack;
-        }
-
-        if (player.isCreative()) return item.getDefaultInstance();
-        return ItemStack.EMPTY;
     }
 
     /**

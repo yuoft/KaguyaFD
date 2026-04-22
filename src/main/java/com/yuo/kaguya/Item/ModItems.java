@@ -42,7 +42,6 @@ public class ModItems {
 	public static RegistryObject<Item> byoukiheiyuMamori = ITEMS.register("byoukiheiyu_mamori", RecoveryCharm::new);
 	public static RegistryObject<Item> diffusionAmulet = ITEMS.register("diffusion_amulet", KaguyaPrpo::new);
 	public static RegistryObject<Item> homingAmulet = ITEMS.register("homing_amulet", KaguyaPrpo::new);
-	public static RegistryObject<Item> houtou = ITEMS.register("houtou", KaguyaPrpo::new);
 	public static RegistryObject<Item> houraiEda = ITEMS.register("hourai_eda", PenglaiBranch::new);
 	public static RegistryObject<Item> kinkakuzi = ITEMS.register("kinkakuzi", KinkakujiCeiling::new);
 	public static RegistryObject<Item> mazinKyoukan = ITEMS.register("mazin_kyoukan", DemonScripture::new);

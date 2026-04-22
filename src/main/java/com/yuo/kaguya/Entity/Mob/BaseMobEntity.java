@@ -175,7 +175,7 @@ public class BaseMobEntity extends Monster implements IMaid, RangedAttackMob {
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
         spawnData = super.finalizeSpawn(level, difficulty, spawnType, spawnData, dataTag);
-        if (this.getType() == ModEntityTypes.HAKUREI_REIMU.get()) {
+        if (this.getType() == ModEntityTypes.HAKUREI_REIMU.get()) { //灵梦巫女棒
             this.setItemSlot(EquipmentSlot.MAINHAND, ModItems.hakureiOharaibou.get().getDefaultInstance());
         }
         return spawnData;

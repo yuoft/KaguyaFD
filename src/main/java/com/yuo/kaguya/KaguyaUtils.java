@@ -220,13 +220,24 @@ public class KaguyaUtils {
     }
 
     /**
-     * 寻找此玩家的某个物品
+     * 获取玩家背包中的物品
+     * @param player 玩家
      */
-    public static ItemStack findItemByPlayer(Player player, Item item) {
-        int slotMatchingItem = player.getInventory().findSlotMatchingItem(new ItemStack(item));
-        if (slotMatchingItem > 0 && slotMatchingItem < 41) {
-            return player.getInventory().getItem(slotMatchingItem);
+    public static ItemStack getPlayerBagItem(Player player, Item item){
+        ItemStack mainHandItem = player.getMainHandItem();
+        if (mainHandItem.getItem() == item){
+            return mainHandItem;
         }
+        ItemStack offhand = player.getOffhandItem();
+        if (offhand.getItem() == item){
+            return offhand;
+        }
+        for (ItemStack stack : player.getInventory().items) {
+            if (stack.getItem() == item)
+                return stack;
+        }
+
+        if (player.isCreative()) return new ItemStack(item, 64);
         return ItemStack.EMPTY;
     }
 }

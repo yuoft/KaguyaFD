@@ -10,7 +10,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -242,6 +241,14 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', Items.IRON_INGOT).define('y', ModItems.soulTorch.get()).define('z', Items.STICK)
                 .pattern("  x").pattern("yx ").pattern("z  ")
                 .unlockedBy("has_item", has(ModItems.hakurouken.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.homingAmulet.get(), 1)
+                .define('x', Items.PAPER).define('y', ModItems.houraiPearlRed.get())
+                .pattern("xxx").pattern("xyx").pattern("xxx")
+                .unlockedBy("has_item", has(ModItems.homingAmulet.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.diffusionAmulet.get(), 1)
+                .define('x', Items.PAPER).define('y', ModItems.houraiPearlAqua.get())
+                .pattern("xxx").pattern("xyx").pattern("xxx")
+                .unlockedBy("has_item", has(ModItems.diffusionAmulet.get())).save(consumer);
 
         //女仆联动弹幕
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.smallPotion.get(), 5).requires(InitItems.POWER_POINT.get())

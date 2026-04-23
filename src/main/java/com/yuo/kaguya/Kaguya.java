@@ -1,6 +1,7 @@
 package com.yuo.kaguya;
 
 import com.yuo.kaguya.Block.ModBlocks;
+import com.yuo.kaguya.Effect.ModEffects;
 import com.yuo.kaguya.Entity.ModEntityTypes;
 import com.yuo.kaguya.Event.MobEvents;
 import com.yuo.kaguya.Item.ModItems;
@@ -9,6 +10,7 @@ import com.yuo.kaguya.Proxy.ClientProxy;
 import com.yuo.kaguya.Proxy.CommonProxy;
 import com.yuo.kaguya.Proxy.IProxy;
 import com.yuo.kaguya.Tile.ModTileTypes;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
@@ -35,6 +37,7 @@ public class Kaguya {
         ModEntityTypes.ENTITY_TYPES.register(modEventBus);
         ModMenuTypes.MENU_TYPES.register(modEventBus);
         ModTileTypes.BLOCK_ENTITY_TYPES.register(modEventBus);
+        ModEffects.EFFECTS.register(modEventBus);
         proxy.registerHandlers();
     }
 

@@ -1,15 +1,22 @@
 package com.yuo.kaguya.Entity;
 
+import com.yuo.kaguya.Effect.ModEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -393,7 +400,19 @@ public class DanmakuShootHelper {
      * 添加实体和音效
      * @param shot 要发射的实体
      */
-    private static void addEntityAndSound(Level level, LivingEntity living, DanmakuBase shot){
+    public static void addEntityAndSound(Level level, LivingEntity living, DanmakuBase shot) {
+        // 处理追踪效果
+        if (!level.isClientSide && living.isAlive()) {
+            MobEffectInstance homingEffect = living.getEffect(ModEffects.homing.get());
+            if (homingEffect != null) {
+                // 设置追踪目标：寻找玩家正面 90° 范围内、16 格内最近的敌对生物
+                LivingEntity target = findHomingTarget(living, 16.0, 90.0);
+                if (target != null) {
+                    shot.setHomingTarget(target);
+                }
+            }
+        }
+
         level.addFreshEntity(shot);
         level.playSound(null, living.getX(), living.getY(), living.getZ(), SoundEvents.ARROW_SHOOT, living.getSoundSource(), 1.0f, 1.0f);
     }
@@ -564,4 +583,77 @@ public class DanmakuShootHelper {
         return new Vec3(x, y, z);
     }
 
+    /**
+     * 寻找适合追踪的敌对目标（位于玩家正面指定角度内）
+     * @param living 玩家
+     * @param maxDistance 最大搜索距离
+     * @param maxAngleDeg 最大允许角度（度），例如 90 表示只有正前方半球
+     * @return 最近的符合条件的生物，若无则返回 null
+     */
+    private static LivingEntity findHomingTarget(LivingEntity living, double maxDistance, double maxAngleDeg) {
+        Level level = living.level();
+        Vec3 playerEye = living.getEyePosition();
+        Vec3 lookVec = living.getLookAngle().normalize(); // 确保单位向量
+
+        // 搜索范围内的所有生物
+        AABB searchBox = living.getBoundingBox().inflate(maxDistance);
+        List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, searchBox,
+                e -> e != living && e.isAlive() && e instanceof Enemy);
+
+        LivingEntity bestTarget = null;
+        double bestScore = Double.MAX_VALUE; // 使用综合评分：角度越小、距离越近分越低
+
+        for (LivingEntity entity : entities) {
+            // 获取目标的碰撞箱中心点（或者眼睛位置）
+            Vec3 targetPos = entity.getBoundingBox().getCenter();
+            Vec3 toTarget = targetPos.subtract(playerEye);
+            double distance = toTarget.length();
+
+            // 距离过滤
+            if (distance > maxDistance) continue;
+
+            // 视线角度过滤（关键！）
+            if (!isWithinViewAngle(lookVec, toTarget, maxAngleDeg)) {
+                continue; // 不在视线内，跳过
+            }
+
+            // 可选：射线检测障碍物（如果希望目标必须无遮挡）
+            // if (!living.hasLineOfSight(entity)) continue;
+
+            // 评分：综合考虑距离和角度偏差（角度越小越好）
+            double angleScore = angleBetween(lookVec, toTarget); // 返回弧度
+            double score = distance + angleScore * 10.0; // 权重可调
+
+            if (score < bestScore) {
+                bestScore = score;
+                bestTarget = entity;
+            }
+        }
+        return bestTarget;
+    }
+
+    /**
+     * 判断目标方向是否在视线向量指定角度内
+     * @param lookVec 玩家视线方向（单位向量）
+     * @param toTarget 指向目标的向量（不需要归一化，内部会归一化）
+     * @param maxAngleDeg 最大允许角度（度）
+     * @return true 如果在角度内
+     */
+    private static boolean isWithinViewAngle(Vec3 lookVec, Vec3 toTarget, double maxAngleDeg) {
+        // 避免零向量
+        if (toTarget.lengthSqr() < 1.0E-7) return true;
+        Vec3 targetDir = toTarget.normalize();
+        double dot = lookVec.dot(targetDir);
+        // cos(maxAngle) 阈值，注意 cos 在 0~180° 内单调递减
+        double cosThreshold = Math.cos(Math.toRadians(maxAngleDeg));
+        return dot >= cosThreshold; // dot 越大，夹角越小
+    }
+
+    /**
+     * 计算两个向量之间的夹角（弧度）
+     */
+    private static double angleBetween(Vec3 a, Vec3 b) {
+        double dot = a.dot(b) / (a.length() * b.length());
+        return Math.acos(Math.max(-1.0, Math.min(1.0, dot))); // 防止浮点误差
+    }
 }

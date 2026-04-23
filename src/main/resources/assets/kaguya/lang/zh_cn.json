@@ -118,6 +118,10 @@
 	"entity.kaguya.rumia": "露米娅",
 	"entity.kaguya.cirno": "琪露诺",
 	"entity.kaguya.kochiya_sanae": "东风谷早苗",
+	"entity.kaguya.morichika_rinnosuke": "森近霖之助",
+
+	"effect.kaguya.diffusion": "扩散",
+	"effect.kaguya.homing": "追踪",
 
 	"container.kaguya.danmaku_craft": "弹幕工作台",
 

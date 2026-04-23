@@ -118,6 +118,10 @@
 	"entity.kaguya.rumia": "Rumia",
 	"entity.kaguya.cirno": "Cirno",
 	"entity.kaguya.kochiya_sanae": "Kochiya Sanae",
+	"entity.kaguya.morichika_rinnosuke": "Morichika Rinnosuke",
+
+	"effect.kaguya.diffusion": "Diffusion",
+	"effect.kaguya.homing": "Homing",
 
 	"container.kaguya.danmaku_craft": "Danmaku Crafting Table",
 

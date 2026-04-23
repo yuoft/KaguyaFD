@@ -1,9 +1,11 @@
 package com.yuo.kaguya.Entity;
 
+import com.yuo.kaguya.Effect.ModEffects;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Item.Weapon.DanmakuDamageTypes;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
@@ -11,8 +13,11 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -42,6 +47,10 @@ public class DanmakuBase extends ThrowableProjectile {
     protected DanmakuColor danmakuColor;
     protected boolean isDanmakuPierce; //是否在击中实体后销毁
     protected boolean isSpawnFlower; //是否在落在草地后生成花
+    private boolean isDiffusionSpawned; //是否由扩散效果生成
+    private LivingEntity homingTarget;          // 追踪目标
+    private int homingUpdateCooldown = 0;       // 更新冷却，减少计算量
+    private static final int HOMING_UPDATE_INTERVAL = 4; // 每4 tick更新一次方向
     protected static final EntityDataAccessor<Integer> DANMAKU_TYPE = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.INT); //弹幕类型--圆，方，星。。。
     protected static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.INT); //弹幕颜色
     protected static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.FLOAT); //弹幕攻击伤害
@@ -67,6 +76,108 @@ public class DanmakuBase extends ThrowableProjectile {
         this.setColor(this.danmakuColor);
         this.setGravityVelocity(0);
         this.setMaxTicksExisted(DEF_MAX_TICKS_EXISTED);
+    }
+
+    @Override
+    protected void onHitEntity(EntityHitResult result) {
+        super.onHitEntity(result); // 调用父类方法
+
+        Entity entity = result.getEntity();
+        if (entity == this || entity == this.getOwner()) {
+            return;
+        }
+        Level level = this.level();
+
+        if (entity instanceof LivingEntity target) {
+            DamageSource damageSource;
+            if (this.getOwner() instanceof LivingEntity owner){
+                damageSource = DanmakuDamageTypes.danmaku(target, owner);
+            }else {
+                damageSource = this.damageSources().generic();
+            }
+
+            if (this.getOwner() instanceof LivingEntity owner) {
+                // 设置最后攻击者
+                target.setLastHurtByMob(owner);
+                // 应用伤害
+                if (target.hurt(damageSource, getDamage())) {
+                    // 触发玩家攻击成功事件（如果攻击者是玩家）
+                    if (target != owner && target instanceof Player && owner instanceof ServerPlayer && !this.isSilent()) {
+                        ((ServerPlayer)owner).connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.ARROW_HIT_PLAYER, 0.0F));
+                    }
+
+                    if (!level.isClientSide) {
+                        this.knockbackTarget(target);
+                        this.doDamageEffects(owner, target);
+                        if (!isDanmakuPierce()) {
+                            if (!isDiffusionSpawned() && owner.isAlive()) {
+                                MobEffectInstance effect = owner.getEffect(ModEffects.diffusion.get());
+                                if (effect != null) {
+                                    int extraCount = Math.min((effect.getAmplifier() + 1) * 2, 20); //限制buff X级
+                                    spawnDiffusionDanmaku(owner, target, level, extraCount);
+                                }
+                            }
+                            this.discard();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onHitBlock(BlockHitResult result) {
+        super.onHitBlock(result);
+
+        BlockPos pos = result.getBlockPos();
+        Level level = level();
+        if (!level.isClientSide) {
+            BlockState state = level.getBlockState(pos);
+            if (state.getBlock() == Blocks.GRASS_BLOCK && this.isSpawnFlower){
+                BlockPos above = pos.above();
+                DanmakuColor color = this.getColor();
+                BlockState flowerByColor = getFlowerByColor(color);
+                level.setBlockAndUpdate(above, flowerByColor);
+                this.discard();
+            }
+        }
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        Level level = this.level();
+
+        // 追踪逻辑（仅服务端执行）
+        if (!level.isClientSide && this.hasHomingTarget()) {
+            if (homingUpdateCooldown <= 0) {
+                applyHomingBehavior(level);
+                homingUpdateCooldown = HOMING_UPDATE_INTERVAL;
+            } else {
+                homingUpdateCooldown--;
+            }
+        }
+
+        Vec3 vec3 = this.getDeltaMovement();
+        if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
+            double d0 = vec3.horizontalDistance();
+            this.setYRot((float)(Mth.atan2(vec3.x, vec3.z) * 57.2957763671875));
+            this.setXRot((float)(Mth.atan2(vec3.y, d0) * 57.2957763671875));
+            this.yRotO = this.getYRot();
+            this.xRotO = this.getXRot();
+        }
+        if (this.tickCount >= getMAX_TICKS_EXISTED()) {
+            this.discard();
+        }
+    }
+
+    @Override
+    protected @NotNull AABB makeBoundingBox() {
+        double inflate = (this.getDanmakuType().getSize() - 0.2d) / 2;
+        if (this.getDanmakuType().getName().contains("laser")){ //激光模型box
+            inflate = -0.05d;
+        }
+        return new AABB(-0.125, -0.125, -0.125, 0.125, 0.125, 0.125).inflate(inflate).move(this.position());
     }
 
     @Override
@@ -97,59 +208,83 @@ public class DanmakuBase extends ThrowableProjectile {
         this.entityData.define(GRAVITY, 0f); //默认无重力
     }
 
+    //重力
     @Override
-    protected void onHitEntity(EntityHitResult result) {
-        super.onHitEntity(result); // 调用父类方法
-
-        Entity entity = result.getEntity();
-        if (entity == this || entity == this.getOwner()) {
-            return;
-        }
-
-        if (entity instanceof LivingEntity target) {
-            DamageSource damageSource;
-            if (this.getOwner() instanceof LivingEntity owner){
-                damageSource = DanmakuDamageTypes.danmaku(target, owner);
-            }else {
-                damageSource = this.damageSources().generic();
-            }
-
-            if (this.getOwner() instanceof LivingEntity owner) {
-                // 设置最后攻击者
-                target.setLastHurtByMob(owner);
-                // 应用伤害
-                if (target.hurt(damageSource, getDamage())) {
-                    // 触发玩家攻击成功事件（如果攻击者是玩家）
-                    if (target != owner && target instanceof Player && owner instanceof ServerPlayer && !this.isSilent()) {
-                        ((ServerPlayer)owner).connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.ARROW_HIT_PLAYER, 0.0F));
-                    }
-
-                    if (!level().isClientSide) {
-                        this.knockbackTarget(target);
-                        this.doDamageEffects(owner, target);
-                        if (!isDanmakuPierce()) this.discard();
-                    }
-                }
-            }
-        }
+    protected float getGravity() {
+        return this.entityData.get(GRAVITY);
     }
 
-    @Override
-    protected void onHitBlock(BlockHitResult result) {
-        super.onHitBlock(result);
+    public DanmakuBase setGravityVelocity(float gravity) {
+        this.entityData.set(GRAVITY, gravity);
+        return this;
+    }
 
-        BlockPos pos = result.getBlockPos();
-        Level level = level();
-        if (!level.isClientSide) {
-            BlockState state = level.getBlockState(pos);
-            if (state.getBlock() == Blocks.GRASS_BLOCK && this.isSpawnFlower){
-                BlockPos above = pos.above();
-                DanmakuColor color = this.getColor();
-                BlockState flowerByColor = getFlowerByColor(color);
-                level.setBlockAndUpdate(above, flowerByColor);
-                this.discard();
-            }
-        }
+    public void setMaxTicksExisted(int ticksExisted) {
+        MAX_TICKS_EXISTED = ticksExisted;
+    }
+
+    public int getMAX_TICKS_EXISTED() {
+        return MAX_TICKS_EXISTED == 0 ? DEF_MAX_TICKS_EXISTED : MAX_TICKS_EXISTED;
+    }
+
+    public DanmakuType getDanmakuType() {
+        return DanmakuType.getType(this.entityData.get(DANMAKU_TYPE));
+    }
+
+    public DanmakuBase setDanmakuType(DanmakuType type) {
+        this.entityData.set(DANMAKU_TYPE, type.ordinal());
+        this.setDamage(type.getDamage());
+        return this;
+    }
+
+    public DanmakuColor getColor() {
+        return DanmakuColor.getColor(this.entityData.get(COLOR));
+    }
+
+    public DanmakuBase setColor(DanmakuColor color) {
+        this.entityData.set(COLOR, color.ordinal());
+        return this;
+    }
+
+    public float getDamage() {
+        return this.entityData.get(DAMAGE);
+    }
+
+    public DanmakuBase setDamage(float damage) {
+        this.entityData.set(DAMAGE, damage);
+        return this;
+    }
+
+    public boolean isDanmakuPierce() {
+        return isDanmakuPierce;
+    }
+
+    public void setDanmakuPierce(boolean danmakuPierce) {
+        isDanmakuPierce = danmakuPierce;
+    }
+
+    public boolean isSpawnFlower() {
+        return isSpawnFlower;
+    }
+
+    public void setSpawnFlower(boolean spawnFlower) {
+        isSpawnFlower = spawnFlower;
+    }
+
+    public boolean isDiffusionSpawned() {
+        return isDiffusionSpawned;
+    }
+
+    public void setDiffusionSpawned(boolean diffusionSpawned) {
+        isDiffusionSpawned = diffusionSpawned;
+    }
+
+    public void setHomingTarget(LivingEntity target) {
+        this.homingTarget = target;
+    }
+
+    public boolean hasHomingTarget() {
+        return homingTarget != null && homingTarget.isAlive();
     }
 
     /**
@@ -228,91 +363,74 @@ public class DanmakuBase extends ThrowableProjectile {
 
     }
 
-    @Override
-    public void tick() {
-        super.tick();
-        Vec3 vec3 = this.getDeltaMovement();
-        if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
-            double d0 = vec3.horizontalDistance();
-            this.setYRot((float)(Mth.atan2(vec3.x, vec3.z) * 57.2957763671875));
-            this.setXRot((float)(Mth.atan2(vec3.y, d0) * 57.2957763671875));
-            this.yRotO = this.getYRot();
-            this.xRotO = this.getXRot();
+    /**
+     * 向四周随机方向发射扩散弹幕
+     * @param owner 弹幕所有者（用于设置新弹幕的所有者）
+     * @param count 要生成的弹幕数量
+     */
+    private void spawnDiffusionDanmaku(LivingEntity owner, LivingEntity target, Level level, int count) {
+        Vec3 pos = this.position();
+        RandomSource random = level.getRandom();
+
+        for (int i = 0; i < count; i++) {
+            // 创建与当前弹幕相同类型和颜色的新弹幕
+            DanmakuBase newDanmaku = new DanmakuBase(level, owner, this.danmakuType, this.danmakuColor);
+            newDanmaku.setPos(pos);
+            newDanmaku.setDamage(this.getDamage());
+            newDanmaku.setGravityVelocity(this.getGravity());
+            newDanmaku.setDanmakuPierce(this.isDanmakuPierce());
+            newDanmaku.setSpawnFlower(this.isSpawnFlower());
+            newDanmaku.setMaxTicksExisted(this.getMAX_TICKS_EXISTED());
+            newDanmaku.setOwner(this.getOwner());
+            // 标记为由扩散生成，防止二次扩散
+            newDanmaku.setDiffusionSpawned(true);
+
+            // 生成随机方向（球面均匀分布）
+            double theta = random.nextDouble() * 2 * Math.PI;      // 水平角
+            double phi = Math.acos(2 * random.nextDouble() - 1);   // 垂直角（保证球面均匀）
+
+            double dx = Math.sin(phi) * Math.cos(theta);
+            double dy = Math.sin(phi) * Math.sin(theta);
+            double dz = Math.cos(phi);
+
+            // 设置速度（速度大小与原弹幕当前速度一致或使用固定值）
+            float speed = (float) this.getDeltaMovement().length() / 2;
+            if (speed < 0.1f) speed = DanmakuShootHelper.VAL_DEF / 4; // 若原弹幕速度过小，使用默认速度
+
+            newDanmaku.setDeltaMovement(dx * speed, dy * speed, dz * speed);
+
+            DanmakuShootHelper.addEntityAndSound(level, target, newDanmaku);
         }
-        if (this.tickCount >= getMAX_TICKS_EXISTED()) {
-            this.discard();
+
+        // 播放一个音效提示（可选）
+        level.playSound(null, pos.x, pos.y, pos.z, SoundEvents.EVOKER_CAST_SPELL, owner.getSoundSource(), 0.5f, 1.2f);
+    }
+
+    /**
+     * 执行追踪行为：调整弹幕速度方向指向目标
+     */
+    private void applyHomingBehavior(Level level) {
+        if (homingTarget == null || !homingTarget.isAlive()) {
+            homingTarget = null;
+            return;
         }
-    }
 
-    @Override
-    protected @NotNull AABB makeBoundingBox() {
-        double inflate = (this.getDanmakuType().getSize() - 0.2d) / 2;
-        if (this.getDanmakuType().getName().contains("laser")){ //激光模型box
-            inflate = -0.05d;
-        }
-        return new AABB(-0.125, -0.125, -0.125, 0.125, 0.125, 0.125).inflate(inflate).move(this.position());
-    }
+        // 目标位置（瞄准身体中心偏上）
+        Vec3 targetPos = homingTarget.position().add(0, homingTarget.getBbHeight() * 0.5, 0);
+        Vec3 myPos = this.position();
+        Vec3 direction = targetPos.subtract(myPos).normalize();
+        double randomFactor = 0.05; // 5% 随机偏移
+        direction = direction.add((
+                level.random.nextDouble() - 0.5) * randomFactor,
+                (level.random.nextDouble() - 0.5) * randomFactor,
+                (level.random.nextDouble() - 0.5) * randomFactor).normalize();
 
-    //重力
-    @Override
-    protected float getGravity() {
-        return this.entityData.get(GRAVITY);
-    }
+        // 当前速度大小
+        double currentSpeed = this.getDeltaMovement().length();
+        // 设置新的速度方向，速度大小保持不变（或可稍微增加追踪力度）
+        this.setDeltaMovement(direction.scale(currentSpeed));
 
-    public DanmakuBase setGravityVelocity(float gravity) {
-        this.entityData.set(GRAVITY, gravity);
-        return this;
-    }
-
-    public void setMaxTicksExisted(int ticksExisted) {
-        MAX_TICKS_EXISTED = ticksExisted;
-    }
-
-    public int getMAX_TICKS_EXISTED() {
-        return MAX_TICKS_EXISTED == 0 ? DEF_MAX_TICKS_EXISTED : MAX_TICKS_EXISTED;
-    }
-
-    public DanmakuType getDanmakuType() {
-        return DanmakuType.getType(this.entityData.get(DANMAKU_TYPE));
-    }
-
-    public DanmakuBase setDanmakuType(DanmakuType type) {
-        this.entityData.set(DANMAKU_TYPE, type.ordinal());
-        this.setDamage(type.getDamage());
-        return this;
-    }
-
-    public DanmakuColor getColor() {
-        return DanmakuColor.getColor(this.entityData.get(COLOR));
-    }
-
-    public DanmakuBase setColor(DanmakuColor color) {
-        this.entityData.set(COLOR, color.ordinal());
-        return this;
-    }
-
-    public float getDamage() {
-        return this.entityData.get(DAMAGE);
-    }
-
-    public DanmakuBase setDamage(float damage) {
-        this.entityData.set(DAMAGE, damage);
-        return this;
-    }
-
-    public boolean isDanmakuPierce() {
-        return isDanmakuPierce;
-    }
-
-    public void setDanmakuPierce(boolean danmakuPierce) {
-        isDanmakuPierce = danmakuPierce;
-    }
-
-    public boolean isSpawnFlower() {
-        return isSpawnFlower;
-    }
-
-    public void setSpawnFlower(boolean spawnFlower) {
-        isSpawnFlower = spawnFlower;
+        // 可选：增加一点视觉反馈（追踪尾迹粒子）
+        level.addParticle(ParticleTypes.END_ROD, myPos.x, myPos.y, myPos.z, 0, 0, 0);
     }
 }

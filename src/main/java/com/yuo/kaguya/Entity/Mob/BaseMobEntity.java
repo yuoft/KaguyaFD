@@ -43,7 +43,7 @@ public class BaseMobEntity extends Monster implements IMaid, RangedAttackMob {
 
     public BaseMobEntity(EntityType<? extends Monster> type, Level level) {
         super(type, level);
-        this.setPersistenceRequired();
+//        this.setPersistenceRequired();
         this.setModelId(getRegId(type.getDescriptionId()));
     }
 
@@ -75,8 +75,7 @@ public class BaseMobEntity extends Monster implements IMaid, RangedAttackMob {
     @NotNull
     public static AttributeSupplier.Builder createAttributes() {
         return Monster.createMonsterAttributes()
-                .add(Attributes.SPAWN_REINFORCEMENTS_CHANCE, 0.1D)
-                .add(Attributes.MAX_HEALTH, 64.0D)
+                .add(Attributes.MAX_HEALTH, 128.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.3D)
                 .add(Attributes.ATTACK_DAMAGE, 8.0D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.3D)
@@ -92,16 +91,6 @@ public class BaseMobEntity extends Monster implements IMaid, RangedAttackMob {
             value *= 0.75f;
         }
         return super.hurt(source, value);
-    }
-
-    @Override
-    public void setPersistenceRequired() {
-        super.setPersistenceRequired();
-    }
-
-    @Override
-    public boolean isPersistenceRequired() {
-        return true;
     }
 
     @Override

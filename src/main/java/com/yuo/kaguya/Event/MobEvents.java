@@ -21,6 +21,7 @@ public class MobEvents {
         event.put(ModEntityTypes.RUMIA.get(), BaseMobEntity.createAttributes().build());
         event.put(ModEntityTypes.CIRNO.get(), BaseMobEntity.createAttributes().build());
         event.put(ModEntityTypes.KOCHIYA_SANAE.get(), BaseMobEntity.createAttributes().build());
+        event.put(ModEntityTypes.MORICHIKA_RINNOSUKE.get(), BaseMobEntity.createAttributes().build());
     }
 
 }

@@ -40,6 +40,7 @@ import net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -63,6 +64,7 @@ public class ModEventHandler {
     private static MobSpawnSettings.SpawnerData SPAWNER_DATA2;
     private static MobSpawnSettings.SpawnerData SPAWNER_DATA3;
     private static MobSpawnSettings.SpawnerData SPAWNER_DATA4;
+    private static MobSpawnSettings.SpawnerData SPAWNER_DATA5;
 
     @SubscribeEvent
     public static void addMobSpawnInfo(LevelEvent.PotentialSpawns event) {
@@ -75,8 +77,14 @@ public class ModEventHandler {
                 boolean canZombieSpawn = spawnerData.stream().anyMatch((data) -> data.type.equals(EntityType.ZOMBIE));
                 if (SPAWNER_DATA0 == null){
                     SPAWNER_DATA0 = new MobSpawnSettings.SpawnerData(ModEntityTypes.HAKUREI_REIMU.get(), 2, 0, 1);
+                }
+                if (SPAWNER_DATA1 == null){
                     SPAWNER_DATA1 = new MobSpawnSettings.SpawnerData(ModEntityTypes.KIRISAME_MARISA.get(), 2, 0, 1);
+                }
+                if (SPAWNER_DATA2 == null){
                     SPAWNER_DATA2 = new MobSpawnSettings.SpawnerData(ModEntityTypes.RUMIA.get(), 2, 0, 1);
+                }
+                if (SPAWNER_DATA3 == null){
                     SPAWNER_DATA3 = new MobSpawnSettings.SpawnerData(ModEntityTypes.CIRNO.get(), 2, 0, 1);
                 }
                 if (canZombieSpawn) {
@@ -89,10 +97,14 @@ public class ModEventHandler {
                 List<SpawnerData> spawnerData = event.getSpawnerDataList();
                 boolean canSpawn = spawnerData.stream().anyMatch((data) -> data.type.equals(EntityType.WANDERING_TRADER));
                 if (SPAWNER_DATA4 == null){
-                    SPAWNER_DATA4 = new MobSpawnSettings.SpawnerData(ModEntityTypes.KOCHIYA_SANAE.get(), 5, 0, 1);
+                    SPAWNER_DATA4 = new MobSpawnSettings.SpawnerData(ModEntityTypes.KOCHIYA_SANAE.get(), 5, 1, 1);
+                }
+                if (SPAWNER_DATA5 == null){
+                    SPAWNER_DATA5 = new MobSpawnSettings.SpawnerData(ModEntityTypes.MORICHIKA_RINNOSUKE.get(), 10, 1, 1);
                 }
                 if (canSpawn){
                     event.addSpawnerData(SPAWNER_DATA0);
+                    event.addSpawnerData(SPAWNER_DATA5);
                 }
             }
         }

@@ -22,6 +22,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -30,7 +31,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-//早苗
+//早苗 霖之助
 public class SanaeMob extends BaseMobEntity implements NeutralMob {
     private static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME = SynchedEntityData.defineId(SanaeMob.class, EntityDataSerializers.INT);
 
@@ -63,18 +64,32 @@ public class SanaeMob extends BaseMobEntity implements NeutralMob {
     @Override
     protected @NotNull InteractionResult mobInteract(Player player, InteractionHand hand) {
         Level level = this.level();
-        if (!level.isClientSide && this.getType() == ModEntityTypes.KOCHIYA_SANAE.get()) {
-            ItemStack handItem = player.getItemInHand(hand);
-            int number = 3;
-            if (handItem.getItem() == Items.GOLDEN_APPLE && handItem.getCount() >= number){
-                handItem.shrink(number);
-                player.addItem(ModItems.byoukiheiyuMamori.get().getDefaultInstance());
-                level.addFreshEntity(new ExperienceOrb(level, this.getX(), getY(), getZ(),10));
-                level.playSound(player, this, SoundEvents.VILLAGER_WORK_TOOLSMITH, SoundSource.AMBIENT, 1.0f, 1.0f);
-                return InteractionResult.SUCCESS;
+        if (!level.isClientSide) {
+            if (this.getType() == ModEntityTypes.KOCHIYA_SANAE.get()){
+                trade(player, level, hand, Items.GOLDEN_APPLE, 3, ModItems.byoukiheiyuMamori.get(), 10);
+            }else if (this.getType() == ModEntityTypes.MORICHIKA_RINNOSUKE.get()){
+                trade(player, level, hand, Items.TNT, 1, ModItems.spiritualStrikeTalisman.get(), 3);
             }
         }
         return super.mobInteract(player, hand);
+    }
+
+    /**
+     * 实体简单交易
+     * @param input 交易所需物品
+     * @param inputCount 交易所需物品数量
+     * @param output 交易获得物品
+     * @param expAmount 交易经验
+     */
+    private InteractionResult trade(Player player, Level level, InteractionHand hand, Item input, int inputCount, Item output, int expAmount) {
+        ItemStack handItem = player.getItemInHand(hand);
+        if (handItem.getItem() == input && handItem.getCount() >= inputCount){
+            handItem.shrink(inputCount);
+            player.addItem(output.getDefaultInstance());
+            level.addFreshEntity(new ExperienceOrb(level, this.getX(), getY(), getZ(), expAmount));
+            level.playSound(player, this, SoundEvents.VILLAGER_WORK_TOOLSMITH, SoundSource.AMBIENT, 1.0f, 1.0f);
+        }
+        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -109,8 +124,6 @@ public class SanaeMob extends BaseMobEntity implements NeutralMob {
         super.dropCustomDeathLoot(source, looting, b);
         this.spawnAtLocation(Items.EMERALD, Mth.randomBetweenInclusive(random, 2,16));
     }
-
-    // ========== 辅助方法 ==========
 
     @Override
     public void aiStep() {

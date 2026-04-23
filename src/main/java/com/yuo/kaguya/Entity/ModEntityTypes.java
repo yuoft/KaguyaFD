@@ -68,5 +68,8 @@ public class ModEntityTypes {
     public static final RegistryObject<EntityType<SanaeMob>> KOCHIYA_SANAE = ENTITY_TYPES.register("kochiya_sanae",
             () -> EntityType.Builder.of(SanaeMob::new, MobCategory.CREATURE).sized(sizeWidth, sizeHeight)
                     .clientTrackingRange(trackingRange).updateInterval(updateInterval).build("kochiya_sanae"));
+    public static final RegistryObject<EntityType<SanaeMob>> MORICHIKA_RINNOSUKE = ENTITY_TYPES.register("morichika_rinnosuke",
+            () -> EntityType.Builder.of(SanaeMob::new, MobCategory.CREATURE).sized(sizeWidth, sizeHeight)
+                    .clientTrackingRange(trackingRange).updateInterval(updateInterval).build("morichika_rinnosuke"));
 
 }

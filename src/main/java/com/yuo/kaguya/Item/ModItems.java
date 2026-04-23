@@ -49,7 +49,7 @@ public class ModItems {
 	public static RegistryObject<Item> sakuyaStopWatch = ITEMS.register("sakuya_stop_watch", KaguyaPrpo::new);
 	public static RegistryObject<Item> sakuyaWatch = ITEMS.register("sakuya_watch", KaguyaPrpo::new);
 	public static RegistryObject<Item> soulTorch = ITEMS.register("soul_torch", KaguyaPrpo::new);
-	public static RegistryObject<Item> spiritualStrikeTalisman = ITEMS.register("spiritual_strike_talisman", KaguyaPrpo::new);
+	public static RegistryObject<Item> spiritualStrikeTalisman = ITEMS.register("spiritual_strike_talisman", SpiritStrikeCard::new);
 	public static RegistryObject<Item> closedThirdEye = ITEMS.register("closed_third_eye", CloseEye3rd::new);
 	public static RegistryObject<Item> cursedDecoyDoll = ITEMS.register("cursed_decoy_doll", KaguyaPrpo::new);
 	public static RegistryObject<Item> hotokeHachi = ITEMS.register("hotoke_hachi", StoneBowl::new);

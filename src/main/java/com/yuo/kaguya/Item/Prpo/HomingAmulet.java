@@ -23,6 +23,6 @@ public class HomingAmulet extends KaguyaPrpo {
         player.playSound(SoundEvents.GENERIC_DRINK);
         player.addEffect(new MobEffectInstance(ModEffects.homing.get(), 20 * 60, 0));
         player.getCooldowns().addCooldown(this, 20);
-        return super.use(level, player, hand);
+        return InteractionResultHolder.success(stack);
     }
 }

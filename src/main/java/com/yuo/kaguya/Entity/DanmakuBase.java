@@ -1,9 +1,7 @@
 package com.yuo.kaguya.Entity;
 
 import com.yuo.kaguya.Effect.ModEffects;
-import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Item.Weapon.DanmakuDamageTypes;
-import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
@@ -23,10 +21,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -36,6 +33,8 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class DanmakuBase extends ThrowableProjectile {
     public static final EntityType<DanmakuBase> TYPE = EntityType.Builder.<DanmakuBase>of(DanmakuBase::new, MobCategory.MISC)
@@ -48,9 +47,9 @@ public class DanmakuBase extends ThrowableProjectile {
     protected boolean isDanmakuPierce; //是否在击中实体后销毁
     protected boolean isSpawnFlower; //是否在落在草地后生成花
     private boolean isDiffusionSpawned; //是否由扩散效果生成
+    private boolean isHomingTarget; //是否可以追踪目标
     private LivingEntity homingTarget;          // 追踪目标
-    private int homingUpdateCooldown = 0;       // 更新冷却，减少计算量
-    private static final int HOMING_UPDATE_INTERVAL = 4; // 每4 tick更新一次方向
+    private static final int HOMING_COOLDOWN = 4; // 每4 tick更新一次方向
     protected static final EntityDataAccessor<Integer> DANMAKU_TYPE = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.INT); //弹幕类型--圆，方，星。。。
     protected static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.INT); //弹幕颜色
     protected static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.FLOAT); //弹幕攻击伤害
@@ -114,7 +113,7 @@ public class DanmakuBase extends ThrowableProjectile {
                                 MobEffectInstance effect = owner.getEffect(ModEffects.diffusion.get());
                                 if (effect != null) {
                                     int extraCount = Math.min((effect.getAmplifier() + 1) * 2, 20); //限制buff X级
-                                    spawnDiffusionDanmaku(owner, target, level, extraCount);
+                                    spawnDiffusionDanmaku(owner, level, extraCount);
                                 }
                             }
                             this.discard();
@@ -148,13 +147,16 @@ public class DanmakuBase extends ThrowableProjectile {
         super.tick();
         Level level = this.level();
 
-        // 追踪逻辑（仅服务端执行）
-        if (!level.isClientSide && this.hasHomingTarget()) {
-            if (homingUpdateCooldown <= 0) {
-                applyHomingBehavior(level);
-                homingUpdateCooldown = HOMING_UPDATE_INTERVAL;
-            } else {
-                homingUpdateCooldown--;
+        // 追踪逻辑
+        if (!level.isClientSide) {
+            if (this.tickCount % HOMING_COOLDOWN == 0 && isHomingTarget()){
+                if (!this.hasHomingTarget()){ //没目标
+                    //重新追踪一个目标
+                    LivingEntity target = findHomingTarget(this, this.tickCount < HOMING_COOLDOWN ? 16 : 8);
+                    if (target != null) {
+                        this.setHomingTarget(target);
+                    }
+                }else applyHomingBehavior(level);
             }
         }
 
@@ -279,6 +281,14 @@ public class DanmakuBase extends ThrowableProjectile {
         isDiffusionSpawned = diffusionSpawned;
     }
 
+    public boolean isHomingTarget() {
+        return isHomingTarget;
+    }
+
+    public void setHomingTarget(boolean homingTarget) {
+        isHomingTarget = homingTarget;
+    }
+
     public void setHomingTarget(LivingEntity target) {
         this.homingTarget = target;
     }
@@ -368,7 +378,7 @@ public class DanmakuBase extends ThrowableProjectile {
      * @param owner 弹幕所有者（用于设置新弹幕的所有者）
      * @param count 要生成的弹幕数量
      */
-    private void spawnDiffusionDanmaku(LivingEntity owner, LivingEntity target, Level level, int count) {
+    private void spawnDiffusionDanmaku(LivingEntity owner, Level level, int count) {
         Vec3 pos = this.position();
         RandomSource random = level.getRandom();
 
@@ -399,7 +409,7 @@ public class DanmakuBase extends ThrowableProjectile {
 
             newDanmaku.setDeltaMovement(dx * speed, dy * speed, dz * speed);
 
-            DanmakuShootHelper.addEntityAndSound(level, target, newDanmaku);
+            DanmakuShootHelper.addEntityAndSound(level, owner, newDanmaku);
         }
 
         // 播放一个音效提示（可选）
@@ -432,5 +442,39 @@ public class DanmakuBase extends ThrowableProjectile {
 
         // 可选：增加一点视觉反馈（追踪尾迹粒子）
         level.addParticle(ParticleTypes.END_ROD, myPos.x, myPos.y, myPos.z, 0, 0, 0);
+    }
+
+    /**
+     * 寻找适合追踪的敌对目标
+     * @param danmaku 玩家
+     * @param maxDistance 最大搜索距离
+     * @return 最近的符合条件的生物，若无则返回 null
+     */
+    public LivingEntity findHomingTarget(DanmakuBase danmaku, double maxDistance) {
+        Level level = this.level();
+        Entity owner = danmaku.getOwner();
+        LivingEntity closestTarget = null;
+        if (owner instanceof LivingEntity living) {
+            AABB searchBox = danmaku.getBoundingBox().inflate(maxDistance);
+            List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, searchBox, e -> e != living && e.isAlive() && e instanceof Enemy);
+
+            double closestDistanceSqr = Double.MAX_VALUE;
+
+            for (LivingEntity entity : entities) {
+                // 1. 刚发射时的目标必须直接可见（无方块遮挡）
+                if (this.tickCount <= HOMING_COOLDOWN && !living.hasLineOfSight(entity)) continue;
+
+                // 2. 计算距离（使用平方距离，避免 sqrt）
+                double distSqr = entity.distanceToSqr(danmaku);
+                if (distSqr > maxDistance * maxDistance) continue;
+
+                if (distSqr < closestDistanceSqr) {
+                    closestDistanceSqr = distSqr;
+                    closestTarget = entity;
+                }
+            }
+        }
+
+        return closestTarget;
     }
 }

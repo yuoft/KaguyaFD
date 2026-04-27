@@ -1,6 +1,8 @@
 package com.yuo.kaguya;
 
 import com.yuo.kaguya.Item.*;
+import com.yuo.kaguya.Item.Food.KaguyaFood;
+import com.yuo.kaguya.Item.Prpo.Hisyaku;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
@@ -42,13 +44,13 @@ public class ModTabs {
 							ItemStack stack = new ItemStack(item);
 							stack.enchant(Enchantments.THORNS, 10);
 							output.accept(stack);
-						}else if (item == ModItems.gapFoldingUmbrella.get()){
-							ItemStack stack = new ItemStack(item);
-//							GapFoldingUmbrella.setColor(stack, DyeColor.GRAY);
-							output.accept(stack);
-						}else if ((item == ModItems.yuukaParasol.get())){
+						}else if (item == ModItems.yuukaParasol.get()){
 							ItemStack stack = new ItemStack(item);
 							stack.enchant(Enchantments.KNOCKBACK, 3);
+							output.accept(stack);
+						}else if (item == ModItems.hisyaku.get()){
+							ItemStack stack = new ItemStack(item);
+							stack.getOrCreateTag().putBoolean(Hisyaku.NBT_WATER, true);
 							output.accept(stack);
 						}
 						else output.accept(new ItemStack(item));

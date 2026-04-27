@@ -1,9 +1,7 @@
 package com.yuo.kaguya.Item.Prpo;
 
-import com.yuo.kaguya.Entity.DanmakuColor;
 import com.yuo.kaguya.Entity.DanmakuShootHelper;
 import com.yuo.kaguya.Entity.DanmakuType;
-import com.yuo.kaguya.Item.KaguyaPrpo;
 import com.yuo.kaguya.Item.KaguyaWeapon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

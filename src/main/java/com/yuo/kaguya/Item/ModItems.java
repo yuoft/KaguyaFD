@@ -6,6 +6,9 @@ import com.yuo.kaguya.Item.Armor.FireRatRobe;
 import com.yuo.kaguya.Item.Armor.KappaHelmet;
 import com.yuo.kaguya.Item.Armor.MarisaHelmet;
 import com.yuo.kaguya.Item.Armor.SuwakoHelmet;
+import com.yuo.kaguya.Item.Food.KaguyaFood;
+import com.yuo.kaguya.Item.Food.LbukiGourd;
+import com.yuo.kaguya.Item.Food.SwallowCowrieShell;
 import com.yuo.kaguya.Item.Prpo.*;
 import com.yuo.kaguya.Item.Weapon.*;
 import com.yuo.kaguya.Kaguya;
@@ -92,8 +95,8 @@ public class ModItems {
 
 	//食物
 	public static RegistryObject<Item> heavenlyPeach = ITEMS.register("heavenly_peach", () -> new KaguyaFood(KaguyaFood.heavenlyPeach));
-	public static RegistryObject<Item> ibukihyou = ITEMS.register("ibukihyou", () -> new KaguyaFood(KaguyaFood.ibukihyou));
-	public static RegistryObject<Item> koyasugai = ITEMS.register("koyasugai", () -> new KaguyaFood(KaguyaFood.koyasugai));
+	public static RegistryObject<Item> ibukihyou = ITEMS.register("ibukihyou", LbukiGourd::new);
+	public static RegistryObject<Item> koyasugai = ITEMS.register("koyasugai", SwallowCowrieShell::new);
 
 	//弹幕发射物品
 	public static RegistryObject<Item> bigLightShot = ITEMS.register("big_light_shot", () -> new DanmakuShotItem(DanmakuType.LIGHT_BIG_BALL));

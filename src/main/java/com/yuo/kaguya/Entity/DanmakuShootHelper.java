@@ -116,14 +116,21 @@ public class DanmakuShootHelper {
     }
 
     /**
-     * 直线发射重力弹幕--圆形
+     * 直线发射重力弹幕--圆形（垂直三连发）
      */
-    public static void shootDanmakuGravity(Level level, LivingEntity living, float vel, float ina, DanmakuType type){
-        DanmakuBase shot = new DanmakuBase(level, living, type, DanmakuColor.BLUE);
-        shot.setGravityVelocity(0.01f);
-        shot.setColor(DanmakuColor.BLUE);
-        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
-        addEntityAndSound(level, living, shot);
+    public static void shootDanmakuGravity(Level level, LivingEntity living, float vel, float ina, DanmakuType type) {
+        float yaw = living.getYRot();
+        float basePitch = living.getXRot();
+        float angleOffset = 10.0f; // 垂直间隔角度
+
+        for (int i = -1; i <= 1; i++) {
+            DanmakuBase shot = new DanmakuBase(level, living, type, DanmakuColor.BLUE);
+            shot.setGravityVelocity(0.01f);
+            shot.setColor(DanmakuColor.BLUE);
+            float pitch = basePitch + i * angleOffset;
+            shot.shootFromRotation(living, pitch, yaw, 0.0f, vel, ina);
+            addEntityAndSound(level, living, shot);
+        }
     }
 
     /**

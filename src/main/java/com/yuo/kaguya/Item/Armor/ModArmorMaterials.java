@@ -1,7 +1,5 @@
 package com.yuo.kaguya.Item.Armor;
 
-import com.yuo.endless.Endless;
-import com.yuo.endless.Items.EndlessItems;
 import com.yuo.kaguya.Kaguya;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;

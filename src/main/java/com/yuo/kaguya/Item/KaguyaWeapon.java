@@ -40,5 +40,8 @@ public class KaguyaWeapon extends SwordItem {
         if (item == ModItems.yuyukoOugi.get()){
             components.add(Component.translatable("text.kaguya.yuyuko_ougi.1"));
         }
+        if (item == ModItems.icicleSword.get()){
+            components.add(Component.translatable("text.kaguya.icicle_sword.1"));
+        }
     }
 }

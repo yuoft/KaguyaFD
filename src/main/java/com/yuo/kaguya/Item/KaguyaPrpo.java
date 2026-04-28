@@ -40,5 +40,11 @@ public class KaguyaPrpo extends Item {
         if (item == ModItems.aja_red_stone.get()){
             components.add(Component.translatable("text.kaguya.aja_red_stone.1"));
         }
+        if (item == ModItems.byoukiheiyuMamori.get()){
+            components.add(Component.translatable("text.kaguya.byoukiheiyu_mamori.1"));
+        }
+        if (item == ModItems.spiritualStrikeTalisman.get()){
+            components.add(Component.translatable("text.kaguya.spiritual_strike_talisman.1"));
+        }
     }
 }

@@ -27,7 +27,7 @@ public class ModColorItemUtils {
      */
     public static void setColor(ItemStack stack, DanmakuColor color) {
         CompoundTag tag = stack.getOrCreateTag();
-        tag.putString(NBT_COLOR, color.name());
+        tag.putString(NBT_COLOR, color.getName());
         stack.setTag(tag);
     }
 

@@ -1,13 +1,16 @@
 package com.yuo.kaguya.Event;
 
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
-import com.yuo.endless.NetWork.NetWorkHandler;
-import com.yuo.endless.NetWork.TotemPacket;
+import com.yuo.kaguya.Entity.DanmakuColor;
 import com.yuo.kaguya.Entity.IceStatueEntity;
 import com.yuo.kaguya.Entity.ModEntityTypes;
+import com.yuo.kaguya.Item.ModColorItemUtils;
 import com.yuo.kaguya.Item.ModItems;
+import com.yuo.kaguya.Item.Prpo.Hisyaku;
 import com.yuo.kaguya.Kaguya;
 import com.yuo.kaguya.KaguyaUtils;
+import com.yuo.kaguya.NetWork.NetWorkHandler;
+import com.yuo.kaguya.NetWork.TotemPacket;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -29,6 +32,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -40,7 +44,6 @@ import net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
-import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -192,6 +195,20 @@ public class ModEventHandler {
             crafting.enchant(Enchantments.THORNS, 10);
         }else if (item == ModItems.yuukaParasol.get()){
             crafting.enchant(Enchantments.KNOCKBACK, 3);
+        }else if (item == ModItems.sukimaGap.get()){
+            ItemStack stack = event.getInventory().getItem(2);
+            if (stack.getItem() instanceof DyeItem dyeItem){
+                DanmakuColor danmakuColor = DanmakuColor.getColorFromDye(dyeItem);
+                ModColorItemUtils.setColor(crafting, danmakuColor);
+            }
+        }else if (item == ModItems.silverKnife.get()){
+            ItemStack stack = event.getInventory().getItem(0);
+            if (stack.getItem() instanceof DyeItem dyeItem){
+                DanmakuColor danmakuColor = DanmakuColor.getColorFromDye(dyeItem);
+                ModColorItemUtils.setColor(crafting, danmakuColor);
+            }
+        }else if (item == ModItems.hisyaku.get()){
+            crafting.getOrCreateTag().putBoolean(Hisyaku.NBT_WATER, true);
         }
     }
 

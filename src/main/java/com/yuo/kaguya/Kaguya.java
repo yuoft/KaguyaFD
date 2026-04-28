@@ -41,6 +41,12 @@ public class Kaguya {
         proxy.registerHandlers();
     }
 
+    /*
+    蓬莱玉枝:环形弹幕
+    隙间，隙间的折叠伞，女仆小刀等染色物品合成修改（可使用弹幕工作台？？）
+    新物品：万宝锤，扫帚，人偶
+     */
+
     private void commonSetup(final FMLCommonSetupEvent event) {
         Config.loadConfig();
     }

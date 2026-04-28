@@ -16,23 +16,22 @@ public class ModEntityTypes {
             () -> DanmakuBase.TYPE);
     public static final RegistryObject<EntityType<DanmakuButterfly>> DANMAKU_FLY = ENTITY_TYPES.register("danmaku_fly",
             () -> DanmakuButterfly.TYPE);
-    public static final RegistryObject<EntityType<SilverKnifeEntity>> SILVER_KNIFE = ENTITY_TYPES.register("silver_knife",
-            () -> SilverKnifeEntity.TYPE);
     public static final RegistryObject<EntityType<DanmakuArrow>> DANMAKU_ARROW = ENTITY_TYPES.register("danmaku_arrow",
             () -> DanmakuArrow.TYPE);
     public static final RegistryObject<EntityType<DanmakuLaser>> DANMAKU_LASER = ENTITY_TYPES.register("danmaku_laser",
             () -> DanmakuLaser.TYPE);
     public static final RegistryObject<EntityType<DanmakuLaser0>> DANMAKU_LASER0 = ENTITY_TYPES.register("danmaku_laser0",
             () -> DanmakuLaser0.TYPE);
-    public static final RegistryObject<EntityType<WindEntity>> WIND = ENTITY_TYPES.register("wind",
-            () -> WindEntity.TYPE);
+    public static final RegistryObject<EntityType<DanmakuWind>> WIND = ENTITY_TYPES.register("wind",
+            () -> DanmakuWind.TYPE);
+    public static final RegistryObject<EntityType<SilverKnifeEntity>> SILVER_KNIFE = ENTITY_TYPES.register("silver_knife",
+            () -> SilverKnifeEntity.TYPE);
     public static final RegistryObject<EntityType<YinYangOrbEntity>> YINYANG_ORB = ENTITY_TYPES.register("yinyang_orb",
             () -> YinYangOrbEntity.TYPE);
     public static final RegistryObject<EntityType<BigOrbEntity>> BIG_ORB = ENTITY_TYPES.register("big_orb",
             () -> BigOrbEntity.TYPE);
     public static final RegistryObject<EntityType<ReboundEntity>> REBOUND_SHIELD = ENTITY_TYPES.register("rebound_shield",
             () -> ReboundEntity.TYPE);
-
     public static final RegistryObject<EntityType<BeamLaserEntity>> BEAM_LASER = ENTITY_TYPES.register("beam_laser",
             () -> BeamLaserEntity.TYPE);
     public static final RegistryObject<EntityType<GapEntity>> GAP = ENTITY_TYPES.register("gap",

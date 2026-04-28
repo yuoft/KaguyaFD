@@ -32,17 +32,17 @@ public class DanmakuCraftTile extends BaseContainerBlockEntity {
             danmakuCraftTile.setItem(4, ItemStack.EMPTY);
             return;
         }
-        if (base.getItem() instanceof ModColorCraftItem) {
-//            ItemStack dye = danmakuCraftTile.getItem(1);
-//            if (!dye.isEmpty()) {
-//                ItemStack copy = base.copy();
-//                if (dye.isEmpty())
-//                    copy = ItemStack.EMPTY;
-//                DanmakuColor color = DanmakuColor.getColorFromDye(dye);
-//                ModColorItemUtils.setColor(copy, color);
-//                danmakuCraftTile.setItem(4, copy);
-//            }else danmakuCraftTile.setItem(4, ItemStack.EMPTY);
-        }else {
+        if (base.getItem() instanceof ModColorCraftItem) { //物品染色
+            ItemStack item = danmakuCraftTile.getItem(0);
+            ItemStack dye = danmakuCraftTile.getItem(1);
+            ItemStack bigP = danmakuCraftTile.getItem(2);
+            if (!dye.isEmpty() && item.isEmpty() && bigP.isEmpty()) {
+                ItemStack copy = base.copy();
+                DanmakuColor color = DanmakuColor.getColorFromDye(dye);
+                ModColorItemUtils.setColor(copy, color);
+                danmakuCraftTile.setItem(4, copy);
+            }else danmakuCraftTile.setItem(4, ItemStack.EMPTY);
+        }else { //弹幕属性修改
             if (!danmakuCraftTile.isInputEmpty()) {
                 ItemStack copy = base.copy();
                 ItemStack dye = danmakuCraftTile.getItem(1);

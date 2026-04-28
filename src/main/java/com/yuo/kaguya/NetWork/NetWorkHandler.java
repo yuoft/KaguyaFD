@@ -1,4 +1,4 @@
-package com.yuo.kaguya.Event;
+package com.yuo.kaguya.NetWork;
 
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraftforge.network.NetworkRegistry;

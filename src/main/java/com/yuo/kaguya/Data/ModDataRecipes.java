@@ -113,11 +113,11 @@ public class ModDataRecipes extends RecipeProvider {
                 .unlockedBy("has_item", has(ModItems.marisaHead.get())).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.suwakoHead.get(), 1)
                 .define('x', Items.ENDER_EYE).define('y', Items.LEATHER_HELMET)
-                .pattern("x x").pattern(" y ").pattern("   ")
+                .pattern("x x").pattern(" y ")//.pattern("   ")
                 .unlockedBy("has_item", has(ModItems.suwakoHead.get())).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.silverKnife.get(), 1)
-                .define('x', Items.IRON_INGOT).define('y', Items.STICK)
-                .pattern(" x ").pattern("y  ").pattern("   ")
+                .define('x', Items.IRON_INGOT).define('y', Items.STICK).define('z', Tags.Items.DYES)
+                .pattern("zx").pattern("y ")//.pattern("   ")
                 .unlockedBy("has_item", has(ModItems.silverKnife.get())).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.onbashira.get(), 1)
                 .define('x', Items.PAPER).define('y', ItemTags.LOGS)
@@ -173,12 +173,9 @@ public class ModDataRecipes extends RecipeProvider {
                 .pattern("xyx").pattern("xyx").pattern("xyx")
                 .unlockedBy("has_item", has(ModItems.mazinKyoukan.get())).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.sukimaGap.get(), 1)
-                .define('x', Items.OBSIDIAN).define('y', Items.RED_DYE).define('z', Items.ENDER_EYE)
+                .define('x', Items.OBSIDIAN).define('y', Tags.Items.DYES).define('z', Items.ENDER_EYE)
                 .pattern(" xy").pattern("xzx").pattern("yx ")
                 .unlockedBy("has_item", has(ModItems.sukimaGap.get())).save(consumer);
-        spawnColorRecipe(consumer, ModItems.sukimaGap.get());
-        spawnColorRecipe(consumer, ModItems.gapFoldingUmbrella.get());
-        spawnColorRecipe(consumer, ModItems.silverKnife.get());
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.pendulum.get(), 1)
                 .define('x', Items.IRON_INGOT).define('y', Items.DIAMOND)
                 .pattern(" x ").pattern("x x").pattern(" y ")
@@ -211,7 +208,7 @@ public class ModDataRecipes extends RecipeProvider {
                 .pattern("xyz").pattern(" ay").pattern("a x")
                 .unlockedBy("has_item", has(ModItems.yuukaParasol.get())).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.tenguFan.get(), 1)
-                .define('x', Items.ORANGE_DYE).define('y', Items.RED_DYE).define('z', ItemTags.LEAVES)
+                .define('x', Tags.Items.DYES_ORANGE).define('y', Tags.Items.DYES_RED).define('z', ItemTags.LEAVES)
                 .define('a', Items.STICK)
                 .pattern("xyx").pattern("zyy").pattern("azx")
                 .unlockedBy("has_item", has(ModItems.tenguFan.get())).save(consumer);
@@ -249,6 +246,14 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', Items.PAPER).define('y', ModItems.houraiPearlAqua.get())
                 .pattern("xxx").pattern("xyx").pattern("xxx")
                 .unlockedBy("has_item", has(ModItems.diffusionAmulet.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.hisyaku.get(), 1)
+                .define('x', Items.SOUL_SAND).define('y', Items.BOWL).define('z', Items.STICK)
+                .pattern(" xy").pattern(" zx").pattern("z  ")
+                .unlockedBy("has_item", has(ModItems.hisyaku.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.gapFoldingUmbrella.get(), 1)
+                .define('x', Items.ENDER_PEARL).define('y', ModItems.sukimaGap.get()).define('z', Items.STICK)
+                .pattern("xxx").pattern("xyx").pattern(" z ")
+                .unlockedBy("has_item", has(ModItems.gapFoldingUmbrella.get())).save(consumer);
 
         //女仆联动弹幕
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.smallPotion.get(), 5).requires(InitItems.POWER_POINT.get())
@@ -322,6 +327,20 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', ModItems.danmakuMaterial.get())
                 .pattern("x  ").pattern("x  ").pattern("x  ")
                 .unlockedBy("has_item", has(ModItems.arrowShot.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.shortLaser.get(), 1)
+                .define('x', ModItems.lightShot.get())
+                .pattern("x  ").pattern("x  ").pattern("   ")
+                .unlockedBy("has_item", has(ModItems.shortLaser.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.middleLaser.get(), 1)
+                .define('x', ModItems.lightShot.get())
+                .pattern("x  ").pattern("x  ").pattern("x  ")
+                .unlockedBy("has_item", has(ModItems.middleLaser.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.longLaser.get(), 1)
+                .define('x', ModItems.shortLaser.get())
+                .pattern("x  ").pattern("x  ").pattern("   ")
+                .unlockedBy("has_item", has(ModItems.longLaser.get())).save(consumer);
+
+        spawnColorRecipe(consumer, ModItems.gapFoldingUmbrella.get());
     }
 
 

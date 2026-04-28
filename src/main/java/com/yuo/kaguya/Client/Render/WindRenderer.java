@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.yuo.kaguya.Client.Model.WindChargeModel;
 import com.yuo.kaguya.Entity.DanmakuColor;
-import com.yuo.kaguya.Entity.WindEntity;
+import com.yuo.kaguya.Entity.DanmakuWind;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
-public class WindRenderer extends EntityRenderer<WindEntity> {
+public class WindRenderer extends EntityRenderer<DanmakuWind> {
     private static final ResourceLocation TEXTURE = KaguyaUtils.fa("textures/entity/wind_charge.png");
     private final WindChargeModel model;
 
@@ -23,7 +23,7 @@ public class WindRenderer extends EntityRenderer<WindEntity> {
     }
 
     @Override
-    public void render(WindEntity wind, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(DanmakuWind wind, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
 
         DanmakuColor color = wind.getColor();
@@ -37,7 +37,7 @@ public class WindRenderer extends EntityRenderer<WindEntity> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(WindEntity entity) {
+    public ResourceLocation getTextureLocation(DanmakuWind entity) {
         return TEXTURE;
     }
 }

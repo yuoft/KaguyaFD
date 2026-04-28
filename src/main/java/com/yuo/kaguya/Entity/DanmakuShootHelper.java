@@ -6,16 +6,12 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -32,7 +28,7 @@ public class DanmakuShootHelper {
     public static final int MAX_SIZE = 100; //单次发射的最大弹幕数量
 
     /**
-     * 直线发射弹幕--圆形
+     * 发射弹幕--圆形
      * @param living 发射实体
      * @param vel 速度
      * @param ina 误差
@@ -104,7 +100,7 @@ public class DanmakuShootHelper {
     }
 
     /**
-     * 直线发射落地生成花的弹幕--圆形
+     * 发射落地生成花的弹幕--圆形
      */
     public static void shootDanmakuFlower(Level level, LivingEntity living, float vel, float ina, DanmakuColor color, DanmakuType type){
         DanmakuBase shot = new DanmakuBase(level, living, type, color);
@@ -116,7 +112,7 @@ public class DanmakuShootHelper {
     }
 
     /**
-     * 直线发射重力弹幕--圆形（垂直三连发）
+     * 发射重力弹幕--圆形（垂直三连发）
      */
     public static void shootDanmakuGravity(Level level, LivingEntity living, float vel, float ina, DanmakuType type) {
         float yaw = living.getYRot();
@@ -134,7 +130,7 @@ public class DanmakuShootHelper {
     }
 
     /**
-     * 直线发射弹幕--蝶形
+     * 发射弹幕--蝶形
      * @param living 发射实体
      * @param vel 速度
      * @param ina 误差
@@ -147,7 +143,7 @@ public class DanmakuShootHelper {
     }
 
     /**
-     * 直线发射弹幕--箭形
+     * 发射弹幕--箭形
      * @param living 发射实体
      * @param vel 速度
      * @param ina 误差
@@ -161,20 +157,20 @@ public class DanmakuShootHelper {
     }
 
     /**
-     * 直线发射弹幕--旋风
+     * 发射弹幕--旋风
      * @param living 发射实体
      * @param vel 速度
      * @param ina 误差
      * @param color 颜色
      */
     public static void shootDanmakuWind(Level level, LivingEntity living, float vel, float ina, DanmakuColor color){
-        WindEntity shot = new WindEntity(level, living, color);
+        DanmakuWind shot = new DanmakuWind(level, living, color);
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
         addEntityAndSound(level, living, shot);
     }
 
     /**
-     * 直线发射弹幕--旋风
+     * 发射弹幕--旋风
      * @param living 发射实体
      * @param vel 速度
      * @param ina 误差
@@ -182,17 +178,17 @@ public class DanmakuShootHelper {
      * @param damage 攻击伤害
      */
     public static void shootDanmakuWind(Level level, LivingEntity living, float vel, float ina, DanmakuColor color, float damage){
-        WindEntity shot = new WindEntity(level, living, color);
+        DanmakuWind shot = new DanmakuWind(level, living, color);
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
         shot.setDamage(damage);
         addEntityAndSound(level, living, shot);
     }
 
     /**
-     * 直线发射大击退弹幕--旋风
+     * 发射大击退弹幕--旋风
      */
     public static void shootDanmakuWindPush(Level level, LivingEntity living, float vel, float ina, DanmakuColor color, float damage){
-        WindEntity shot = new WindEntity(level, living, color);
+        DanmakuWind shot = new DanmakuWind(level, living, color);
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
         shot.setDamage(damage);
         shot.setPull(true);
@@ -200,7 +196,7 @@ public class DanmakuShootHelper {
     }
 
     /**
-     * 直线发射弹幕--激光
+     * 发射弹幕--激光
      * @param living 发射实体
      * @param vel 速度
      * @param ina 误差
@@ -213,7 +209,7 @@ public class DanmakuShootHelper {
     }
 
     /**
-     * 直线发射弹幕盾
+     * 发射弹幕盾
      * @param living 发射实体
      * @param vel 速度
      * @param ina 误差
@@ -301,20 +297,24 @@ public class DanmakuShootHelper {
     /**
      * 随机发射扇形单独渲染弹幕
      */
-    public static void shootRandomFanShapeDanmaku(Level level, LivingEntity living){
+    public static void shootRandomFanShapeDanmaku(Level level, LivingEntity living, int size){
         RandomSource random = level.getRandom();
         int i = Mth.randomBetweenInclusive(random, 0, 3);
         DanmakuColor danmakuColor = DanmakuColor.random(random);
-        int size = 11;
-
-        if (i == 0) {
-            shootFanShapedDanmakuFly(level, living, size, danmakuColor);
-        }else if (i == 1) {
-            shootFanShapedDanmakuArrow(level, living, size, danmakuColor);
-        }else if (i == 2) {
-            shootFanShapedDanmakuWind(level, living, size, danmakuColor);
-        }else {
-            shootFanShapedDanmakuLaser(level, living, size, getRandomLaserType(random), danmakuColor);
+        for(int n = 0; n < size; n++){
+            if (i == 0) {
+                DanmakuButterfly butterfly = new DanmakuButterfly(level, living, danmakuColor);
+                shootFanShapedDanmakuOne(level, living, butterfly, VAL_DEF / 4, getFanShapedAngle(n, size));
+            }else if (i == 1) {
+                DanmakuArrow arrow = new DanmakuArrow(level, living, danmakuColor);
+                shootFanShapedDanmakuOne(level, living, arrow, VAL_DEF, getFanShapedAngle(n, size));
+            }else if (i == 2) {
+                DanmakuWind wind = new DanmakuWind(level, living, danmakuColor);
+                shootFanShapedDanmakuOne(level, living, wind, VAL_DEF / 2, getFanShapedAngle(n, size));
+            }else {
+                DanmakuLaser laser = new DanmakuLaser(level, living, getRandomLaserType(random), danmakuColor);
+                shootFanShapedDanmakuOne(level, living, laser, VAL_DEF * 2, getFanShapedAngle(n, size));
+            }
         }
     }
 
@@ -339,9 +339,10 @@ public class DanmakuShootHelper {
      * @param size 数量
      */
     public static void shootFanShapedDanmaku(Level level, LivingEntity living, int size, DanmakuType type, DanmakuColor color){
+        size = getTrueCount(size);
         for(int i = 0; i < size; i++){
             DanmakuBase shot = new DanmakuBase(level, living, type, color);
-            shootFanShapedDanmakuOne(level, living, shot, VAL_DEF,getFanShapedAngle(i, size));
+            shootFanShapedDanmakuOne(level, living, shot, VAL_DEF, getFanShapedAngle(i, size));
         }
     }
 
@@ -350,42 +351,10 @@ public class DanmakuShootHelper {
      * @param size 数量
      */
     public static void shootFanShapedDanmakuFly(Level level, LivingEntity living, int size, DanmakuColor color){
+        size = getTrueCount(size);
         for(int i = 0; i < size; i++){
             DanmakuButterfly shot = new DanmakuButterfly(level, living, color);
             shootFanShapedDanmakuOne(level, living, shot, VAL_DEF / 4, getFanShapedAngle(i, size));
-        }
-    }
-
-    /**
-     * 水平扇形发射弹幕-- 剑形
-     * @param size 数量
-     */
-    public static void shootFanShapedDanmakuArrow(Level level, LivingEntity living, int size, DanmakuColor color){
-        for(int i = 0; i < size; i++){
-            DanmakuArrow shot = new DanmakuArrow(level, living, color);
-            shootFanShapedDanmakuOne(level, living, shot, VAL_DEF, getFanShapedAngle(i, size));
-        }
-    }
-
-    /**
-     * 水平扇形发射弹幕-- 旋风
-     * @param size 数量
-     */
-    public static void shootFanShapedDanmakuWind(Level level, LivingEntity living, int size, DanmakuColor color){
-        for(int i = 0; i < size; i++){
-            WindEntity shot = new WindEntity(level, living, color);
-            shootFanShapedDanmakuOne(level, living, shot, VAL_DEF / 2, getFanShapedAngle(i, size));
-        }
-    }
-
-    /**
-     * 水平扇形发射弹幕-- 激光
-     * @param size 数量
-     */
-    public static void shootFanShapedDanmakuLaser(Level level, LivingEntity living, int size, DanmakuType type, DanmakuColor color){
-        for(int i = 0; i < size; i++){
-            DanmakuLaser shot = new DanmakuLaser(level, living, type, color);
-            shootFanShapedDanmakuOne(level, living, shot, VAL_DEF * 2, getFanShapedAngle(i, size));
         }
     }
 
@@ -400,6 +369,229 @@ public class DanmakuShootHelper {
         Vector3f vec = vector3d.toVector3f().rotate(quaternion);
         danmaku.shoot(vec.x(), vec.y(), vec.z(), val, INA_DEF);
         addEntityAndSound(level, living, danmaku);
+    }
+
+    /**
+     * 随机发射圆环形单独渲染弹幕
+     */
+    public static void shootRandomXZCircleDanmaku(Level level, LivingEntity living, int count){
+        RandomSource random = level.getRandom();
+        int i = Mth.randomBetweenInclusive(random, 0, 3);
+
+        if (i == 0) {
+            shootXZCircleDanmakuFly(level, living, count,VAL_DEF / 4, INA_DEF);
+        }else if (i == 1) {
+            shootXZCircleDanmakuArrow(level, living, count, VAL_DEF, INA_DEF);
+        }else if (i == 2) {
+            shootXZCircleDanmakuWind(level, living, count, VAL_DEF / 2, INA_DEF);
+        }else {
+            shootXZCircleDanmakuLaser(level, living, count,VAL_DEF * 2, INA_DEF, getRandomLaserType(random));
+        }
+    }
+
+    /**
+     * 水平圆环形弹幕（以玩家为中心向外发射）
+     */
+    public static void shootXZCircleDanmaku(Level level, LivingEntity living, int count, float vel, float ina, DanmakuType type) {
+        count = getTrueCount(count);
+        Vec3 origin = living.getEyePosition();
+        for (int i = 0; i < count; i++) {
+            Vec3 direction = getAngleVec3(i, count);
+            DanmakuBase danmaku = new DanmakuBase(level, living, type, DanmakuColor.random(level.random));
+            danmaku.setPos(origin);
+            danmaku.shoot(direction.x, direction.y, direction.z, vel, ina);
+            addEntityAndSound(level, living, danmaku);
+        }
+    }
+
+    /**
+     * 水平圆环形弹幕--蝶形
+     */
+    public static void shootXZCircleDanmakuFly(Level level, LivingEntity living, int count, float vel, float ina) {
+        count = getTrueCount(count);
+        Vec3 origin = living.getEyePosition();
+        for (int i = 0; i < count; i++) {
+            Vec3 direction = getAngleVec3(i, count);
+            DanmakuButterfly butterfly = new DanmakuButterfly(level, living, DanmakuColor.random(level.random));
+            butterfly.setPos(origin);
+            butterfly.shoot(direction.x, direction.y, direction.z, vel, ina);
+            addEntityAndSound(level, living, butterfly);
+        }
+    }
+
+    /**
+     * 水平圆环形弹幕--箭形
+     */
+    public static void shootXZCircleDanmakuArrow(Level level, LivingEntity living, int count, float vel, float ina) {
+        count = getTrueCount(count);
+        Vec3 origin = living.getEyePosition();
+        for (int i = 0; i < count; i++) {
+            Vec3 direction = getAngleVec3(i, count);
+            DanmakuArrow arrow = new DanmakuArrow(level, living, DanmakuColor.random(level.random));
+            arrow.setPos(origin);
+            arrow.shoot(direction.x, direction.y, direction.z, vel, ina);
+            addEntityAndSound(level, living, arrow);
+        }
+    }
+
+    /**
+     * 水平圆环形弹幕--风弹
+     */
+    public static void shootXZCircleDanmakuWind(Level level, LivingEntity living, int count, float vel, float ina) {
+        count = getTrueCount(count);
+        Vec3 origin = living.getEyePosition();
+        for (int i = 0; i < count; i++) {
+            Vec3 direction = getAngleVec3(i, count);
+            DanmakuWind wind = new DanmakuWind(level, living, DanmakuColor.random(level.random));
+            wind.setPos(origin);
+            wind.shoot(direction.x, direction.y, direction.z, vel, ina);
+            addEntityAndSound(level, living, wind);
+        }
+    }
+
+    /**
+     * 水平圆环形弹幕--激光
+     */
+    public static void shootXZCircleDanmakuLaser(Level level, LivingEntity living, int count, float vel, float ina, DanmakuType type) {
+        count = getTrueCount(count);
+        Vec3 origin = living.getEyePosition();
+        for (int i = 0; i < count; i++) {
+            Vec3 direction = getAngleVec3(i, count);
+            DanmakuLaser laser = new DanmakuLaser(level, living, type, DanmakuColor.random(level.random));
+            laser.setPos(origin);
+            laser.shoot(direction.x, direction.y, direction.z, vel, ina);
+            addEntityAndSound(level, living, laser);
+        }
+    }
+
+    /**
+     * 获取水平角度
+     */
+    private static Vec3 getAngleVec3(int i, int count){
+        double angle = 2.0 * Math.PI * i / count;
+        double dx = Math.cos(angle);
+        double dz = Math.sin(angle);
+        return new Vec3(dx, 0.0, dz);
+    }
+
+    /**
+     * 随机发射锥形单独渲染弹幕
+     */
+    public static void shootRandomConeDanmaku(Level level, LivingEntity living, int count, float halfAngle){
+        RandomSource random = level.getRandom();
+        int i = Mth.randomBetweenInclusive(random, 0, 3);
+
+        if (i == 0) {
+            shootConeDanmakuFly(level, living, count, halfAngle, VAL_DEF / 4, INA_DEF);
+        }else if (i == 1) {
+            shootConeDanmakuArrow(level, living, count, halfAngle, VAL_DEF, INA_DEF);
+        }else if (i == 2) {
+            shootConeDanmakuWind(level, living, count, halfAngle, VAL_DEF / 2, INA_DEF);
+        }else {
+            shootConeDanmakuLaser(level, living, count, halfAngle, VAL_DEF * 2, INA_DEF, getRandomLaserType(random));
+        }
+    }
+
+
+    /**
+     * 发射锥形弹幕 （以玩家视线为轴线）
+     * @param count     弹幕数量
+     * @param halfAngle 半锥角（度），如 30 表示最大偏离视线 30°
+     */
+    public static void shootConeDanmaku(Level level, LivingEntity living, int count, float halfAngle, float vel, float ina, DanmakuType type) {
+        count = getTrueCount(count);
+        RandomSource random = level.random;
+        for (int i = 0; i < count; i++) {
+            Vec3 dir = rotateDirection(level, living, halfAngle);
+            DanmakuBase danmakuBase = new DanmakuBase(level, living, type, DanmakuColor.random(random));
+            danmakuBase.shoot(dir.x, dir.y, dir.z, vel, ina);
+            addEntityAndSound(level, living, danmakuBase);
+        }
+    }
+    
+    /**
+     * 发射锥形弹幕--蝶形
+     */
+    public static void shootConeDanmakuFly(Level level, LivingEntity living, int count, float halfAngle, float vel, float ina) {
+        count = getTrueCount(count);
+        RandomSource random = level.random;
+        for (int i = 0; i < count; i++) {
+            Vec3 dir = rotateDirection(level, living, halfAngle);
+            DanmakuButterfly butterfly = new DanmakuButterfly(level, living, DanmakuColor.random(random));
+            butterfly.shoot(dir.x, dir.y, dir.z, vel, ina);
+            addEntityAndSound(level, living, butterfly);
+        }
+    }
+
+    /**
+     * 发射锥形弹幕--箭形
+     */
+    public static void shootConeDanmakuArrow(Level level, LivingEntity living, int count, float halfAngle, float vel, float ina) {
+        count = getTrueCount(count);
+        RandomSource random = level.random;
+        for (int i = 0; i < count; i++) {
+            Vec3 dir = rotateDirection(level, living, halfAngle);
+            DanmakuArrow arrow = new DanmakuArrow(level, living, DanmakuColor.random(random));
+            arrow.shoot(dir.x, dir.y, dir.z, vel, ina);
+            addEntityAndSound(level, living, arrow);
+        }
+    }
+
+    /**
+     * 发射锥形弹幕--风弹
+     */
+    public static void shootConeDanmakuWind(Level level, LivingEntity living, int count, float halfAngle, float vel, float ina) {
+        count = getTrueCount(count);
+        RandomSource random = level.random;
+        for (int i = 0; i < count; i++) {
+            Vec3 dir = rotateDirection(level, living, halfAngle);
+            DanmakuWind wind = new DanmakuWind(level, living, DanmakuColor.random(random));
+            wind.shoot(dir.x, dir.y, dir.z, vel, ina);
+            addEntityAndSound(level, living, wind);
+        }
+    }
+
+    /**
+     * 发射锥形弹幕--激光
+     */
+    public static void shootConeDanmakuLaser(Level level, LivingEntity living, int count, float halfAngle, float vel, float ina, DanmakuType type) {
+        count = getTrueCount(count);
+        RandomSource random = level.random;
+        for (int i = 0; i < count; i++) {
+            Vec3 dir = rotateDirection(level, living, halfAngle);
+            DanmakuLaser butterfly = new DanmakuLaser(level, living, type, DanmakuColor.random(random));
+            butterfly.shoot(dir.x, dir.y, dir.z, vel, ina);
+            addEntityAndSound(level, living, butterfly);
+        }
+    }
+
+    /**
+     * 工具方法：在局部坐标系中旋转
+     * @return 圆锥内的随机方向
+     */
+    private static Vec3 rotateDirection(Level level, LivingEntity living, float halfAngle) {
+        Vec3 aimDir = living.getViewVector(1.0f).normalize();
+        // 构造局部坐标系的两个垂直轴
+        Vec3 right;
+        Vec3 up;
+        if (Math.abs(aimDir.x) < 0.9) {
+            right = aimDir.cross(new Vec3(1, 0, 0)).normalize();
+        } else {
+            right = aimDir.cross(new Vec3(0, 1, 0)).normalize();
+        }
+        up = aimDir.cross(right).normalize();
+
+        RandomSource random = level.random;
+        // 在圆锥内均匀随机方向
+        float azimuth = random.nextFloat() * 360.0f;          // 绕视线方向的角度
+        float polar = random.nextFloat() * halfAngle;         // 偏离视线方向的角度
+        double polarRad = Math.toRadians(polar);
+        double azimuthRad = Math.toRadians(azimuth);
+        double sinP = Math.sin(polarRad);
+        double cosP = Math.cos(polarRad);
+        double sinA = Math.sin(azimuthRad);
+        double cosA = Math.cos(azimuthRad);
+        return aimDir.scale(cosP).add(right.scale(sinP * cosA)).add(up.scale(sinP * sinA));
     }
 
     /**
@@ -446,9 +638,7 @@ public class DanmakuShootHelper {
      * @param upward 是否向下发射
      */
     public static void shootDanmakuHemisphere(Level level, LivingEntity living, int count, float vel, float ina, DanmakuColor color, DanmakuType type, BlockPos pos, boolean upward) {
-        if (count <= 0 || count > MAX_SIZE) {
-            count = Math.min(MAX_SIZE, Math.max(1, count));
-        }
+        count = getTrueCount(count);
 
         for (int i = 0; i < count; i++) {
             DanmakuBase danmaku = new DanmakuBase(level, living, type, color);
@@ -469,10 +659,7 @@ public class DanmakuShootHelper {
      * @param upward 是否向下发射
      */
     public static void shootDanmakuHemisphereUniform(Level level, LivingEntity living, int count, float vel, float ina, DanmakuColor color, DanmakuType type, BlockPos pos, boolean upward) {
-        if (count <= 0 || count > MAX_SIZE) {
-            count = Math.min(MAX_SIZE, Math.max(1, count));
-        }
-
+        count = getTrueCount(count);
         Vec3 centerPos = new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
 
         // 使用斐波那契球面采样实现均匀分布
@@ -582,5 +769,15 @@ public class DanmakuShootHelper {
         float z = (float) (Math.cos(yawRad) * Math.cos(pitchRad));
 
         return new Vec3(x, y, z);
+    }
+
+    /**
+     * 限制单次最大弹幕发射数量
+     */
+    private static int getTrueCount(int count){
+        if (count <= 0 || count > MAX_SIZE) {
+            count = Math.min(MAX_SIZE, Math.max(1, count));
+        }
+        return count;
     }
 }

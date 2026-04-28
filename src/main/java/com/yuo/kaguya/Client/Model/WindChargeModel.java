@@ -5,7 +5,7 @@ package com.yuo.kaguya.Client.Model;// Made with Blockbench 5.0.5
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.yuo.kaguya.Entity.WindEntity;
+import com.yuo.kaguya.Entity.DanmakuWind;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -13,7 +13,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 
-public class WindChargeModel extends EntityModel<WindEntity> {
+public class WindChargeModel extends EntityModel<DanmakuWind> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KaguyaUtils.fa("wind_charge"), "main");
 	private final ModelPart charge;
@@ -37,7 +37,7 @@ public class WindChargeModel extends EntityModel<WindEntity> {
 	}
 
 	@Override
-	public void setupAnim(WindEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(DanmakuWind entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
 	}
 

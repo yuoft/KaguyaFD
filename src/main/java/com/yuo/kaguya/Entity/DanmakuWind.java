@@ -9,25 +9,23 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class WindEntity extends DanmakuBase {
-    public static final EntityType<WindEntity> TYPE = EntityType.Builder.<WindEntity>of(WindEntity::new, MobCategory.MISC)
+public class DanmakuWind extends DanmakuBase {
+    public static final EntityType<DanmakuWind> TYPE = EntityType.Builder.<DanmakuWind>of(DanmakuWind::new, MobCategory.MISC)
             .sized(0.25F, 0.25f).clientTrackingRange(6).updateInterval(10).noSave().build("wind");
 
     protected boolean isPull;
-    public WindEntity(EntityType<? extends ThrowableProjectile> entityType, Level level) {
+    public DanmakuWind(EntityType<? extends ThrowableProjectile> entityType, Level level) {
         super(entityType, level);
     }
 
-    public WindEntity(Level level, LivingEntity living, DanmakuColor danmakuColor) {
+    public DanmakuWind(Level level, LivingEntity living, DanmakuColor danmakuColor) {
         super(TYPE, level, living);
         this.danmakuType = DanmakuType.WIND;
         this.danmakuColor = danmakuColor;

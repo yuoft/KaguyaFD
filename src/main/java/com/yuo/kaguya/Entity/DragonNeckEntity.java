@@ -1,5 +1,8 @@
 package com.yuo.kaguya.Entity;
 
+import com.yuo.kaguya.Entity.Danmaku.DanmakuColor;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuShootHelper;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuType;
 import com.yuo.kaguya.Item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

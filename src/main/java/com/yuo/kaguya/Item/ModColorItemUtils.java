@@ -1,6 +1,6 @@
 package com.yuo.kaguya.Item;
 
-import com.yuo.kaguya.Entity.DanmakuColor;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuColor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;

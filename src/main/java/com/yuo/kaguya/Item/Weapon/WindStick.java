@@ -1,6 +1,7 @@
 package com.yuo.kaguya.Item.Weapon;
 
-import com.yuo.kaguya.Entity.*;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuColor;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuShootHelper;
 import com.yuo.kaguya.Item.KaguyaWeapon;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.network.chat.Component;

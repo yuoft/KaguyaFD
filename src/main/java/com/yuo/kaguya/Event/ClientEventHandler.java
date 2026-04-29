@@ -38,7 +38,7 @@ public class ClientEventHandler {
         event.registerEntityRenderer(ModEntityTypes.DANMAKU_LASER.get(), LaserRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.DANMAKU_LASER0.get(), LaserRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.BEAM_LASER.get(), BeamLaserRender::new);
-        event.registerEntityRenderer(ModEntityTypes.GAP.get(), GapRender::new);
+        event.registerEntityRenderer(ModEntityTypes.GAP.get(), SukimaGapRender::new);
         event.registerEntityRenderer(ModEntityTypes.KINKAKU_JI.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.GOLD_BOAT.get(), GoldBoatRender::new);
         event.registerEntityRenderer(ModEntityTypes.DRAGON_NECK.get(), ThrownItemRenderer::new);

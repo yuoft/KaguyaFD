@@ -1,5 +1,8 @@
 package com.yuo.kaguya.Entity;
 
+import com.yuo.kaguya.Entity.Danmaku.DanmakuBase;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuColor;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -7,7 +10,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Level.ExplosionInteraction;
@@ -17,7 +19,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-public class BigOrbEntity extends DanmakuBase{
+public class BigOrbEntity extends DanmakuBase {
     public static final EntityType<BigOrbEntity> TYPE = EntityType.Builder.<BigOrbEntity>of(BigOrbEntity::new, MobCategory.MISC)
             .sized(0.1F, 0.1f).clientTrackingRange(6).updateInterval(10).noSave().build("big_orb");
     protected static final EntityDataAccessor<Float> SIZE = SynchedEntityData.defineId(BigOrbEntity.class, EntityDataSerializers.FLOAT); //弹幕大小

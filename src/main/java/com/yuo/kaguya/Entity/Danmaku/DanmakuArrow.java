@@ -1,7 +1,6 @@
-package com.yuo.kaguya.Entity;
+package com.yuo.kaguya.Entity.Danmaku;
 
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 

@@ -1,10 +1,8 @@
-package com.yuo.kaguya.Entity;
+package com.yuo.kaguya.Entity.Danmaku;
 
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 
 public class DanmakuButterfly extends DanmakuBase {
     public static final EntityType<DanmakuButterfly> TYPE = EntityType.Builder.<DanmakuButterfly>of(DanmakuButterfly::new, MobCategory.MISC)

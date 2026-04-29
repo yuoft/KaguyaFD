@@ -1,8 +1,8 @@
 package com.yuo.kaguya.Item.Weapon;
 
-import com.yuo.kaguya.Entity.DanmakuColor;
-import com.yuo.kaguya.Entity.DanmakuShootHelper;
-import com.yuo.kaguya.Entity.DanmakuType;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuColor;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuShootHelper;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuType;
 import com.yuo.kaguya.Item.KaguyaWeapon;
 import com.yuo.kaguya.Item.ModNoDataGenItem;
 import net.minecraft.nbt.CompoundTag;

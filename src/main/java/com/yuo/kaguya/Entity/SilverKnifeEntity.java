@@ -1,5 +1,6 @@
 package com.yuo.kaguya.Entity;
 
+import com.yuo.kaguya.Entity.Danmaku.DanmakuColor;
 import com.yuo.kaguya.Item.ModItems;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;

@@ -9,6 +9,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 
+/**
+ * 燕的子安贝
+ */
 public class SwallowCowrieShell extends KaguyaFood {
     public SwallowCowrieShell() {
         super(swallowCowrieShell,1, false);

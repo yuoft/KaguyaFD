@@ -1,20 +1,17 @@
 package com.yuo.kaguya.Item.Prpo;
 
 import com.yuo.kaguya.Entity.BeamLaserEntity;
-import com.yuo.kaguya.Entity.DanmakuColor;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuColor;
 import com.yuo.kaguya.Item.KaguyaPrpo;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;

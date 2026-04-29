@@ -1,7 +1,7 @@
 package com.yuo.kaguya.Item.Weapon;
 
-import com.yuo.kaguya.Entity.DanmakuColor;
-import com.yuo.kaguya.Entity.DanmakuShootHelper;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuColor;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuShootHelper;
 import com.yuo.kaguya.Item.KaguyaWeapon;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;

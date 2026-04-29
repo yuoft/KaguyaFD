@@ -21,6 +21,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
+/**
+ * 魔理沙的帽子
+ */
 public class MarisaHelmet extends ArmorItem {
     public MarisaHelmet() {
         super(ModArmorMaterials.MARISA, Type.HELMET, new Properties().stacksTo(1).durability(648));

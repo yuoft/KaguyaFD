@@ -1,15 +1,16 @@
 package com.yuo.kaguya.Entity;
 
+import com.yuo.kaguya.Entity.Danmaku.DanmakuBase;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuColor;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuType;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
@@ -18,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class ReboundEntity extends DanmakuBase{
+public class ReboundEntity extends DanmakuBase {
     public static final EntityType<ReboundEntity> TYPE = EntityType.Builder.<ReboundEntity>of(ReboundEntity::new, MobCategory.MISC)
             .sized(1.5F, 1.5f).clientTrackingRange(6).updateInterval(10).noSave().build("rebound_shield");
     protected static final EntityDataAccessor<Float> FACE_YAW = SynchedEntityData.defineId(ReboundEntity.class, EntityDataSerializers.FLOAT);

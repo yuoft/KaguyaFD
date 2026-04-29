@@ -1,4 +1,4 @@
-package com.yuo.kaguya.Entity;
+package com.yuo.kaguya.Entity.Danmaku;
 
 import net.minecraft.util.RandomSource;
 

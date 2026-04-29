@@ -1,6 +1,6 @@
 package com.yuo.kaguya.Item.Weapon;
 
-import com.yuo.kaguya.Entity.DanmakuShootHelper;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuShootHelper;
 import com.yuo.kaguya.Item.KaguyaWeapon;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;

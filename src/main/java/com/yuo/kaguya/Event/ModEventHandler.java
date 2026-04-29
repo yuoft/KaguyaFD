@@ -1,7 +1,7 @@
 package com.yuo.kaguya.Event;
 
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
-import com.yuo.kaguya.Entity.DanmakuColor;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuColor;
 import com.yuo.kaguya.Entity.IceStatueEntity;
 import com.yuo.kaguya.Entity.ModEntityTypes;
 import com.yuo.kaguya.Item.ModColorItemUtils;

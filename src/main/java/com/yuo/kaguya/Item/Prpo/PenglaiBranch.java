@@ -1,7 +1,7 @@
 package com.yuo.kaguya.Item.Prpo;
 
-import com.yuo.kaguya.Entity.DanmakuShootHelper;
-import com.yuo.kaguya.Entity.DanmakuType;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuShootHelper;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuType;
 import com.yuo.kaguya.Item.KaguyaPrpo;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;

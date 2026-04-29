@@ -1,8 +1,7 @@
 package com.yuo.kaguya.Tile;
 
-import com.yuo.kaguya.Entity.DanmakuColor;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuColor;
 import com.yuo.kaguya.Item.*;
-import com.yuo.kaguya.KaguyaUtils;
 import com.yuo.kaguya.Menu.DanmakuCraftMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -12,7 +11,6 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;

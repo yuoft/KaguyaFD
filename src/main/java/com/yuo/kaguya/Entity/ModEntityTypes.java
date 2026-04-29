@@ -1,5 +1,6 @@
 package com.yuo.kaguya.Entity;
 
+import com.yuo.kaguya.Entity.Danmaku.*;
 import com.yuo.kaguya.Entity.Mob.BaseMobEntity;
 import com.yuo.kaguya.Entity.Mob.SanaeMob;
 import com.yuo.kaguya.Kaguya;
@@ -34,8 +35,8 @@ public class ModEntityTypes {
             () -> ReboundEntity.TYPE);
     public static final RegistryObject<EntityType<BeamLaserEntity>> BEAM_LASER = ENTITY_TYPES.register("beam_laser",
             () -> BeamLaserEntity.TYPE);
-    public static final RegistryObject<EntityType<GapEntity>> GAP = ENTITY_TYPES.register("gap",
-            () -> GapEntity.TYPE);
+    public static final RegistryObject<EntityType<SukimaGapEntity>> GAP = ENTITY_TYPES.register("gap",
+            () -> SukimaGapEntity.TYPE);
     public static final RegistryObject<EntityType<KinkakuJiEntity>> KINKAKU_JI = ENTITY_TYPES.register("kinkaku_ji",
             () -> KinkakuJiEntity.TYPE);
     public static final RegistryObject<EntityType<GoldRaftEntity>> GOLD_BOAT = ENTITY_TYPES.register("gold_raft",

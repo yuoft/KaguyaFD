@@ -1,4 +1,4 @@
-package com.yuo.kaguya.Entity;
+package com.yuo.kaguya.Entity.Danmaku;
 
 import com.yuo.kaguya.Effect.ModEffects;
 import com.yuo.kaguya.Item.Weapon.DanmakuDamageTypes;

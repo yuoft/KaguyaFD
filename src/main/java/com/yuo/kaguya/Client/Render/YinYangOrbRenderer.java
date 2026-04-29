@@ -3,8 +3,6 @@ package com.yuo.kaguya.Client.Render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import com.yuo.kaguya.Entity.DanmakuColor;
-import com.yuo.kaguya.Entity.DanmakuType;
 import com.yuo.kaguya.Entity.YinYangOrbEntity;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.renderer.MultiBufferSource;

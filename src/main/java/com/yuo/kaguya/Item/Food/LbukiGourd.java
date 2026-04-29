@@ -13,6 +13,9 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 
+/**
+ * 伊吹瓢
+ */
 public class LbukiGourd extends KaguyaFood{
     public LbukiGourd() {
         super(9, ibukiGourd, false);

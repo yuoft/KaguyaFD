@@ -4,10 +4,12 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+/**
+ * 火鼠的皮衣
+ */
 public class FireRatRobe extends ArmorItem {
     public FireRatRobe() {
         super(ModArmorMaterials.FIRE_RAT, Type.CHESTPLATE, new Properties().stacksTo(1).durability(232).fireResistant());

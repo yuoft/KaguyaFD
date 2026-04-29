@@ -1,7 +1,7 @@
 package com.yuo.kaguya.Item.Prpo;
 
 import com.yuo.kaguya.Entity.BigOrbEntity;
-import com.yuo.kaguya.Entity.DanmakuShootHelper;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuShootHelper;
 import com.yuo.kaguya.Item.KaguyaWeapon;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.core.BlockPos;

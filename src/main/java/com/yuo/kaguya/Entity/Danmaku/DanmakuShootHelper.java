@@ -1,6 +1,9 @@
-package com.yuo.kaguya.Entity;
+package com.yuo.kaguya.Entity.Danmaku;
 
 import com.yuo.kaguya.Effect.ModEffects;
+import com.yuo.kaguya.Entity.BigOrbEntity;
+import com.yuo.kaguya.Entity.ReboundEntity;
+import com.yuo.kaguya.Entity.YinYangOrbEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;

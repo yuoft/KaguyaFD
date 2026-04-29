@@ -1,6 +1,5 @@
 package com.yuo.kaguya.Item.Armor;
 
-import com.yuo.kaguya.Client.Model.MarisaHatModel;
 import com.yuo.kaguya.Client.Model.SuwakoHatModel;
 import com.yuo.kaguya.Kaguya;
 import net.minecraft.client.model.HumanoidModel;
@@ -9,7 +8,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -19,6 +17,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
+/**
+ * 诹访子的帽子
+ */
 public class SuwakoHelmet extends ArmorItem {
     public SuwakoHelmet() {
         super(ModArmorMaterials.SUWAKO, Type.HELMET, new Properties().stacksTo(1).durability(456));

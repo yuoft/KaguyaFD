@@ -5,16 +5,13 @@ package com.yuo.kaguya.Client.Model;// Made with Blockbench 5.0.5
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.yuo.kaguya.Entity.DanmakuArrow;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuArrow;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.entity.ArrowRenderer;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.projectile.Arrow;
 
 public class ArrowShotModel extends EntityModel<DanmakuArrow> {
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KaguyaUtils.fa("arrow_shot"), "main");

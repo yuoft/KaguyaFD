@@ -3,7 +3,7 @@ package com.yuo.kaguya.Client.Render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import com.yuo.kaguya.Entity.DanmakuColor;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuColor;
 import com.yuo.kaguya.Item.Weapon.WindStick;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.model.PlayerModel;

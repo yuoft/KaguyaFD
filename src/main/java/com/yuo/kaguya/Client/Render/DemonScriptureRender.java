@@ -16,10 +16,10 @@ import org.joml.Matrix4f;
 
 public class DemonScriptureRender extends EntityRenderer<DemonScriptureEntity> {
 
-    private static final ResourceLocation TEXTURE = KaguyaUtils.fa("textures/entity/mazinkyoukan_texture.png");
+    private static final ResourceLocation TEXTURE = KaguyaUtils.fa("textures/entity/demon_scripture.png");
 
     // 自定义双面半透明渲染类型（安全，无报错）
-    private static final RenderType RENDER_TYPE = RenderType.create("mazinkyoukan",
+    private static final RenderType RENDER_TYPE = RenderType.create("demon_scripture",
             DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true,
             RenderType.CompositeState.builder()
                     .setTextureState(new RenderStateShard.TextureStateShard(TEXTURE, false, false))

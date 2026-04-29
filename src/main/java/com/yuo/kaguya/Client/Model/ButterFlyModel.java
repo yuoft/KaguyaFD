@@ -5,7 +5,7 @@ package com.yuo.kaguya.Client.Model;// Made with Blockbench 5.0.5
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.yuo.kaguya.Entity.DanmakuButterfly;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuButterfly;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;

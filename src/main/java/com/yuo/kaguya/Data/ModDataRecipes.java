@@ -2,7 +2,7 @@ package com.yuo.kaguya.Data;
 
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import com.google.gson.JsonObject;
-import com.yuo.kaguya.Entity.DanmakuColor;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuColor;
 import com.yuo.kaguya.Item.ModColorItemUtils;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.KaguyaUtils;

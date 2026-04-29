@@ -1,8 +1,8 @@
 package com.yuo.kaguya.Item;
 
-import com.yuo.kaguya.Entity.DanmakuColor;
-import com.yuo.kaguya.Entity.DanmakuShootHelper;
-import com.yuo.kaguya.Entity.DanmakuType;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuColor;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuShootHelper;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -17,8 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static com.yuo.kaguya.Entity.DanmakuType.*;
-import static com.yuo.kaguya.Entity.DanmakuColor.*;
+import static com.yuo.kaguya.Entity.Danmaku.DanmakuColor.*;
 
 public class DanmakuShotItem extends Item {
     private static final float VAL_DEF = 0.5f; //默认发射初速度

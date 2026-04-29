@@ -1,7 +1,7 @@
 package com.yuo.kaguya.Item;
 
 import com.yuo.kaguya.Block.ModBlocks;
-import com.yuo.kaguya.Entity.DanmakuType;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuType;
 import com.yuo.kaguya.Item.Armor.FireRatRobe;
 import com.yuo.kaguya.Item.Armor.KappaHelmet;
 import com.yuo.kaguya.Item.Armor.MarisaHelmet;

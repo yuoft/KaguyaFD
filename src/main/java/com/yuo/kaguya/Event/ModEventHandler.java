@@ -163,7 +163,7 @@ public class ModEventHandler {
         Level level = event.getEntity().level();
         if (target instanceof IceStatueEntity iceStatue) { //冰雕破坏
             ItemStack handItem = player.getMainHandItem();
-            if (handItem.is(ItemTags.PICKAXES)){
+            if (iceStatue.getFrozenTime() < 0 && handItem.is(ItemTags.PICKAXES)){
                 iceStatue.playSound(SoundEvents.GLASS_HIT,2, 0.5F + (RANDOM.nextFloat() - RANDOM.nextFloat()) * 0.2F + 0.5F);
                 event.setCanceled(true);
 

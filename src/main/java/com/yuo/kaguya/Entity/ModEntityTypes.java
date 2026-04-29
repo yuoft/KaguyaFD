@@ -71,4 +71,8 @@ public class ModEntityTypes {
             () -> EntityType.Builder.of(SanaeMob::new, MobCategory.CREATURE).sized(sizeWidth, sizeHeight)
                     .clientTrackingRange(trackingRange).updateInterval(updateInterval).build("morichika_rinnosuke"));
 
+    public static final RegistryObject<EntityType<DemonScriptureEntity>> MAZINKYOUKAN = ENTITY_TYPES.register("demon_scripture",
+            () -> EntityType.Builder.<DemonScriptureEntity>of(DemonScriptureEntity::new, MobCategory.MISC).sized(2.0F, 2.0F)
+                    .clientTrackingRange(trackingRange).updateInterval(updateInterval).build("demon_scripture"));
+
 }

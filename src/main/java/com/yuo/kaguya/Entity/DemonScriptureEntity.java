@@ -1,6 +1,5 @@
 package com.yuo.kaguya.Entity;
 
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -15,21 +14,21 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 
-public class EntityMazinkyoukan extends Entity {
+public class DemonScriptureEntity extends Entity {
     public Player user;
     public int count;          // 已经绘制的“节”数 / 使用时间
     public float turnAngle;
     public int befUseCount;
 
-    private static final EntityDataAccessor<Integer> DATA_COUNT = SynchedEntityData.defineId(EntityMazinkyoukan.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> DATA_COUNT = SynchedEntityData.defineId(DemonScriptureEntity.class, EntityDataSerializers.INT);
 
-    public EntityMazinkyoukan(EntityType<? extends Entity> type, Level level) {
+    public DemonScriptureEntity(EntityType<? extends Entity> type, Level level) {
         super(type, level);
         this.noCulling = true;
         this.setSize(2.0F, 2.0F);
     }
 
-    public EntityMazinkyoukan(Level level, Player player) {
+    public DemonScriptureEntity(Level level, Player player) {
         this(ModEntityTypes.MAZINKYOUKAN.get(), level);
         this.user = player;
         this.setPos(player.getX(), player.getY() + player.getEyeHeight(), player.getZ());

@@ -54,6 +54,8 @@ public class ClientEventHandler {
         event.registerEntityRenderer(ModEntityTypes.CIRNO.get(), YSMModelRender::new);
         event.registerEntityRenderer(ModEntityTypes.KOCHIYA_SANAE.get(), YSMModelRender::new);
         event.registerEntityRenderer(ModEntityTypes.MORICHIKA_RINNOSUKE.get(), YSMModelRender::new);
+
+        event.registerEntityRenderer(ModEntityTypes.MAZINKYOUKAN.get(), DemonScriptureRender::new);
     }
 
     @SubscribeEvent

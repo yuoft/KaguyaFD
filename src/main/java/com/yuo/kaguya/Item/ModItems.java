@@ -27,6 +27,9 @@ public class ModItems {
 	public static RegistryObject<Item> bigPotion = ITEMS.register("big_potion", KaguyaMaterialItem::new);
 	public static RegistryObject<Item> bomb = ITEMS.register("bomb", KaguyaMaterialItem::new);
 	public static RegistryObject<Item> danmakuMaterial = ITEMS.register("danmaku_material", KaguyaMaterialItem::new);
+	/**
+	 * 生命道具
+	 */
 	public static RegistryObject<Item> extend = ITEMS.register("extend", KaguyaMaterialItem::new);
 	public static RegistryObject<Item> houraiPearlAqua = ITEMS.register("hourai_pearl_aqua", KaguyaMaterialItem::new);
 	public static RegistryObject<Item> houraiPearlBlue = ITEMS.register("hourai_pearl_blue", KaguyaMaterialItem::new);
@@ -73,13 +76,13 @@ public class ModItems {
 	public static RegistryObject<Item> deathScythe = ITEMS.register("death_scythe", DeathScythe::new);
 	public static RegistryObject<Item> gungnir = ITEMS.register("gungnir", Gungnir::new);
 	public static RegistryObject<Item> hakureiOharaibou = ITEMS.register("hakurei_oharaibou", HakureiReimuStick::new);
-	public static RegistryObject<Item> hakurouken = ITEMS.register("hakurouken", Hakurouken::new);
+	public static RegistryObject<Item> hakurouken = ITEMS.register("hakurouken", HakuroukenSword::new);
 	public static RegistryObject<Item> hisouSword = ITEMS.register("hisou_sword", HisouSword::new);
 	public static RegistryObject<Item> icicleSword = ITEMS.register("icicle_sword", IceSword::new);
 	public static RegistryObject<Item> remorseRod = ITEMS.register("remorse_rod", RemorseRod::new);
-	public static RegistryObject<Item> laevateinn = ITEMS.register("laevateinn", Laevateinn::new);
+	public static RegistryObject<Item> laevateinn = ITEMS.register("laevateinn", LaevateinnSword::new);
 	public static RegistryObject<Item> onbashira = ITEMS.register("onbashira", Onbashira::new);
-	public static RegistryObject<Item> roukanSword = ITEMS.register("roukan_sword", Roukanken::new);
+	public static RegistryObject<Item> roukanSword = ITEMS.register("roukan_sword", RoukankenSword::new);
 	public static RegistryObject<Item> toyosatomimiSword = ITEMS.register("toyosatomimi_sword", SacredSword::new);
 	public static RegistryObject<Item> yuukaParasol = ITEMS.register("yuuka_parasol", YuukaParasol::new);
 	public static RegistryObject<Item> yuyukoOugi = ITEMS.register("yuyuko_ougi", YuyukoFan::new);

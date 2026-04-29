@@ -20,6 +20,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * 死神的大镰刀
+ */
 public class DeathScythe extends KaguyaWeapon {
     // 配置参数
     private static final double BASE_RANGE = 20.0D;

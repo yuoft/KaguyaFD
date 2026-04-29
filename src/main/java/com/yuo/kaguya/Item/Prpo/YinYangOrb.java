@@ -13,6 +13,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 
+/**
+ * 渴望鲜血的阴阳玉
+ */
 public class YinYangOrb extends KaguyaPrpo {
 
     public YinYangOrb() {

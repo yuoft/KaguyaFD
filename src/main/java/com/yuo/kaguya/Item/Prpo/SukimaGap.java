@@ -30,6 +30,9 @@ import net.minecraft.world.phys.AABB;
 import javax.annotation.Nullable;
 import java.util.List;
 
+/**
+ * 隙间
+ */
 public class SukimaGap extends KaguyaPrpo implements ModNoDataGenItem, ModColorCraftItem {
 
     public SukimaGap() {

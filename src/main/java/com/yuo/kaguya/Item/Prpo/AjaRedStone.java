@@ -22,6 +22,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.phys.Vec3;
 
+/**
+ * 艾哲红石
+ */
 public class AjaRedStone extends KaguyaPrpo {
 
     @Override

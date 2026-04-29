@@ -21,6 +21,9 @@ import net.minecraft.world.level.Level;
 import javax.annotation.Nullable;
 import java.util.List;
 
+/**
+ * 隙间的折叠伞
+ */
 public class GapFoldingUmbrella extends KaguyaPrpo implements ModNoDataGenItem, ModColorCraftItem {
 
     public GapFoldingUmbrella() {

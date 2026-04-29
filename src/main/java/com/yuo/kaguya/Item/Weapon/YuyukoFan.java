@@ -9,6 +9,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 
+/**
+ * 幽幽子的扇子
+ */
 public class YuyukoFan extends KaguyaWeapon {
 
     public YuyukoFan() {

@@ -10,6 +10,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tiers;
 
+/**
+ * 冰剑
+ */
 public class IceSword extends KaguyaWeapon {
     public IceSword() {
         super(Tiers.DIAMOND, new Properties().durability(30));

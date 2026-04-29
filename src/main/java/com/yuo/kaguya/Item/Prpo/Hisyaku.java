@@ -16,16 +16,15 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.block.WaterlilyBlock;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.WaterFluid;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+/**
+ * 船幽灵的长勺
+ */
 public class Hisyaku extends KaguyaPrpo implements ModNoDataGenItem {
     public static final String NBT_WATER = "kaguya:water";
     public static final String NBT_WATER_NUM = "kaguya:water_number";

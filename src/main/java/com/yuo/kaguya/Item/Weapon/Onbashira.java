@@ -10,6 +10,9 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.Level;
 
+/**
+ * 御柱
+ */
 public class Onbashira extends KaguyaWeapon {
     public Onbashira() {
         super(Tiers.DIAMOND, 7, -2.8f, new Properties().durability(59));

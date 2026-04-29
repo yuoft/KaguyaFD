@@ -11,6 +11,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+/**
+ * 绯想之剑
+ */
 public class HisouSword extends KaguyaWeapon {
     private Entity entity;
     public HisouSword() {

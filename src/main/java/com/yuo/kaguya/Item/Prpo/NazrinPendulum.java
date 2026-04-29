@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
+/**
+ * 娜兹玲灵摆
+ */
 public class NazrinPendulum extends KaguyaPrpo {
     // 矿石颜色映射表
     public static final Map<String, Integer> ORE_COLORS = new HashMap<>();

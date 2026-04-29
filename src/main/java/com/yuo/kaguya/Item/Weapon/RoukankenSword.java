@@ -24,13 +24,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class Roukanken extends KaguyaWeapon {
+/**
+ * 楼观剑
+ */
+public class RoukankenSword extends KaguyaWeapon {
     private static final float BASE_DAMAGE = 5.0F;      // 基础伤害
     private static final float BASE_DISTANCE = 5.0F;    // 基础冲刺距离
     private static final float BASE_SPEED = 1.5F;       // 基础冲刺速度
     private static final float HIT_WIDTH = 2.0F;        // 命中宽度
 
-    public Roukanken() {
+    public RoukankenSword() {
         super(Tiers.IRON, 3, new Properties().durability(251));
     }
 

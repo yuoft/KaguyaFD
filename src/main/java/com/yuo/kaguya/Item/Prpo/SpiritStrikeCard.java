@@ -15,6 +15,9 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
+/**
+ * 灵击卡
+ */
 public class SpiritStrikeCard extends KaguyaPrpo {
     private static final double RADIUS = 12.0;
     private static final double KNOCKBACK_STRENGTH = 2.0;

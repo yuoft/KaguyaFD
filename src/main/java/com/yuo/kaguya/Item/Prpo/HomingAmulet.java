@@ -10,6 +10,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+/**
+ * 追踪灵符
+ */
 public class HomingAmulet extends KaguyaPrpo {
     public HomingAmulet() {
         super(new Properties().stacksTo(16));

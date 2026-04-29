@@ -22,6 +22,9 @@ import net.minecraft.world.level.material.Fluids;
 
 import java.util.function.Consumer;
 
+/**
+ * 河童的水枪
+ */
 public class KappaWaterPistol extends KaguyaWeapon {
     public KappaWaterPistol(){
         super(Tiers.IRON, 0, new Properties().durability(39));

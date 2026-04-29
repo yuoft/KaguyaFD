@@ -1,7 +1,6 @@
 package com.yuo.kaguya.Item.Weapon;
 
 import com.yuo.kaguya.Entity.DanmakuShootHelper;
-import com.yuo.kaguya.Entity.ReboundEntity;
 import com.yuo.kaguya.Item.KaguyaWeapon;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -11,13 +10,15 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-public class Hakurouken extends KaguyaWeapon {
-    public Hakurouken() {
+/**
+ * 白楼剑
+ */
+public class HakuroukenSword extends KaguyaWeapon {
+    public HakuroukenSword() {
         super(Tiers.WOOD, new Properties().durability(100));
     }
 
@@ -49,7 +50,7 @@ public class Hakurouken extends KaguyaWeapon {
         player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 10, 2, false, false));
         player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 20, 1, false, false));
 
-        Roukanken.spawnChargeParticles(level, player, lookVec, distance, 0.51f);
+        RoukankenSword.spawnChargeParticles(level, player, lookVec, distance, 0.51f);
         level.playSound(null, player.blockPosition(), SoundEvents.ENDER_DRAGON_FLAP, SoundSource.PLAYERS, 1.0F, 0.7F);
     }
 }

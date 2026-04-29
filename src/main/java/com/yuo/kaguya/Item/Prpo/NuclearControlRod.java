@@ -17,6 +17,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraft.world.phys.Vec3;
 
+/**
+ * 控制棒
+ */
 public class NuclearControlRod extends KaguyaWeapon {
     private static final String NBT_ORB_ID = "big_rod_entity_id";
 

@@ -10,6 +10,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+/**
+ * 天狗的团扇
+ */
 public class TenguFan extends KaguyaPrpo {
 
     public TenguFan() {

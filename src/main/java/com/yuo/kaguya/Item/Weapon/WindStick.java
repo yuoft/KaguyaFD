@@ -13,6 +13,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 
+/**
+ * 风祝的驱魔棒
+ */
 public class WindStick extends KaguyaWeapon {
     public WindStick() {
         super(Tiers.DIAMOND, new Properties().durability(50));

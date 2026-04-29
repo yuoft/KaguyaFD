@@ -11,6 +11,9 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
+/**
+ * 丰聪耳的宝剑
+ */
 public class SacredSword extends KaguyaWeapon {
     public SacredSword() {
         super(Tiers.DIAMOND, new Properties().durability(250));

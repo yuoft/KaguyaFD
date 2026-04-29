@@ -11,6 +11,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+/**
+ * 龙颈之玉
+ */
 public class DragonNeck extends KaguyaPrpo {
     public DragonNeck() {
         super(new Properties().stacksTo(16));

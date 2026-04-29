@@ -1,6 +1,5 @@
 package com.yuo.kaguya.Item.Prpo;
 
-import com.yuo.kaguya.Event.ModEventHandler;
 import com.yuo.kaguya.Item.KaguyaPrpo;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.network.chat.Component;
@@ -8,7 +7,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -16,6 +14,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 
+/**
+ * 迷你八卦炉
+ */
 public class MiniHakkero extends KaguyaPrpo {
     public MiniHakkero() {
         super(new Properties().durability(99));

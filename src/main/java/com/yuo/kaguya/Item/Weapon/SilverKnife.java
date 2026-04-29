@@ -26,6 +26,9 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 
+/**
+ * 女仆小刀
+ */
 public class SilverKnife extends Item implements ModNoDataGenItem, ModColorCraftItem {
     private final float attackDamage;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;

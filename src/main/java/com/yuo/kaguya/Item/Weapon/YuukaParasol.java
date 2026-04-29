@@ -14,6 +14,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.Level;
 
+/**
+ * 幽香的阳伞
+ */
 public class YuukaParasol extends KaguyaWeapon implements ModNoDataGenItem {
     private static final String NBT_OPEN = "kaguya_parasol_open";
 

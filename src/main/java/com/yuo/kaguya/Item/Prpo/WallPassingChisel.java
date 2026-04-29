@@ -15,6 +15,9 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
+/**
+ * 穿墙之凿
+ */
 public class WallPassingChisel extends KaguyaWeapon {
 
     public WallPassingChisel() {

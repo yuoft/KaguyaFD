@@ -13,6 +13,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 
+/**
+ * 闭上的第三只眼
+ */
 public class CloseEye3rd extends KaguyaPrpo {
 
     @Override

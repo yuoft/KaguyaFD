@@ -11,6 +11,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+/**
+ * 金阁寺的一块天花板
+ */
 public class KinkakujiCeiling extends KaguyaPrpo {
 
     @Override

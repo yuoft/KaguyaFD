@@ -10,6 +10,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.Level;
 
+/**
+ * 冈格尼尔之枪
+ */
 public class Gungnir extends KaguyaWeapon {
     public Gungnir() {
         super(Tiers.NETHERITE, new Properties().durability(95));

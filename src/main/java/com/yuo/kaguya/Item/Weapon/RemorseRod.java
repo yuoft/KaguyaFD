@@ -16,6 +16,9 @@ import net.minecraft.world.level.Level;
 
 import java.util.function.Consumer;
 
+/**
+ * 悔悟之棒
+ */
 public class RemorseRod extends KaguyaWeapon implements ModNoDataGenItem {
     public RemorseRod() {
         super(Tiers.STONE, new Properties().durability(1));

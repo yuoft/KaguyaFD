@@ -12,6 +12,9 @@ import net.minecraftforge.common.ToolAction;
 
 import java.util.function.Consumer;
 
+/**
+ * 佛御石之钵
+ */
 public class StoneBowl extends PickaxeItem {
     public StoneBowl() {
         super(Tiers.DIAMOND, 1, -2.8f, new Properties().durability(Integer.MAX_VALUE));

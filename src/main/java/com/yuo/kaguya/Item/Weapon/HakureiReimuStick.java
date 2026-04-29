@@ -14,6 +14,9 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * 博丽的驱魔棒
+ */
 public class HakureiReimuStick extends KaguyaWeapon {
     public HakureiReimuStick() {
         super(Tiers.DIAMOND, new Properties().durability(89));

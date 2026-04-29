@@ -14,6 +14,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 
+/**
+ * 病气平愈守
+ */
 public class RecoveryCharm extends KaguyaPrpo {
     public RecoveryCharm() {
         super(new Properties().stacksTo(16));

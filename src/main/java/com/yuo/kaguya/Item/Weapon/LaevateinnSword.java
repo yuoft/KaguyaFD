@@ -10,8 +10,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.Level;
 
-public class Laevateinn extends KaguyaWeapon {
-    public Laevateinn() {
+/**
+ * 莱瓦汀
+ */
+public class LaevateinnSword extends KaguyaWeapon {
+    public LaevateinnSword() {
         super(Tiers.DIAMOND, 0, new Properties().durability(95));
     }
 

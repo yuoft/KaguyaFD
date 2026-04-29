@@ -96,10 +96,4 @@ public class SilverKnife extends Item implements ModNoDataGenItem, ModColorCraft
     public Component getName(ItemStack stack) {
         return ModColorItemUtils.getColorName(stack, super.getName(stack));
     }
-
-    @Override
-    public void appendHoverText(ItemStack stack, @javax.annotation.Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        super.appendHoverText(stack, level, tooltip, flag);
-        ModColorItemUtils.appendColorText(stack, tooltip);
-    }
 }

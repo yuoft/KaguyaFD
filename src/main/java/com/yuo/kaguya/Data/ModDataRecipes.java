@@ -198,10 +198,6 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', ModItems.houraiPearlRed.get())
                 .pattern("xxx").pattern("xxx").pattern("xxx")
                 .unlockedBy("has_item", has(ModItems.aja_red_stone.get())).save(consumer);
-//        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.icicleSword.get(), 1)
-//                .define('x', Items.BLUE_ICE).define('x', ModItems.houraiPearlAqua.get())
-//                .pattern("  x").pattern("xx ").pattern("yx ")
-//                .unlockedBy("has_item", has(ModItems.icicleSword.get())).save(consumer);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.yuukaParasol.get(), 1)
                 .define('x', ItemTags.SMALL_FLOWERS).define('y', ItemTags.TALL_FLOWERS).define('z', ModItems.houraiPearlOrange.get())
                 .define('a', Items.IRON_INGOT)

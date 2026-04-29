@@ -76,7 +76,7 @@ public class ModColorItemUtils {
         if (ModColorItemUtils.hasColor(stack)) {
             DanmakuColor color = ModColorItemUtils.getColor(stack);
             if (color != null) {
-                MutableComponent colorName = Component.translatable("info.kaguya.color." + color.getName()).append("-");
+                MutableComponent colorName = Component.translatable("info.kaguya.color." + color.getName());
                 return colorName.append(component);
             }
         }

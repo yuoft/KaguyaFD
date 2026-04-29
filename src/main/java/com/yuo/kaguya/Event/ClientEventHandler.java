@@ -89,7 +89,6 @@ public class ClientEventHandler {
         event.registerLayerDefinition(ArrowShotModel.LAYER_LOCATION, ArrowShotModel::createBodyLayer);
         event.registerLayerDefinition(WindChargeModel.LAYER_LOCATION, WindChargeModel::createBodyLayer);
         event.registerLayerDefinition(LaserModel.LAYER_LOCATION, LaserModel::createBodyLayer);
-        event.registerLayerDefinition(GapModel.LAYER_LOCATION, GapModel::createBodyLayer);
         event.registerLayerDefinition(CrossModel.LAYER_LOCATION, CrossModel::createBodyLayer);
     }
 

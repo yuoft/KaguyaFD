@@ -22,7 +22,7 @@ public class Eye3rd extends KaguyaPrpo {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        Entity entity = KaguyaUtils.getHitEntity(player.getEyePosition(), player.getViewVector(1.0f), level, player, 60);
+        Entity entity = KaguyaUtils.getHitEntity(level, player, 60);
         if (entity instanceof LivingEntity living && !player.isCrouching()) {
             Component displayName = living.getDisplayName();
             float maxHealth = living.getMaxHealth();

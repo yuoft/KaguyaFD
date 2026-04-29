@@ -11,13 +11,12 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -52,7 +51,7 @@ public class KaguyaUtils {
         // 计算视线方向
         Vec3 eyePosition = living.getEyePosition();
         Vec3 lookDirection = living.getViewVector(1.0F);
-        Vec3 actualEnd = KaguyaUtils.getHitVec(eyePosition, lookDirection, level, living);
+        Vec3 actualEnd = KaguyaUtils.getHitVec(level, living, 128);
         double beamLength = eyePosition.distanceTo(actualEnd);
         if (beamLength < 1) {
             beamLength = 1;
@@ -78,13 +77,10 @@ public class KaguyaUtils {
     }
 
     /**
-     * 获取固定距离玩家视线的方块坐标，有方块阻挡则在其前方
+     * 获取玩家面前固定距离的方块坐标，并防穿墙
+     * @param spawnDistance 距离
      */
-    public static BlockPos getLookBlock(LivingEntity living, Level level) {
-        // 固定生成距离（不随蓄力变化）
-        float spawnDistance = 3.0F;
-
-        // 计算生成位置
+    public static BlockPos getLookBlock(LivingEntity living, Level level, double spawnDistance) {
         Vec3 lookVec = living.getLookAngle().normalize();
         Vec3 eyePos = living.getEyePosition();
         Vec3 spawnPos = eyePos.add(lookVec.scale(spawnDistance));
@@ -131,7 +127,7 @@ public class KaguyaUtils {
         // 获取视线方向
         Vec3 startPos = player.getEyePosition();
         Vec3 lookVec = player.getLookAngle();
-        Vec3 endPos = getHitVec(startPos, lookVec, level, player);
+        Vec3 endPos = getHitVec(startPos, lookVec, level, player, 128);
 
         // 创建临时光束效果（使用MC原版效果）
         double num = Math.ceil(startPos.distanceToSqr(endPos));
@@ -147,18 +143,24 @@ public class KaguyaUtils {
     }
 
     /**
-     * 获取玩家视线终点
+     * 获取玩家视线终点坐标--参数简化
+     */
+    public static Vec3 getHitVec(Level level, LivingEntity living, double maxDistance){
+        return getHitVec(living.getEyePosition(), living.getViewVector(1.0f), level, living, maxDistance);
+    }
+
+    /**
+     * 获取玩家视线终点坐标
      *
      * @param eyePosition   玩家视线位置
      * @param lookDirection 玩家视线方向
+     * @param maxDistance 最远距离限制
      */
-    public static Vec3 getHitVec(Vec3 eyePosition, Vec3 lookDirection, Level level, LivingEntity living) {
+    public static Vec3 getHitVec(Vec3 eyePosition, Vec3 lookDirection, Level level, LivingEntity living, double maxDistance) {
         // 确保方向不为零向量
         if (lookDirection.lengthSqr() < 0.0001) {
             lookDirection = new Vec3(0, 1, 0); // 默认向上
         }
-        // 计算射线终点（最大距离 128 格）
-        double maxDistance = 128d;
         Vec3 endPosition = eyePosition.add(lookDirection.scale(maxDistance));
 
         // 进行方块碰撞检测
@@ -176,18 +178,25 @@ public class KaguyaUtils {
     }
 
     /**
+     * 获取玩家视线实体-简化参数
+     */
+    public static Entity getHitEntity(Level level, LivingEntity living, double maxDistance){
+        return getHitEntity(living.getEyePosition(), living.getViewVector(1.0f), level, living, maxDistance);
+    }
+
+    /**
      * 获取玩家视线实体
      */
-    public static Entity getHitEntity(Vec3 eyePosition, Vec3 lookDirection, Level level, Player player, double maxDistance) {
+    public static Entity getHitEntity(Vec3 eyePosition, Vec3 lookDirection, Level level, LivingEntity living, double maxDistance) {
         // 获取所有可能被击中的实体
-        List<Entity> entities = level.getEntities(player, player.getBoundingBox().expandTowards(lookDirection.scale(maxDistance)).inflate(1.0));
+        List<Entity> entities = level.getEntities(living, living.getBoundingBox().expandTowards(lookDirection.scale(maxDistance)).inflate(1.0));
 
         Entity hitEntity = null;
         double closestDistance = maxDistance;
 
         for (Entity entity : entities) {
             // 跳过自己
-            if (entity == player) continue;
+            if (entity == living) continue;
 
             // 获取实体的边界框
             AABB entityBox = entity.getBoundingBox();
@@ -200,7 +209,7 @@ public class KaguyaUtils {
 
                 // 检查是否有方块遮挡（从眼睛到实体的路径上）
                 Vec3 entityHitPoint = hitPos.get();
-                HitResult blockHit = level.clip(new ClipContext(eyePosition, entityHitPoint, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
+                HitResult blockHit = level.clip(new ClipContext(eyePosition, entityHitPoint, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, living));
 
                 // 如果没有方块遮挡，或者方块碰撞点在实体之后
                 if (blockHit.getType() != HitResult.Type.BLOCK || eyePosition.distanceTo(blockHit.getLocation()) > distance - 0.1) {

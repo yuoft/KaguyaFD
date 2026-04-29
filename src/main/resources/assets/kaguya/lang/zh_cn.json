@@ -104,7 +104,7 @@
 	"entity.kaguya.beam_laser": "光束激光",
 	"entity.kaguya.danmaku_laser": "激光",
 	"entity.kaguya.gap": "隙间",
-	"entity.kaguya.gap_0": "临时隙间",
+	"entity.kaguya.gap_0": "临时隙间--%sS",
 	"entity.kaguya.kinkaku_ji": "金天花板",
 	"entity.kaguya.gold_raft": "金阁寺的一块天花板",
 	"entity.kaguya.dragon_neck": "闪电球",

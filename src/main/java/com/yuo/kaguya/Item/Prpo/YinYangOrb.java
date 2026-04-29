@@ -44,7 +44,7 @@ public class YinYangOrb extends KaguyaPrpo {
         if (living instanceof Player player) {
             float chargeRatio = KaguyaUtils.getChargeRatio(getUseDuration(stack), i);
             if (chargeRatio > 0.1f){
-                Entity entity = KaguyaUtils.getHitEntity(player.getEyePosition(), player.getViewVector(1.0f), level, player, 64);
+                Entity entity = KaguyaUtils.getHitEntity(level, player, 64);
                 if (entity instanceof LivingEntity le) {
                     BlockPos pos = le.getOnPos();
                     player.teleportTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);

@@ -4,17 +4,16 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuo.kaguya.Client.Model.GapModel;
-import com.yuo.kaguya.Entity.GapEntity;
+import com.yuo.kaguya.Entity.SukimaGapEntity;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.TheEndPortalRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 
-public class GapRender extends EntityRenderer<GapEntity> {
+public class GapRender extends EntityRenderer<SukimaGapEntity> {
     private static final ResourceLocation GAP = KaguyaUtils.fa("textures/entity/gap.png");
     private final GapModel gapModel;
 
@@ -24,7 +23,7 @@ public class GapRender extends EntityRenderer<GapEntity> {
     }
 
     @Override
-    public void render(GapEntity gap, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+    public void render(SukimaGapEntity gap, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
         VertexConsumer buffer = bufferSource.getBuffer(this.gapModel.renderType(getTextureLocation(gap)));
         float[] color = gap.getColor().getFloatRgb();
         poseStack.pushPose();
@@ -42,7 +41,7 @@ public class GapRender extends EntityRenderer<GapEntity> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(GapEntity entity) {
+    public ResourceLocation getTextureLocation(SukimaGapEntity entity) {
         return GAP;
     }
 }

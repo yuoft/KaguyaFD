@@ -57,7 +57,7 @@ public class AjaRedStone extends KaguyaPrpo {
                 float damage = Math.min(30, lightValue * chargeRatio * 2);
                 Vec3 eyePosition = player.getEyePosition();
                 Vec3 lookDirection = player.getViewVector(1.0F);
-                Vec3 actualEnd = KaguyaUtils.getHitVec(eyePosition, lookDirection, level, player);
+                Vec3 actualEnd = KaguyaUtils.getHitVec(eyePosition, lookDirection, level, player, 128);
 
                 BeamLaserEntity beamLaser = new BeamLaserEntity(level, player, eyePosition, lookDirection, actualEnd, DanmakuColor.WHITE, getLengthForRenderDistance());
                 beamLaser.setDamage(damage);

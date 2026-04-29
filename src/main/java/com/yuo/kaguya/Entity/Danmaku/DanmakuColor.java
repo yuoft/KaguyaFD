@@ -118,6 +118,12 @@ public enum DanmakuColor {
         return rgb;
     }
 
+    public DanmakuColor next() {
+        DanmakuColor[] values = values();
+        int nextOrdinal = (ordinal() + 1) % values.length;
+        return values[nextOrdinal];
+    }
+
     /**
      * 从染料物品获取弹幕颜色
      */

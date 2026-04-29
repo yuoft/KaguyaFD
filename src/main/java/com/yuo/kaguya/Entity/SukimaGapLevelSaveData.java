@@ -1,6 +1,7 @@
 package com.yuo.kaguya.Entity;
 
 import com.mojang.datafixers.util.Either;
+import com.yuo.kaguya.Entity.Danmaku.DanmakuColor;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -14,17 +15,15 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ChunkHolder.ChunkLoadingFailure;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.RelativeMovement;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkStatus;
-import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
 import javax.annotation.Nullable;
@@ -34,7 +33,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-public class KaguyaLevelSaveData extends SavedData {
+public class SukimaGapLevelSaveData extends SavedData {
     public static final String GAP_POS = "kaguya_gap_pos";
     private final Map<UUID, GapSaveData> gapSaveData = new HashMap<>();
     private static final String NBT_GAP = "kaguya:gap";
@@ -43,29 +42,24 @@ public class KaguyaLevelSaveData extends SavedData {
     private static final String NBT_POS_Y = "kaguya:pos_y";
     private static final String NBT_POS_Z = "kaguya:pos_z";
     private static final String NBT_COLOR = "kaguya:color";
+    private static final String NBT_YAW = "kaguya:yaw";
+    private static final String NBT_IS_TICKING = "kaguya:is_ticking";
     private static final String NBT_DIMENSION = "kaguya:dimension";
 
-    public KaguyaLevelSaveData() {
+    public SukimaGapLevelSaveData() {
     }
 
-    public KaguyaLevelSaveData(CompoundTag tag) {
+    public SukimaGapLevelSaveData(CompoundTag tag) {
         this.load(tag);
     }
 
-    /**
-     * 添加隙间
-     * @param uuid id
-     * @param pos 坐标
-     * @param color 颜色
-     */
-    public void addGapData(UUID uuid, BlockPos pos, DanmakuColor color,ResourceKey<Level> dimension) {
-        gapSaveData.put(uuid, new GapSaveData(pos, color, dimension));
+    public void addGapData(UUID uuid, Vec3 pos, float yaw, DanmakuColor color, ResourceKey<Level> dimension, boolean ticking) {
+        gapSaveData.put(uuid, new GapSaveData(pos, yaw, color, dimension, ticking));
         setDirty();
     }
 
-    public GapSaveData getGapSaveData(UUID uuid){
-        GapSaveData data = gapSaveData.get(uuid);
-        return data != null ? data : GapSaveData.EMPTY;
+    public GapSaveData getGapSaveData(UUID uuid) {
+        return gapSaveData.getOrDefault(uuid, GapSaveData.EMPTY);
     }
 
     public void removeData(UUID uuid) {
@@ -73,7 +67,7 @@ public class KaguyaLevelSaveData extends SavedData {
         setDirty();
     }
 
-    public Map<UUID, GapSaveData> getGapSaveData(){
+    public Map<UUID, GapSaveData> getGapSaveData() {
         return Collections.unmodifiableMap(gapSaveData);
     }
 
@@ -85,10 +79,12 @@ public class KaguyaLevelSaveData extends SavedData {
             nbt.putUUID(NBT_UUID, entry.getKey());
 
             GapSaveData data = entry.getValue();
-            BlockPos pos = data.getPos();
-            nbt.putInt(NBT_POS_X, pos.getX());
-            nbt.putInt(NBT_POS_Y, pos.getY());
-            nbt.putInt(NBT_POS_Z, pos.getZ());
+            Vec3 pos = data.getPos();
+            nbt.putDouble(NBT_POS_X, pos.x);
+            nbt.putDouble(NBT_POS_Y, pos.y);
+            nbt.putDouble(NBT_POS_Z, pos.z);
+            nbt.putFloat(NBT_YAW, data.getYaw());
+            nbt.putBoolean(NBT_IS_TICKING, data.isTicking());
 
             nbt.putInt(NBT_COLOR, data.getColor().ordinal());
             nbt.putString(NBT_DIMENSION, data.getDimension().location().toString());
@@ -98,29 +94,31 @@ public class KaguyaLevelSaveData extends SavedData {
         return tag;
     }
 
-    private KaguyaLevelSaveData load(CompoundTag tag) {
+    private SukimaGapLevelSaveData load(CompoundTag tag) {
         Tag listTag = tag.get(NBT_GAP);
         if (listTag != null) {
             ListTag posList = (ListTag) listTag;
             for (int i = 0; i < posList.size(); i++) {
                 CompoundTag nbt = posList.getCompound(i);
                 UUID uuid = nbt.getUUID(NBT_UUID);
-                int x = nbt.getInt(NBT_POS_X);
-                int y = nbt.getInt(NBT_POS_Y);
-                int z = nbt.getInt(NBT_POS_Z);
-                int colorId = nbt.getInt(NBT_COLOR);
+                DanmakuColor color = DanmakuColor.getColor(nbt.getInt(NBT_COLOR));
                 String key = nbt.getString(NBT_DIMENSION);
+                ResourceKey<Level> dimension = loadDimension(key);
 
-                BlockPos pos = new BlockPos(x, y, z);
-                DanmakuColor color = DanmakuColor.getColor(colorId);
-                this.addGapData(uuid, pos, color, loadDimension(key));
+                Vec3 pos;
+                double x = nbt.getDouble(NBT_POS_X);
+                double y = nbt.getDouble(NBT_POS_Y);
+                double z = nbt.getDouble(NBT_POS_Z);
+                pos = new Vec3(x, y, z);
+                float yaw = nbt.getFloat(NBT_YAW);
+                boolean isTicking = nbt.getBoolean(NBT_IS_TICKING);
+                this.addGapData(uuid, pos, yaw, color, dimension, isTicking);
             }
         }
-
         return this;
     }
 
-    public static KaguyaLevelSaveData get(Level level) {
+    public static SukimaGapLevelSaveData get(Level level) {
         if (!(level instanceof ServerLevel)) {
             throw new RuntimeException("Attempted to get the data from a client world. This is wrong.");
         }
@@ -128,55 +126,62 @@ public class KaguyaLevelSaveData extends SavedData {
         if (world == null)
             throw new RuntimeException("ServerLevel is null.");
         DimensionDataStorage dataStorage = world.getDataStorage();
-        return dataStorage.computeIfAbsent(KaguyaLevelSaveData::new, KaguyaLevelSaveData::new, KaguyaLevelSaveData.GAP_POS);
+        return dataStorage.computeIfAbsent(SukimaGapLevelSaveData::new, SukimaGapLevelSaveData::new, SukimaGapLevelSaveData.GAP_POS);
     }
 
     /**
      * 传送实体
-     * @param living 带传送的实体
-     * @param gap 隙间
      */
-    public static void tpEntity(LivingEntity living, GapEntity gap, Level level) {
-        KaguyaLevelSaveData saveData;
-        BlockPos tpPos;
-        if (!level.isClientSide && level instanceof ServerLevel){
-            saveData = get(level);
-            UUID uuid = saveData.getTpUuid(gap);
+    public static void tpEntity(Entity living, SukimaGapEntity gap, Level level) {
+        // 防止隙间自身被传送
+        if (living instanceof SukimaGapEntity) return;
+
+        if (!level.isClientSide && level instanceof ServerLevel) {
+            SukimaGapLevelSaveData saveData = get(level);
+            UUID targetUuid = saveData.getTpUuid(gap);
             Map<UUID, GapSaveData> dataMap = saveData.getGapSaveData();
 
-            if (living instanceof Player player){
+            if (living instanceof Player player) {
                 if (dataMap.size() < 2) {
                     player.displayClientMessage(Component.translatable("info.kaguya.sukima_gap.no_tp"), true);
                     return;
                 }
-                if (uuid == null){
+                if (targetUuid == null) {
                     player.displayClientMessage(Component.translatable("info.kaguya.sukima_gap.no_tp"), true);
                     return;
                 }
             }
-            if (uuid != null){
-                GapSaveData data = dataMap.get(uuid);
+            if (targetUuid != null) {
+                GapSaveData data = dataMap.get(targetUuid);
                 ResourceKey<Level> dimension = data.getDimension();
-                Entity entity = findEntityInDimension(uuid, dimension);
-                if (entity == null && living instanceof Player player){
+                Entity entity = findEntityInDimension(targetUuid, dimension);
+                if (entity == null && living instanceof Player player) {
                     player.displayClientMessage(Component.translatable("info.kaguya.sukima_gap.no_tp"), true);
                     return;
                 }
 
-                if (entity instanceof GapEntity gapEntity){
+                if (entity instanceof SukimaGapEntity gapEntity) {
                     gapEntity.setCoolTime(20);
                 }
-                tpPos = data.getPos().relative(gap.getDirection().getClockWise(), 1);
-                if (!dimension.equals(level.dimension())){ //跨纬度传送
-                    ServerLevel level1 = level.getServer().getLevel(dimension);
-                    if (level1 != null) {
-//                        living.changeDimension(level1);
-                        living.teleportTo(level1, tpPos.getX() + 0.5, tpPos.getY(), tpPos.getZ() + 0.5,
-                                Set.of(RelativeMovement.X, RelativeMovement.Y, RelativeMovement.Z, RelativeMovement.X_ROT, RelativeMovement.Y_ROT)
-                                ,living.getYRot(), living.getXRot());
-                    }
-                }else living.teleportTo(tpPos.getX() + 0.5, tpPos.getY(), tpPos.getZ() + 0.5);
 
+                // 计算前方 2 格偏移（基于目标隙间的朝向）
+                float yaw = data.getYaw();
+                double rad = Math.toRadians(yaw);
+                double offX = Math.sin(rad) * 2.0;
+                double offZ = Math.cos(rad) * 2.0;
+                Vec3 tpPos = data.getPos().add(offX, 0, offZ);
+
+                if (!dimension.equals(level.dimension())) {
+                    ServerLevel targetWorld = level.getServer().getLevel(dimension);
+                    if (targetWorld != null) {
+                        living.teleportTo(targetWorld, tpPos.x, tpPos.y, tpPos.z,
+                                Set.of(RelativeMovement.X, RelativeMovement.Y, RelativeMovement.Z,
+                                        RelativeMovement.X_ROT, RelativeMovement.Y_ROT),
+                                living.getYRot(), living.getXRot());
+                    }
+                } else {
+                    living.teleportTo(tpPos.x, tpPos.y, tpPos.z);
+                }
                 gap.setCoolTime(20);
             }
         }
@@ -185,53 +190,57 @@ public class KaguyaLevelSaveData extends SavedData {
     /**
      * 获取要tp的实体uuid
      */
-    public UUID getTpUuid(GapEntity gap){
+    public UUID getTpUuid(SukimaGapEntity gap) {
         Optional<Entry<UUID, Double>> first = getGapDistance(gap).entrySet().stream().findFirst();
         return first.map(Entry::getKey).orElse(null);
     }
 
     /**
      * 获取其它隙间距离原点隙间的距离  最少大于5
-     * @param gap 原点
+     * 临时隙间优先传送临时隙间
+     * @param gap 原点隙间
      * @return 距离map
      */
-    public Map<UUID, Double> getGapDistance(GapEntity gap){
+    public Map<UUID, Double> getGapDistance(SukimaGapEntity gap) {
         Map<UUID, GapSaveData> saveData = getGapSaveData();
-        Map<UUID, Double> distanceMap = new HashMap<>();
         UUID gapUUID = gap.getUUID();
         DanmakuColor color = gap.getColor();
-        BlockPos gapPos = saveData.getOrDefault(gapUUID, GapSaveData.EMPTY).getPos(); //当前坐标
-        Map<UUID, GapSaveData> instantData = new HashMap<>(); //同色集合
-        for (Entry<UUID, GapSaveData> entry : saveData.entrySet()) {
+        Vec3 gapPos = saveData.getOrDefault(gapUUID, GapSaveData.EMPTY).getPos();
+
+        // 收集候选隙间
+        List<Map.Entry<UUID, GapSaveData>> candidates = new ArrayList<>();
+        for (Map.Entry<UUID, GapSaveData> entry : saveData.entrySet()) {
             if (gapUUID.equals(entry.getKey())) continue;
-            GapSaveData value = entry.getValue();
-            if (value.getColor() == color) {
-                instantData.put(entry.getKey(), value);
-            }
-        }
-
-
-        for (Map.Entry<UUID, GapSaveData> entry : instantData.entrySet()) {
             GapSaveData data = entry.getValue();
-            if (!gapUUID.equals(entry.getKey())) { //非原点
-                BlockPos pos = data.getPos();
-                double dist = Math.sqrt(gapPos.distToLowCornerSqr(pos.getX(), pos.getY(), pos.getZ()));
-                if (dist > 5){
-                    distanceMap.put(entry.getKey(), dist);
+            if (data.getColor() == color) {
+                double dist = gapPos.distanceTo(data.getPos());
+                if (dist > 5.0) {
+                    candidates.add(entry);
                 }
             }
         }
 
-        // 按值升序排序
-        return distanceMap.entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue())
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (e1, e2) -> e1,
-                        LinkedHashMap::new
-                ));
+        // 排序：临时隙间优先，同类型则距离近优先
+        candidates.sort((a, b) -> {
+            GapSaveData dataA = a.getValue();
+            GapSaveData dataB = b.getValue();
+            // 临时隙间（ticking=true）排在前面
+            if (dataA.isTicking() != dataB.isTicking()) {
+                return Boolean.compare(dataB.isTicking(), dataA.isTicking()); // true 在前
+            }
+            // 都是临时或都不是临时，按距离升序
+            double distA = gapPos.distanceTo(dataA.getPos());
+            double distB = gapPos.distanceTo(dataB.getPos());
+            return Double.compare(distA, distB);
+        });
+
+        // 构建 LinkedHashMap 保持顺序
+        Map<UUID, Double> result = new LinkedHashMap<>();
+        for (Map.Entry<UUID, GapSaveData> entry : candidates) {
+            double dist = gapPos.distanceTo(entry.getValue().getPos());
+            result.put(entry.getKey(), dist);
+        }
+        return result;
     }
 
     /**
@@ -261,39 +270,26 @@ public class KaguyaLevelSaveData extends SavedData {
      */
     @Nullable
     private static Entity findEntityByForceLoading(UUID uuid, ServerLevel level) {
-        // 从保存数据中获取实体的最后已知位置
-        KaguyaLevelSaveData saveData = KaguyaLevelSaveData.get(level);
-        KaguyaLevelSaveData.GapSaveData gapData = saveData.getGapSaveData(uuid);
+        SukimaGapLevelSaveData saveData = SukimaGapLevelSaveData.get(level);
+        SukimaGapLevelSaveData.GapSaveData gapData = saveData.getGapSaveData(uuid);
 
-        if (gapData == null) {
+        if (gapData == null || gapData == GapSaveData.EMPTY) {
             return null;
         }
 
-        BlockPos pos = gapData.getPos();
-
-        // 强制加载实体所在的区块
-        ChunkPos chunkPos = new ChunkPos(pos);
-        CompletableFuture<Either<ChunkAccess, ChunkLoadingFailure>> chunkFuture = level.getChunkSource().getChunkFuture(chunkPos.x, chunkPos.z, ChunkStatus.FULL, true);
+        Vec3 pos = gapData.getPos();
+        // 将 Vec3 转为 BlockPos 用于强制加载区块（大约中心点）
+        BlockPos blockPos = BlockPos.containing(pos);
+        ChunkPos chunkPos = new ChunkPos(blockPos);
+        CompletableFuture<Either<ChunkAccess, ChunkLoadingFailure>> chunkFuture =
+                level.getChunkSource().getChunkFuture(chunkPos.x, chunkPos.z, ChunkStatus.FULL, true);
 
         try {
-            // 等待区块加载完成
-            ChunkAccess chunk = chunkFuture.get(5, TimeUnit.SECONDS).orThrow();
-
-            // 再次尝试获取实体
+            chunkFuture.get(5, TimeUnit.SECONDS).orThrow();
             Entity entity = level.getEntity(uuid);
             if (entity != null) {
                 return entity;
             }
-
-            // 如果还是没有，尝试从区块实体列表中查找
-//            if (chunk instanceof LevelChunk levelChunk) {
-//                for (Entity chunkEntity : levelChunk.getEntities()) {
-//                    if (chunkEntity.getUUID().equals(uuid)) {
-//                        return chunkEntity;
-//                    }
-//                }
-//            }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -313,27 +309,37 @@ public class KaguyaLevelSaveData extends SavedData {
      * 隙间数据
      */
     public static class GapSaveData {
-        private final BlockPos pos;
+        private final Vec3 pos;
+        private final float yaw;        //隙间的水平朝向角度
         private final DanmakuColor color;
-        private final ResourceKey<Level> dimension;
-        public static final GapSaveData EMPTY = new GapSaveData(BlockPos.ZERO, DanmakuColor.GRAY, Level.OVERWORLD);
+        private final ResourceKey<Level> dimension; //所在维度
+        private final boolean ticking;   //临时隙间？
+        public static final GapSaveData EMPTY = new GapSaveData(Vec3.ZERO, 0f, DanmakuColor.GRAY, Level.OVERWORLD, false);
 
-        public GapSaveData(BlockPos pos, DanmakuColor color, ResourceKey<Level> dimension) {
+        public GapSaveData(Vec3 pos, float yaw, DanmakuColor color, ResourceKey<Level> dimension, boolean ticking) {
             this.pos = pos;
+            this.yaw = yaw;
             this.color = color;
             this.dimension = dimension;
+            this.ticking = ticking;
         }
 
         public ResourceKey<Level> getDimension() {
             return dimension;
         }
 
-        public BlockPos getPos() {
+        public Vec3 getPos() {
             return pos;
         }
 
         public DanmakuColor getColor() {
             return color;
         }
+
+        public float getYaw() {
+            return yaw;
+        }
+
+        public boolean isTicking() { return ticking; }
     }
 }

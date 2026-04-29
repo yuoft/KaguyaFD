@@ -5,7 +5,7 @@ package com.yuo.kaguya.Client.Model;// Made with Blockbench 5.0.7
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.yuo.kaguya.Entity.GapEntity;
+import com.yuo.kaguya.Entity.SukimaGapEntity;
 import com.yuo.kaguya.KaguyaUtils;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -13,7 +13,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 
-public class GapModel extends EntityModel<GapEntity> {
+public class GapModel extends EntityModel<SukimaGapEntity> {
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KaguyaUtils.fa("gap"), "main");
 	private final ModelPart gapModel;
 
@@ -31,7 +31,7 @@ public class GapModel extends EntityModel<GapEntity> {
 	}
 
 	@Override
-	public void setupAnim(GapEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(SukimaGapEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
 	}
 

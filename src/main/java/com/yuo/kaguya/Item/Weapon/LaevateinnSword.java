@@ -21,16 +21,15 @@ public class LaevateinnSword extends KaguyaWeapon {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (player.isCrouching()){ //上下 十字架
-            CrossEntity verticalCross = new CrossEntity(level, player, CrossEntity.RotationType.VERTICAL, 2.5, 0.15);
-            verticalCross.setHeightOffset(2.5);
-            level.addFreshEntity(verticalCross);
+            // 创建挥砍实体：伤害，挥砍幅度，挥砍角度，时间（1.5s动画）
+            CrossEntity slash = new CrossEntity(level, player, 7.0f, 60, 90, 60);
+            level.addFreshEntity(slash);
         }else { //左右
-            CrossEntity horizontalCross = new CrossEntity(level, player, CrossEntity.RotationType.HORIZONTAL, 3.0, 0.1);
-            horizontalCross.setHeightOffset(1.0); // 设置在玩家腰部高度
-            level.addFreshEntity(horizontalCross);
+            CrossEntity slash = new CrossEntity(level, player, 7.0f, 60, 0, 60);
+            level.addFreshEntity(slash);
         }
 
-        player.getCooldowns().addCooldown(this, 200);
+        player.getCooldowns().addCooldown(this, 100);
         return super.use(level, player, hand);
     }
 

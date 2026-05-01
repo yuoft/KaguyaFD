@@ -1,6 +1,5 @@
 package com.yuo.kaguya.Entity;
 
-import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -9,126 +8,72 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.EntityType.Builder;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class CrossEntity extends Entity implements TraceableEntity {
     public static final EntityType<CrossEntity> TYPE = Builder.<CrossEntity>of(CrossEntity::new, MobCategory.MISC)
             .sized(0.5F, 0.5F).clientTrackingRange(6).updateInterval(1).noSave().build("cross_entity");
 
+    // 攻击相关
+    private float damage;
+    private final Set<UUID> damagedEntities = new HashSet<>();
+
+    // 所有者
     @Nullable
     private UUID ownerUUID;
     @Nullable
     private Entity cachedOwner;
-    protected static final EntityDataAccessor<Integer> ROTATION_TYPE = SynchedEntityData.defineId(CrossEntity.class, EntityDataSerializers.INT); //旋转类型
 
-    // 旋转相关字段
-    private RotationType rotationType = RotationType.HORIZONTAL; // 旋转类型
-    private double radius = 3.0; // 旋转半径
-    private double angle = 0; // 当前角度
-    private double speed = 0.08; // 旋转速度
-    private double heightOffset = 0; // 垂直偏移（用于垂直旋转）
-
-    // 攻击相关字段
-    private float damage = 7.0f; // 伤害值
-    private int attackCooldown = 0; // 攻击冷却
-    private static final int ATTACK_DELAY = 10; // 攻击间隔（tick）
+    // 同步数据（当前角度，用于客户端渲染）
+    protected static final EntityDataAccessor<Float> SYNC_ANGLE = SynchedEntityData.defineId(CrossEntity.class, EntityDataSerializers.FLOAT); //初始挥砍角度
+    protected static final EntityDataAccessor<Float> STAR_ANGLE = SynchedEntityData.defineId(CrossEntity.class, EntityDataSerializers.FLOAT); //挥砍动画角度
+    protected static final EntityDataAccessor<Integer> MAX_TICK = SynchedEntityData.defineId(CrossEntity.class, EntityDataSerializers.INT); //最大动画时间
+    protected static final EntityDataAccessor<Float> Y_ROT = SynchedEntityData.defineId(CrossEntity.class, EntityDataSerializers.FLOAT); //实体基础水平角
 
     public CrossEntity(EntityType<?> type, Level level) {
         super(type, level);
     }
 
-    public CrossEntity(Level level, LivingEntity living) {
+    /**
+     * 构造挥砍实体（剑柄固定在玩家前方固定点，仅旋转剑身）
+     * @param level 世界
+     * @param owner 发起者
+     * @param damage 伤害
+     * @param startAngle 挥砍动画运行角度（度）
+     * @param syncAngle 挥砍角度（度）
+     * @param maxTick 时间tick
+     */
+    public CrossEntity(Level level, LivingEntity owner, float damage, float startAngle, float syncAngle, int maxTick) {
         super(TYPE, level);
-        setOwner(living);
-    }
-
-    // 带参数的构造函数，用于设置旋转参数
-    public CrossEntity(Level level, LivingEntity living, RotationType rotationType, double radius, double speed) {
-        super(TYPE, level);
-        setOwner(living);
-        this.rotationType = rotationType;
-        setRotationType(rotationType);
-        this.radius = radius;
-        this.speed = speed;
-        this.setBoundingBox(this.makeBoundingBox());
-    }
-
-    // 完整参数构造函数
-    public CrossEntity(Level level, LivingEntity living, RotationType rotationType, double radius, double speed, float damage) {
-        this(level, living, rotationType, radius, speed);
+        setOwner(owner);
         this.damage = damage;
-    }
+        setSyncAngle(syncAngle);
+        setStartAngle(startAngle);
+        setMaxTick(maxTick);
 
-    @Override
-    protected @NotNull AABB makeBoundingBox() {
-        if (getRotationTypeNum() == 1) {
-            return new AABB(-0.5, -0.1, -0.55, 0.5, 0.15, 0.55).move(this.position());
-        }else {
-            return new AABB(-0.5, -0.55, -0.125, 0.5, 0.55, 0.125).move(this.position());
-        }
-    }
-
-    @Override
-    protected void defineSynchedData() {
-        this.entityData.define(ROTATION_TYPE, 0);
-    }
-
-    @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
-        if (this.ownerUUID != null) {
-            tag.putUUID("Owner", this.ownerUUID);
-        }
-        tag.putString("RotationType", this.rotationType.name());
-        tag.putDouble("Radius", this.radius);
-        tag.putDouble("Angle", this.angle);
-        tag.putDouble("Speed", this.speed);
-        tag.putDouble("HeightOffset", this.heightOffset);
-        tag.putFloat("Damage", this.damage);
-    }
-
-    @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        if (tag.hasUUID("Owner")) {
-            this.ownerUUID = tag.getUUID("Owner");
-            this.cachedOwner = null;
-        }
-        if (tag.contains("RotationType")) {
-            try {
-                this.rotationType = RotationType.valueOf(tag.getString("RotationType"));
-            } catch (IllegalArgumentException e) {
-                this.rotationType = RotationType.HORIZONTAL;
-            }
-        }
-        this.radius = tag.getDouble("Radius");
-        this.angle = tag.getDouble("Angle");
-        this.speed = tag.getDouble("Speed");
-        this.heightOffset = tag.getDouble("HeightOffset");
-        if (tag.contains("Damage")) {
-            this.damage = tag.getFloat("Damage");
-        }
+        this.setSyncAngle(syncAngle);
+        // 计算剑柄固定点（玩家眼睛前方1格）
+        Vec3 eyePos = owner.getEyePosition();
+        Vec3 lookVec = owner.getLookAngle();
+        this.setPos(eyePos.add(lookVec.scale(2.0)));
+        this.setYRot(-startAngle + owner.getYRot());
+        setNewYRot(owner.getYRot());
+        this.setXRot(owner.getXRot());
     }
 
     @Override
     public void tick() {
         super.tick();
-
-        if (level().isClientSide) {
-            return;
-        }
-
-        // 生命周期限制（60秒 = 1200 tick）
-        if (tickCount >= 1200){
-            this.discard();
-            return;
-        }
+        if (level().isClientSide) return;
 
         Entity owner = getOwner();
         if (owner == null || !owner.isAlive()) {
@@ -136,127 +81,74 @@ public class CrossEntity extends Entity implements TraceableEntity {
             return;
         }
 
-        // 更新冷却
-        if (attackCooldown > 0) {
-            attackCooldown--;
-        }
+        this.setYRot(getYAngle());
 
-        // 更新角度
-        angle += speed;
-        if (angle >= Math.PI * 2) {
-            angle -= Math.PI * 2;
-        }
-
-        // 根据旋转类型计算新位置
-        Vec3 ownerPos = owner.position();
-        Vec3 newPos = calculatePosition(ownerPos);
-
-        this.setPos(newPos.x, newPos.y, newPos.z);
-
-        // 攻击碰撞箱内的实体
-        attackEntitiesInRange();
-    }
-
-    /**
-     * 攻击范围内的实体
-     */
-    private void attackEntitiesInRange() {
-        if (attackCooldown > 0) {
+        if (this.tickCount >= getMaxTick()) {
+            this.discard();
             return;
         }
 
-        Entity owner = getOwner();
-        // 获取碰撞箱范围内的实体
-        AABB attackBox = this.getBoundingBox().inflate(0.3); // 稍微扩大一点攻击范围
+        attackEntitiesInArc();
+    }
 
-        List<LivingEntity> entities = level().getEntitiesOfClass(LivingEntity.class, attackBox,
+    /**
+     * 检测扇形区域内的实体并造成伤害。
+     * 扇形：以 pivotPoint 为起点，沿玩家视线方向为中心，左右各 60 度（根据挥砍当前角度可动态？简化：直接使用当前剑的方向）。
+     * 但这里为了简单且符合直觉，我们直接基于当前角度计算剑尖方向，然后检测前方锥形。
+     * 更简单：使用射线检测+角度检查。
+     */
+    private void attackEntitiesInArc() {
+        Entity owner = getOwner();
+        if (owner == null) return;
+
+        // 攻击方向：实体的视线方向（包含水平与俯仰）
+        Vec3 attackDir = this.getLookAngle(); // 根据实体的 yRot 和 xRot 计算
+
+        double range = 5;
+        double halfAngle = Math.toRadians(getStartAngle()); // 圆锥半角 60°，总圆锥角 120°
+
+        AABB aabb = this.getBoundingBox().inflate(range, range, range);
+        List<LivingEntity> targets = level().getEntitiesOfClass(LivingEntity.class, aabb,
                 entity -> {
                     if (entity == owner) return false;
-                    if (!(entity instanceof LivingEntity)) return false;
-                    if (entity instanceof TamableAnimal animal){
-                        UUID animalOwnerUUID = animal.getOwnerUUID();
-                        return ownerUUID == null || !ownerUUID.equals(animalOwnerUUID);
+                    if (damagedEntities.contains(entity.getUUID())) return false;
+                    if (entity instanceof TamableAnimal animal) {
+                        UUID ownerUUID = getOwnerUUID();
+                        return ownerUUID == null || !ownerUUID.equals(animal.getOwnerUUID());
                     }
                     return true;
                 });
 
-        if (!entities.isEmpty()) {
-            for (LivingEntity living : entities) {
-                attackEntity(living);
+        for (LivingEntity target : targets) {
+            Vec3 toTarget = target.position().add(0, target.getBbHeight() / 2, 0).subtract(this.position()).normalize();
+            double dot = toTarget.dot(attackDir);
+            if (dot > Math.cos(halfAngle)) { // 在圆锥形区域内
+                double distSq = target.distanceToSqr(this.position());
+                if (distSq <= range * range) {
+                    attackEntity(target);
+                    damagedEntities.add(target.getUUID());
+                }
             }
-            attackCooldown = ATTACK_DELAY;
         }
     }
 
-    /**
-     * 攻击实体
-     */
     private void attackEntity(LivingEntity target) {
         Entity owner = getOwner();
         DamageSource damageSource;
-
         if (owner instanceof LivingEntity livingOwner) {
             damageSource = this.damageSources().mobAttack(livingOwner);
         } else {
             damageSource = this.damageSources().magic();
         }
-
-        // 造成伤害
         boolean hurt = target.hurt(damageSource, damage);
-
-        target.setSecondsOnFire(1);
-
-        if (hurt && owner instanceof LivingEntity livingOwner) {
-            // 击退效果
-            float knockback = 0.2f;
-            target.knockback(knockback, knockback, knockback);
-            target.hurtMarked = true;
-
-            // 触发主人的攻击效果（如吸血、附魔等）
-            livingOwner.doEnchantDamageEffects(livingOwner, target);
+        if (hurt) {
+            Vec3 knockDir = target.position().subtract(this.position()).normalize();
+            target.knockback(0.3, knockDir.x, knockDir.z);
+            target.setSecondsOnFire(1);
+            if (owner instanceof LivingEntity livingOwner) {
+                livingOwner.doEnchantDamageEffects(livingOwner, target);
+            }
         }
-    }
-
-    private Vec3 calculatePosition(Vec3 center) {
-        switch (rotationType) {
-            case HORIZONTAL:
-                // 水平旋转：绕Y轴画圆
-                double x = center.x + radius * Math.cos(angle);
-                double z = center.z + radius * Math.sin(angle);
-                double y = center.y + heightOffset;
-                return new Vec3(x, y, z);
-
-            case VERTICAL:
-                // 垂直旋转：绕X轴或Z轴画圆（使用X和Y轴）
-                double verticalX = center.x + radius * Math.cos(angle);
-                double verticalY = center.y + radius * Math.sin(angle);
-                double verticalZ = center.z;
-                return new Vec3(verticalX, verticalY, verticalZ);
-
-//            case SPIRAL:
-//                // 螺旋旋转：水平旋转的同时Y轴上下移动
-//                double spiralX = center.x + radius * Math.cos(angle);
-//                double spiralZ = center.z + radius * Math.sin(angle);
-//                double spiralY = center.y + Math.sin(angle * 2) * (radius / 2);
-//                return new Vec3(spiralX, spiralY, spiralZ);
-
-            default:
-                return center;
-        }
-    }
-
-    // 获取玩家面前的旋转位置（用于垂直旋转时保持面向玩家）
-    private Vec3 calculatePositionRelativeToPlayer(Vec3 center, Vec3 playerLookDirection) {
-        // 计算垂直于玩家视线的平面
-        Vec3 up = new Vec3(0, 1, 0);
-        Vec3 right = playerLookDirection.cross(up).normalize();
-        Vec3 actualUp = right.cross(playerLookDirection).normalize();
-
-        double x = center.x + right.x * radius * Math.cos(angle) + actualUp.x * radius * Math.sin(angle);
-        double y = center.y + right.y * radius * Math.cos(angle) + actualUp.y * radius * Math.sin(angle);
-        double z = center.z + right.z * radius * Math.cos(angle) + actualUp.z * radius * Math.sin(angle);
-
-        return new Vec3(x, y, z);
     }
 
     @Nullable
@@ -278,78 +170,88 @@ public class CrossEntity extends Entity implements TraceableEntity {
         }
     }
 
-    @Override
-    public boolean canBeCollidedWith() {
-        return true; // 允许碰撞
+    @Nullable
+    public UUID getOwnerUUID() {
+        return this.ownerUUID;
     }
 
     @Override
-    public boolean isPickable() {
-        return false; // 不能被玩家拾取
+    protected void defineSynchedData() {
+        this.entityData.define(SYNC_ANGLE, 0.0f);
+        this.entityData.define(STAR_ANGLE, 60f);
+        this.entityData.define(MAX_TICK, 120);
+        this.entityData.define(Y_ROT, 0.0f);
     }
 
-    public int getRotationTypeNum(){
-        return this.entityData.get(ROTATION_TYPE);
+    public float getStartAngle() {
+        return this.entityData.get(STAR_ANGLE);
     }
 
-    public void setRotationTypeNum(int type){
-        this.entityData.set(ROTATION_TYPE, type);
+    public void setStartAngle(float startAngle) {
+        this.entityData.set(STAR_ANGLE, startAngle);
     }
 
-    public RotationType getRotationType() {
-        return rotationType;
+    public int getMaxTick(){
+        return this.entityData.get(MAX_TICK);
     }
 
-    // Getter 和 Setter 方法
-    public void setRotationType(RotationType type) {
-        this.rotationType = type;
-        setRotationTypeNum(type.ordinal());
+    public void setMaxTick(int tick){
+        this.entityData.set(MAX_TICK, tick);
     }
 
-    public double getRadius() {
-        return radius;
+    public float getNewYRot(){
+        return this.entityData.get(Y_ROT);
     }
 
-    public void setRadius(double radius) {
-        this.radius = Math.max(0.5, radius);
+    public void setNewYRot(float angle){
+        this.entityData.set(Y_ROT, angle);
     }
 
-    public double getSpeed() {
-        return speed;
+    public float getSyncAngle() {
+        return this.entityData.get(SYNC_ANGLE);
     }
 
-    public void setSpeed(double speed) {
-        this.speed = speed;
+    public void setSyncAngle(float syncAngle) {
+        this.entityData.set(SYNC_ANGLE, syncAngle);
     }
 
-    public double getHeightOffset() {
-        return heightOffset;
+    /**
+     * 根据tick获取yrot实时角度
+     */
+    public float getYAngle(){
+        int durationTicks = getMaxTick(); // 使用自定义的最大刻数
+        float t = Math.min(1.0f, (float) tickCount / durationTicks);
+        // 从 -startAngle 线性增加到 startAngle（假设 startAngle 为正）
+        float start = -getStartAngle();
+        float end = getStartAngle();
+        return start + (end - start) * t + getNewYRot();
     }
 
-    public void setHeightOffset(double heightOffset) {
-        this.heightOffset = heightOffset;
+    @Override
+    protected void readAdditionalSaveData(CompoundTag tag) {
+        if (tag.hasUUID("Owner")) {
+            this.ownerUUID = tag.getUUID("Owner");
+            this.cachedOwner = null;
+        }
+        this.damage = tag.getFloat("Damage");
     }
 
-    public double getAngle() {
-        return angle;
+    @Override
+    protected void addAdditionalSaveData(CompoundTag tag) {
+        if (this.ownerUUID != null) {
+            tag.putUUID("Owner", this.ownerUUID);
+        }
+        tag.putFloat("Damage", this.damage);
     }
 
-    public void setAngle(double angle) {
-        this.angle = angle;
+    @Override
+    protected @NotNull AABB makeBoundingBox() {
+        // 碰撞箱很小，因为剑的伤害由范围检测处理
+        return new AABB(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5).move(this.position());
     }
 
-    public float getDamage() {
-        return damage;
-    }
-
-    public void setDamage(float damage) {
-        this.damage = Math.max(0, damage);
-    }
-
-    // 旋转类型枚举
-    public enum RotationType {
-        HORIZONTAL,  // 水平旋转（绕Y轴）
-        VERTICAL,    // 垂直旋转（绕X轴或Z轴）
-        SPIRAL       // 螺旋旋转（结合水平和垂直）
-    }
+    @Override
+    public boolean canBeCollidedWith() { return false; }
+    @Override
+    public boolean isPickable() { return false; }
 }

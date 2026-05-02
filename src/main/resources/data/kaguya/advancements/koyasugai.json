@@ -1,0 +1,26 @@
+{
+  "parent": "kaguya:danmaku_craft",
+  "display": { 
+    "icon": { 
+      "item": "kaguya:koyasugai"
+    },
+    "title": {
+		"translate": "advancements.kaguya.koyasugai.title"
+	},
+    "description": {
+		"translate": "advancements.kaguya.koyasugai.desc"
+	},
+    "frame": "task"
+  },
+  "criteria": {
+    "koyasugai": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items":[{
+            "items": ["kaguya:koyasugai"]
+          }
+        ]
+      }
+    }
+  }
+}

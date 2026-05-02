@@ -1,0 +1,27 @@
+{
+  "display": { 
+    "icon": { 
+      "item": "kaguya:danmaku_material"
+    },
+    "title": {
+		"translate": "advancements.kaguya.danmaku_material.title"
+	},
+    "description": {
+		"translate": "advancements.kaguya.danmaku_material.desc"
+	},
+    "frame": "task",
+    "background": "kaguya:textures/block/danmaku_craft.png"
+  },
+  "criteria": { 
+    "danmaku_material": {
+      "trigger": "minecraft:inventory_changed", 
+      "conditions": { 
+		"items":[
+			{
+				"items": ["kaguya:danmaku_material"]
+			}
+		]
+      }
+    }
+  }
+}

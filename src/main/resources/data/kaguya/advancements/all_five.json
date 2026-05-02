@@ -1,0 +1,72 @@
+{
+  "parent": "kaguya:danmaku_craft",
+  "display": {
+    "icon": {
+      "item": "kaguya:hourai_eda"
+    },
+    "title": {
+      "translate": "advancements.kaguya.all_five.title"
+    },
+    "description": {
+      "translate": "advancements.kaguya.all_five.desc"
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "ryuu_tama": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items":[{
+          "items": ["kaguya:ryuu_tama"]
+        }
+        ]
+      }
+    },
+    "hotoke_hachi": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items":[{
+          "items": ["kaguya:hotoke_hachi"]
+        }
+        ]
+      }
+    },
+    "fire_rat_bobe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items":[{
+          "items": ["kaguya:fire_rat_bobe"]
+        }
+        ]
+      }
+    },
+    "koyasugai": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items":[{
+          "items": ["kaguya:koyasugai"]
+        }
+        ]
+      }
+    },
+    "hourai_eda": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items":[{
+          "items": ["kaguya:hourai_eda"]
+        }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    ["ryuu_tama"],
+    ["hotoke_hachi"],
+    ["fire_rat_bobe"],
+    ["koyasugai"],
+    ["hourai_eda"]
+  ],
+  "rewards": {
+    "experience": 100
+  }
+}

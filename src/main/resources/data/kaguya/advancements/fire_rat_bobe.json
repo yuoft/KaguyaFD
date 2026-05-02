@@ -1,0 +1,26 @@
+{
+  "parent": "kaguya:danmaku_craft",
+  "display": { 
+    "icon": { 
+      "item": "kaguya:fire_rat_bobe"
+    },
+    "title": {
+		"translate": "advancements.kaguya.fire_rat_bobe.title"
+	},
+    "description": {
+		"translate": "advancements.kaguya.fire_rat_bobe.desc"
+	},
+    "frame": "task"
+  },
+  "criteria": {
+    "fire_rat_bobe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items":[{
+            "items": ["kaguya:fire_rat_bobe"]
+          }
+        ]
+      }
+    }
+  }
+}

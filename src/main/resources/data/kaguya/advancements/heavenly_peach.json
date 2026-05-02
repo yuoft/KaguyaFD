@@ -1,0 +1,25 @@
+{
+  "parent": "kaguya:root",
+  "display": { 
+    "icon": { 
+      "item": "kaguya:heavenly_peach"
+    },
+    "title": {
+		"translate": "advancements.kaguya.heavenly_peach.title"
+	},
+    "description": {
+		"translate": "advancements.kaguya.heavenly_peach.desc"
+	},
+    "frame": "goal"
+  },
+  "criteria": {
+    "use_any_block": {
+      "trigger": "minecraft:using_item",
+      "conditions": {
+        "item": {
+          "items": ["kaguya:heavenly_peach"]
+        }
+      }
+    }
+  }
+}

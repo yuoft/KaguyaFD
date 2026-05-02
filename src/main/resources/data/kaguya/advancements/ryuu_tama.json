@@ -1,0 +1,26 @@
+{
+  "parent": "kaguya:danmaku_craft",
+  "display": { 
+    "icon": { 
+      "item": "kaguya:ryuu_tama"
+    },
+    "title": {
+		"translate": "advancements.kaguya.ryuu_tama.title"
+	},
+    "description": {
+		"translate": "advancements.kaguya.ryuu_tama.desc"
+	},
+    "frame": "task"
+  },
+  "criteria": {
+    "ryuu_tama": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items":[{
+            "items": ["kaguya:ryuu_tama"]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "parent": "kaguya:danmaku_craft",
+  "display": { 
+    "icon": { 
+      "item": "kaguya:hotoke_hachi"
+    },
+    "title": {
+		"translate": "advancements.kaguya.hotoke_hachi.title"
+	},
+    "description": {
+		"translate": "advancements.kaguya.hotoke_hachi.desc"
+	},
+    "frame": "task"
+  },
+  "criteria": {
+    "hotoke_hachi": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items":[{
+            "items": ["kaguya:hotoke_hachi"]
+          }
+        ]
+      }
+    }
+  }
+}

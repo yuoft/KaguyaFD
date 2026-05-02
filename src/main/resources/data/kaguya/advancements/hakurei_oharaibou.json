@@ -1,0 +1,31 @@
+{
+  "parent": "kaguya:root",
+  "display": { 
+    "icon": { 
+      "item": "kaguya:hakurei_oharaibou"
+    },
+    "title": {
+		"translate": "advancements.kaguya.hakurei_oharaibou.title"
+	},
+    "description": {
+		"translate": "advancements.kaguya.hakurei_oharaibou.desc"
+	},
+    "frame": "goal"
+  },
+  "criteria": {
+    "kill_with_diamond_sword": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "killing_blow": {
+          "source_entity": {
+            "equipment": {
+              "mainhand": {
+                "items": ["kaguya:hakurei_oharaibou"]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

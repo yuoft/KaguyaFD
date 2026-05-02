@@ -1,0 +1,26 @@
+{
+  "parent": "kaguya:root",
+  "display": { 
+    "icon": { 
+      "item": "kaguya:danmaku_craft"
+    },
+    "title": {
+		"translate": "advancements.kaguya.danmaku_craft.title"
+	},
+    "description": {
+		"translate": "advancements.kaguya.danmaku_craft.desc"
+	},
+    "frame": "task"
+  },
+  "criteria": {
+    "use_any_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items":[{
+          "items": ["kaguya:danmaku_craft"]
+        }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "parent": "kaguya:danmaku_craft",
+  "display": { 
+    "icon": { 
+      "item": "kaguya:hourai_eda"
+    },
+    "title": {
+		"translate": "advancements.kaguya.hourai_eda.title"
+	},
+    "description": {
+		"translate": "advancements.kaguya.hourai_eda.desc"
+	},
+    "frame": "task"
+  },
+  "criteria": {
+    "hourai_eda": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items":[{
+            "items": ["kaguya:hourai_eda"]
+          }
+        ]
+      }
+    }
+  }
+}

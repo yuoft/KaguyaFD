@@ -1,0 +1,25 @@
+{
+  "parent": "kaguya:hakurei_oharaibou",
+  "display": {
+    "icon": {
+      "item": "kaguya:gold_ceiling_tile"
+    },
+    "title": {
+      "translate": "advancements.kaguya.falling_ceiling_death.title"
+    },
+    "description": {
+      "translate": "advancements.kaguya.falling_ceiling_death.desc"
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "killed_by_gold_ceiling": {
+      "trigger": "minecraft:entity_killed_player",
+      "conditions": {
+        "entity": {
+          "type": "kaguya:gold_raft"
+        }
+      }
+    }
+  }
+}

@@ -45,12 +45,10 @@ public class KinkakuJiEntity extends ThrowableItemProjectile {
         Entity entity = result.getEntity();
         if (entity instanceof LivingEntity living){
             Vec3 vec3 = result.getLocation();
-            BlockPos pos = BlockPos.containing(vec3);
             Level level = this.level();
 
-            //创建船实体
             GoldRaftEntity goldBoat = new GoldRaftEntity(level);
-            goldBoat.setPos(pos.getX() + 0.5d, pos.getY(), pos.getZ() + 0.5d);
+            goldBoat.setPos(vec3.x, vec3.y, vec3.z);
             level.addFreshEntity(goldBoat);
             living.hurt(damageSources().anvil(this), (float) this.getDeltaMovement().length() * 5f);
         }
@@ -60,11 +58,11 @@ public class KinkakuJiEntity extends ThrowableItemProjectile {
     @Override
     protected void onHitBlock(BlockHitResult result) {
         Direction direction = result.getDirection();
-        BlockPos pos = result.getBlockPos().relative(direction);
+        Vec3 vec3 = result.getLocation().relative(direction, 1.1);
         Level level = this.level();
 
         GoldRaftEntity goldBoat = new GoldRaftEntity(level);
-        goldBoat.setPos(pos.getX() + 0.5d, pos.getY(), pos.getZ() + 0.5d);
+        goldBoat.setPos(vec3.x, vec3.y, vec3.z);
         level.addFreshEntity(goldBoat);
         this.discard();
     }

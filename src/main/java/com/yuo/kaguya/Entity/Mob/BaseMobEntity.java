@@ -1,6 +1,7 @@
 package com.yuo.kaguya.Entity.Mob;
 
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
+import com.github.tartaricacid.touhoulittlemaid.api.event.MaidPlaySoundEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.yuo.kaguya.Entity.*;
@@ -14,6 +15,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
@@ -33,6 +35,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
@@ -104,10 +107,18 @@ public class BaseMobEntity extends Monster implements IMaid, RangedAttackMob {
         return InitSounds.FAIRY_AMBIENT.get();
     }
 
-    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
-        return InitSounds.MAID_HURT.get();
+    @Nullable
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        if (damageSourceIn.is(DamageTypeTags.IS_FIRE)) {
+            return InitSounds.MAID_HURT_FIRE.get();
+        } else if (damageSourceIn.getEntity() instanceof Player) {
+            return InitSounds.MAID_PLAYER.get();
+        } else {
+            return InitSounds.MAID_HURT.get();
+        }
     }
 
+    @Override
     protected SoundEvent getDeathSound() {
         return InitSounds.MAID_DEATH.get();
     }

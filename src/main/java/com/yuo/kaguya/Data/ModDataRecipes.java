@@ -258,6 +258,8 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', ModItems.smallPotion.get())
                 .pattern(" x ").pattern("xxx").pattern(" x ")
                 .unlockedBy("has_item", has(InitItems.POWER_POINT.get())).save(consumer);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, InitItems.BROOM.get()).requires(ModItems.magicBroom.get())
+                .unlockedBy("has_item", has(ModItems.magicBroom.get())).save(consumer);
 
         //弹幕
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.crystalShot.get(), 4)

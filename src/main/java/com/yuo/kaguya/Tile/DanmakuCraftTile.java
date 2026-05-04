@@ -30,28 +30,32 @@ public class DanmakuCraftTile extends BaseContainerBlockEntity {
             danmakuCraftTile.setItem(4, ItemStack.EMPTY);
             return;
         }
+        ItemStack thP = danmakuCraftTile.getItem(0);
+        ItemStack dye = danmakuCraftTile.getItem(1);
+        ItemStack bigP = danmakuCraftTile.getItem(2);
         if (base.getItem() instanceof ModColorCraftItem) { //物品染色
-            ItemStack item = danmakuCraftTile.getItem(0);
-            ItemStack dye = danmakuCraftTile.getItem(1);
-            ItemStack bigP = danmakuCraftTile.getItem(2);
-            if (!dye.isEmpty() && item.isEmpty() && bigP.isEmpty()) {
+            if (!dye.isEmpty() && thP.isEmpty() && bigP.isEmpty()) {
                 ItemStack copy = base.copy();
                 DanmakuColor color = DanmakuColor.getColorFromDye(dye);
                 ModColorItemUtils.setColor(copy, color);
                 danmakuCraftTile.setItem(4, copy);
             }else danmakuCraftTile.setItem(4, ItemStack.EMPTY);
         }else { //弹幕属性修改
+            ItemStack copy = base.copy();
             if (!danmakuCraftTile.isInputEmpty()) {
-                ItemStack copy = base.copy();
-                ItemStack dye = danmakuCraftTile.getItem(1);
-                ItemStack bigP = danmakuCraftTile.getItem(2);
 
                 if (dye.isEmpty() && bigP.isEmpty())
                     copy = ItemStack.EMPTY;
                 DanmakuColor color = DanmakuColor.getColorFromDye(dye);
+                if (dye.isEmpty())
+                    color = DanmakuShotItem.getDanmakuColor(copy);
                 float damage = getPPtionDamage(bigP);
                 DanmakuShotItem.setDanmakuColor(copy, color);
                 DanmakuShotItem.setDanmakuDamage(copy, damage);
+                if (!thP.isEmpty()) copy.setCount(2);
+                danmakuCraftTile.setItem(4, copy);
+            }else if (!thP.isEmpty()){
+                copy.setCount(2);
                 danmakuCraftTile.setItem(4, copy);
             }else danmakuCraftTile.setItem(4, ItemStack.EMPTY);
         }
@@ -132,7 +136,7 @@ public class DanmakuCraftTile extends BaseContainerBlockEntity {
      */
     public void clearInputContent(){
         for (int i = 0; i < 4; i++) {
-            if (i == 2) stacks.set(i, ItemStack.EMPTY);
+            if (i == 2) stacks.set(i, ItemStack.EMPTY); //灵力道具全消耗 提升伤害
             else stacks.get(i).shrink(1);
         }
     }

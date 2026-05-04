@@ -37,7 +37,15 @@ public class DanmakuShootHelper {
      * @param ina 误差
      * @param color 颜色
      * @param type 类型
+     * @param damage 弹幕真实伤害
      */
+    public static void shootDanmaku(Level level, LivingEntity living, float vel, float ina, DanmakuColor color, DanmakuType type, float damage){
+        DanmakuBase shot = new DanmakuBase(level, living, type, color);
+        shot.setDamage(damage);
+        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
+        addEntityAndSound(level, living, shot);
+    }
+
     public static void shootDanmaku(Level level, LivingEntity living, float vel, float ina, DanmakuColor color, DanmakuType type){
         DanmakuBase shot = new DanmakuBase(level, living, type, color);
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
@@ -139,6 +147,13 @@ public class DanmakuShootHelper {
      * @param ina 误差
      * @param color 颜色
      */
+    public static void shootDanmakuFly(Level level, LivingEntity living, float vel, float ina, DanmakuColor color, float damage){
+        DanmakuButterfly shot = new DanmakuButterfly(level, living, color);
+        shot.setDamage(damage);
+        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
+        addEntityAndSound(level, living, shot);
+    }
+
     public static void shootDanmakuFly(Level level, LivingEntity living, float vel, float ina, DanmakuColor color){
         DanmakuButterfly shot = new DanmakuButterfly(level, living, color);
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
@@ -152,6 +167,14 @@ public class DanmakuShootHelper {
      * @param ina 误差
      * @param color 颜色
      */
+    public static void shootDanmakuArrow(Level level, LivingEntity living, float vel, float ina, DanmakuColor color, float damage){
+        DanmakuArrow shot = new DanmakuArrow(level, living, color);
+        shot.setDamage(damage);
+        shot.setDeltaMovement(living.getViewVector(1.0F));
+        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel, ina);
+        addEntityAndSound(level, living, shot);
+    }
+
     public static void shootDanmakuArrow(Level level, LivingEntity living, float vel, float ina, DanmakuColor color){
         DanmakuArrow shot = new DanmakuArrow(level, living, color);
         shot.setDeltaMovement(living.getViewVector(1.0F));
@@ -205,6 +228,13 @@ public class DanmakuShootHelper {
      * @param ina 误差
      * @param color 颜色
      */
+    public static void shootDanmakuLaser(Level level, LivingEntity living, float vel, float ina, DanmakuType type, DanmakuColor color, float damage){
+        DanmakuLaser shot = new DanmakuLaser(level, living, type, color);
+        shot.setDamage(damage);
+        shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel * 2, ina);
+        addEntityAndSound(level, living, shot);
+    }
+
     public static void shootDanmakuLaser(Level level, LivingEntity living, float vel, float ina, DanmakuType type, DanmakuColor color){
         DanmakuLaser shot = new DanmakuLaser(level, living, type, color);
         shot.shootFromRotation(living, living.getXRot(), living.getYRot(), ZERO, vel * 2, ina);

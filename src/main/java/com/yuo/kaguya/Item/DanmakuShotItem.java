@@ -60,12 +60,13 @@ public class DanmakuShotItem extends Item {
         String color = stack.getOrCreateTag().getString(NBT_DANMAKU_COLOR);
         DanmakuType danmakuType = this.danmakuType;
         DanmakuColor danmakuColor = DanmakuColor.getColor(color);
+        float danmakuDamage = getDanmakuDamage(stack);
         switch (danmakuType) {
-            case BUTTER_FLY -> DanmakuShootHelper.shootDanmakuFly(world, player, VAL_DEF / 2, INA_DEF, danmakuColor);
-            case ARROW_SHOT -> DanmakuShootHelper.shootDanmakuArrow(world, player, VAL_DEF, INA_DEF, danmakuColor);
+            case BUTTER_FLY -> DanmakuShootHelper.shootDanmakuFly(world, player, VAL_DEF / 2, INA_DEF, danmakuColor, danmakuDamage);
+            case ARROW_SHOT -> DanmakuShootHelper.shootDanmakuArrow(world, player, VAL_DEF, INA_DEF, danmakuColor, danmakuDamage);
             case LONG_LASER, MIDDLE_LASER, SHORT_LASER ->
-                    DanmakuShootHelper.shootDanmakuLaser(world, player, VAL_DEF, INA_DEF, danmakuType, danmakuColor);
-            default -> DanmakuShootHelper.shootDanmaku(world, player, VAL_DEF, INA_DEF, danmakuColor, danmakuType);
+                    DanmakuShootHelper.shootDanmakuLaser(world, player, VAL_DEF, INA_DEF, danmakuType, danmakuColor, danmakuDamage);
+            default -> DanmakuShootHelper.shootDanmaku(world, player, VAL_DEF, INA_DEF, danmakuColor, danmakuType, danmakuDamage);
         }
 
         player.getCooldowns().addCooldown(this, 10);
@@ -109,11 +110,30 @@ public class DanmakuShotItem extends Item {
         stack.getOrCreateTag().putString(NBT_DANMAKU_COLOR, color.getName());
     }
 
+    public static DanmakuColor getDanmakuColor(ItemStack stack) {
+        if (!(stack.getItem() instanceof DanmakuShotItem)) return GRAY;
+
+        CompoundTag tag = stack.getOrCreateTag();
+        String color = tag.getString(NBT_DANMAKU_COLOR);
+        if (!color.isEmpty()){
+            return DanmakuColor.getColor(color);
+        }
+
+        return GRAY;
+    }
+
     public static void setDanmakuDamage(ItemStack stack, float damage) {
         if (damage == 0) return;
         CompoundTag tag = stack.getOrCreateTag();
         float oldDamage = tag.getFloat(NBT_DANMAKU_DAMAGE);
         tag.putFloat(NBT_DANMAKU_DAMAGE, oldDamage + damage);
         stack.setTag(tag);
+    }
+
+    public static float getDanmakuDamage(ItemStack stack) {
+        if (!(stack.getItem() instanceof DanmakuShotItem)) return 0;
+
+        CompoundTag tag = stack.getOrCreateTag();
+        return tag.getFloat(NBT_DANMAKU_DAMAGE);
     }
 }

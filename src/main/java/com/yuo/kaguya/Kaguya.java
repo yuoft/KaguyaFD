@@ -42,10 +42,11 @@ public class Kaguya {
     }
 
     /*
-    添加基础进度
     早苗，森之助：交易界面。
     怪物：生成条件，生成群系限制
     新物品：万宝锤，扫帚，人偶
+    个性化怪物设计。
+    boss战。
      */
 
     private void commonSetup(final FMLCommonSetupEvent event) {

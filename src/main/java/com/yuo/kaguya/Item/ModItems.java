@@ -65,6 +65,8 @@ public class ModItems {
 	public static RegistryObject<Item> miniHakkero = ITEMS.register("mini_hakkero", MiniHakkero::new);
 	public static RegistryObject<Item> bloodOnmyoudama = ITEMS.register("blood_onmyoudama", YinYangOrb::new);
 
+	public static RegistryObject<Item> frozenFrog = ITEMS.register("frozen_frog", KaguyaMaterialItem::new);
+
 	//盔甲
 	public static RegistryObject<Item> fireRatBobe = ITEMS.register("fire_rat_bobe", FireRatRobe::new);
 	public static RegistryObject<Item> kappaHead = ITEMS.register("kappa_head", KappaHelmet::new);

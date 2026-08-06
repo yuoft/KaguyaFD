@@ -3,6 +3,7 @@ package com.yuo.kaguya.Event;
 import com.github.tartaricacid.touhoulittlemaid.init.InitEntities;
 import com.yuo.kaguya.Entity.Danmaku.DanmakuColor;
 import com.yuo.kaguya.Entity.IceStatueEntity;
+import com.yuo.kaguya.Entity.Mob.Cirno;
 import com.yuo.kaguya.Entity.ModEntityTypes;
 import com.yuo.kaguya.Item.ModColorItemUtils;
 import com.yuo.kaguya.Item.ModItems;
@@ -23,6 +24,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -43,9 +45,11 @@ import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.ItemCraftedEvent;
@@ -87,14 +91,14 @@ public class ModEventHandler {
                 if (SPAWNER_DATA2 == null){
                     SPAWNER_DATA2 = new MobSpawnSettings.SpawnerData(ModEntityTypes.RUMIA.get(), 2, 0, 1);
                 }
-                if (SPAWNER_DATA3 == null){
-                    SPAWNER_DATA3 = new MobSpawnSettings.SpawnerData(ModEntityTypes.CIRNO.get(), 2, 0, 1);
-                }
+//                if (SPAWNER_DATA3 == null){
+//                    SPAWNER_DATA3 = new MobSpawnSettings.SpawnerData(ModEntityTypes.CIRNO.get(), 2, 0, 1);
+//                }
                 if (canZombieSpawn) {
                     event.addSpawnerData(SPAWNER_DATA0);
                     event.addSpawnerData(SPAWNER_DATA1);
                     event.addSpawnerData(SPAWNER_DATA2);
-                    event.addSpawnerData(SPAWNER_DATA3);
+//                    event.addSpawnerData(SPAWNER_DATA3);
                 }
             }else if (event.getMobCategory() == MobCategory.CREATURE && dimensionIsOverworld(dimension)){
                 List<SpawnerData> spawnerData = event.getSpawnerDataList();
@@ -112,6 +116,41 @@ public class ModEventHandler {
             }
         }
 
+    }
+
+    // 1. 群系添加
+//    @SubscribeEvent
+//    public static void onBiomeLoad(biomee event) {
+//        if (event.getCategory() == Biome.BiomeCategory.ICY
+//                || event.getCategory() == Biome.BiomeCategory.TAIGA) {
+//            event.getSpawns().getSpawner(MobCategory.MONSTER)
+//                    .add(new MobSpawnSettings.SpawnerData(ModEntityTypes.CIRNO.get(), 2, 0, 1));
+//        }
+//    }
+
+    // 2. 注册放置条件（在 CommonSetup 中调用）
+    public static void registerSpawnPlacements() {
+        SpawnPlacements.register(ModEntityTypes.CIRNO.get(),
+                SpawnPlacements.Type.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                (type, level, spawnType, pos, random) -> {
+                    // 亮度 < 7 且 脚下为冰/雪
+                    return level.getRawBrightness(pos, 0) <= 6
+                            && (level.getBlockState(pos.below()).is(BlockTags.ICE)
+                            || level.getBlockState(pos.below()).is(BlockTags.SNOW));
+                });
+    }
+
+    // 3. 运行时额外条件（可选）
+//    @SubscribeEvent
+    public static void onFinalizeSpawn(MobSpawnEvent.FinalizeSpawn event) {
+        if (event.getEntity() instanceof Cirno) {
+            Level level = event.getEntity().level();
+            // 只在夜晚生成
+            if (!level.isNight()) {
+                event.setSpawnCancelled(true);
+            }
+        }
     }
 
     @SubscribeEvent

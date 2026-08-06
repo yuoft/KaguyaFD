@@ -10,6 +10,7 @@ import com.yuo.kaguya.Proxy.ClientProxy;
 import com.yuo.kaguya.Proxy.CommonProxy;
 import com.yuo.kaguya.Proxy.IProxy;
 import com.yuo.kaguya.Tile.ModTileTypes;
+import com.yuo.kaguya.World.MobGen.ModBiomeModifiers;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
@@ -38,6 +39,7 @@ public class Kaguya {
         ModMenuTypes.MENU_TYPES.register(modEventBus);
         ModTileTypes.BLOCK_ENTITY_TYPES.register(modEventBus);
         ModEffects.EFFECTS.register(modEventBus);
+        ModBiomeModifiers.BIOME_MODIFIER_SERIALIZERS.register(modEventBus);
         proxy.registerHandlers();
     }
 
@@ -47,6 +49,7 @@ public class Kaguya {
     新物品：万宝锤，扫帚，人偶
     个性化怪物设计。
     boss战。
+    琪露诺冻青蛙，早苗中立时治疗周围，灵梦不攻击金套玩家。元素弹幕（冰弹等）。生物头顶气泡信息。生成优化（特定结构生成？）
      */
 
     private void commonSetup(final FMLCommonSetupEvent event) {

@@ -2,6 +2,7 @@ package com.yuo.kaguya.Entity;
 
 import com.yuo.kaguya.Entity.Danmaku.*;
 import com.yuo.kaguya.Entity.Mob.BaseMobEntity;
+import com.yuo.kaguya.Entity.Mob.Cirno;
 import com.yuo.kaguya.Entity.Mob.TraderMob;
 import com.yuo.kaguya.Kaguya;
 import net.minecraft.world.entity.EntityType;
@@ -62,8 +63,8 @@ public class ModEntityTypes {
     public static final RegistryObject<EntityType<BaseMobEntity>> RUMIA = ENTITY_TYPES.register("rumia",
             () -> EntityType.Builder.of(BaseMobEntity::new, MobCategory.MONSTER).sized(sizeWidth, sizeHeight)
                     .clientTrackingRange(trackingRange).updateInterval(updateInterval).build("rumia"));
-    public static final RegistryObject<EntityType<BaseMobEntity>> CIRNO = ENTITY_TYPES.register("cirno",
-            () -> EntityType.Builder.of(BaseMobEntity::new, MobCategory.MONSTER).sized(sizeWidth, sizeHeight)
+    public static final RegistryObject<EntityType<Cirno>> CIRNO = ENTITY_TYPES.register("cirno",
+            () -> EntityType.Builder.of(Cirno::new, MobCategory.MONSTER).sized(sizeWidth, sizeHeight)
                     .clientTrackingRange(trackingRange).updateInterval(updateInterval).build("cirno"));
     public static final RegistryObject<EntityType<TraderMob>> KOCHIYA_SANAE = ENTITY_TYPES.register("kochiya_sanae",
             () -> EntityType.Builder.of(TraderMob::new, MobCategory.CREATURE).sized(sizeWidth, sizeHeight)

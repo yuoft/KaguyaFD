@@ -73,7 +73,7 @@ public class ModEventHandler {
     private static MobSpawnSettings.SpawnerData SPAWNER_DATA4;
     private static MobSpawnSettings.SpawnerData SPAWNER_DATA5;
 
-    @SubscribeEvent
+//    @SubscribeEvent
     public static void addMobSpawnInfo(LevelEvent.PotentialSpawns event) {
         LevelAccessor var2 = event.getLevel();
         if (var2 instanceof ServerLevel level) {

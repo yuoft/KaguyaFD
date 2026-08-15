@@ -29,7 +29,7 @@ import java.util.UUID;
 /**
  * 中立生物
  */
-public class ModNeutralMob extends BaseMobEntity implements NeutralMob {
+public class ModNeutralMob extends KFDBaseMob implements NeutralMob {
     private static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME = SynchedEntityData.defineId(ModNeutralMob.class, EntityDataSerializers.INT);
 
     private UUID persistentAngerTarget;

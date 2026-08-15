@@ -1,7 +1,8 @@
 package com.yuo.kaguya.Entity;
 
 import com.yuo.kaguya.Entity.Danmaku.*;
-import com.yuo.kaguya.Entity.Mob.BaseMobEntity;
+import com.yuo.kaguya.Entity.Mob.HakureiReimu;
+import com.yuo.kaguya.Entity.Mob.KFDBaseMob;
 import com.yuo.kaguya.Entity.Mob.Cirno;
 import com.yuo.kaguya.Entity.Mob.TraderMob;
 import com.yuo.kaguya.Kaguya;
@@ -54,14 +55,14 @@ public class ModEntityTypes {
     private static final int trackingRange = 16;
     private static final int updateInterval = 1;
 
-    public static final RegistryObject<EntityType<BaseMobEntity>> HAKUREI_REIMU = ENTITY_TYPES.register("hakurei_reimu",
-            () -> EntityType.Builder.of(BaseMobEntity::new, MobCategory.MONSTER).sized(sizeWidth, sizeHeight)
+    public static final RegistryObject<EntityType<HakureiReimu>> HAKUREI_REIMU = ENTITY_TYPES.register("hakurei_reimu",
+            () -> EntityType.Builder.of(HakureiReimu::new, MobCategory.MONSTER).sized(sizeWidth, sizeHeight)
                     .clientTrackingRange(trackingRange).updateInterval(updateInterval).build("hakurei_reimu"));
-    public static final RegistryObject<EntityType<BaseMobEntity>> KIRISAME_MARISA = ENTITY_TYPES.register("kirisame_marisa",
-            () -> EntityType.Builder.of(BaseMobEntity::new, MobCategory.MONSTER).sized(sizeWidth, sizeHeight)
+    public static final RegistryObject<EntityType<KFDBaseMob>> KIRISAME_MARISA = ENTITY_TYPES.register("kirisame_marisa",
+            () -> EntityType.Builder.of(KFDBaseMob::new, MobCategory.MONSTER).sized(sizeWidth, sizeHeight)
                     .clientTrackingRange(trackingRange).updateInterval(updateInterval).build("kirisame_marisa"));
-    public static final RegistryObject<EntityType<BaseMobEntity>> RUMIA = ENTITY_TYPES.register("rumia",
-            () -> EntityType.Builder.of(BaseMobEntity::new, MobCategory.MONSTER).sized(sizeWidth, sizeHeight)
+    public static final RegistryObject<EntityType<KFDBaseMob>> RUMIA = ENTITY_TYPES.register("rumia",
+            () -> EntityType.Builder.of(KFDBaseMob::new, MobCategory.MONSTER).sized(sizeWidth, sizeHeight)
                     .clientTrackingRange(trackingRange).updateInterval(updateInterval).build("rumia"));
     public static final RegistryObject<EntityType<Cirno>> CIRNO = ENTITY_TYPES.register("cirno",
             () -> EntityType.Builder.of(Cirno::new, MobCategory.MONSTER).sized(sizeWidth, sizeHeight)

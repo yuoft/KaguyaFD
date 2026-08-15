@@ -1,22 +1,19 @@
 package com.yuo.kaguya.Entity.Mob;
 
-import com.github.tartaricacid.touhoulittlemaid.entity.monster.EntityFairy;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.pathfinder.Path;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
 public class RangeAttackGoal extends Goal {
     private static final int ATTACK_COOLDOWN = 20; // 攻击冷却
-    private final BaseMobEntity mob;
+    private final KFDBaseMob mob;
     private final double minDistance;
     private final double speedIn;
     private int attackCooldown;
 
-    public RangeAttackGoal(BaseMobEntity entityFairy, double minDistance, double speedIn) {
+    public RangeAttackGoal(KFDBaseMob entityFairy, double minDistance, double speedIn) {
         this.mob = entityFairy;
         this.minDistance = minDistance;
         this.speedIn = speedIn;

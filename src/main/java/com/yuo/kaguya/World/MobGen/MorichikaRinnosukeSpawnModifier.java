@@ -1,0 +1,32 @@
+package com.yuo.kaguya.World.MobGen;
+
+import com.mojang.serialization.Codec;
+import com.yuo.kaguya.Entity.ModEntityTypes;
+import net.minecraft.core.Holder;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraftforge.common.Tags.Biomes;
+import net.minecraftforge.common.world.BiomeModifier;
+import net.minecraftforge.common.world.ModifiableBiomeInfo;
+
+public class MorichikaRinnosukeSpawnModifier implements BiomeModifier {
+
+    public static final Codec<MorichikaRinnosukeSpawnModifier> CODEC = Codec.unit(MorichikaRinnosukeSpawnModifier::new);
+
+    @Override
+    public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
+        if (phase == Phase.ADD) {
+            if (biome.is(BiomeTags.IS_OVERWORLD)) {
+                builder.getMobSpawnSettings().addSpawn(MobCategory.MONSTER,
+                        new MobSpawnSettings.SpawnerData(ModEntityTypes.MORICHIKA_RINNOSUKE.get(), 2, 0, 1));
+            }
+        }
+    }
+
+    @Override
+    public Codec<? extends BiomeModifier> codec() {
+        return CODEC;
+    }
+}

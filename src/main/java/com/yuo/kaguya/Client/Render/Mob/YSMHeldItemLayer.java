@@ -7,7 +7,7 @@ import com.github.tartaricacid.touhoulittlemaid.compat.slashblade.SlashBladeComp
 import com.github.tartaricacid.touhoulittlemaid.compat.slashblade.SlashBladeRender;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import com.yuo.kaguya.Entity.Mob.BaseMobEntity;
+import com.yuo.kaguya.Entity.Mob.KFDBaseMob;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -16,7 +16,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-public class YSMHeldItemLayer extends RenderLayer<BaseMobEntity, BedrockModel<BaseMobEntity>> {
+public class YSMHeldItemLayer extends RenderLayer<KFDBaseMob, BedrockModel<KFDBaseMob>> {
     private final ItemInHandRenderer itemInHandRenderer;
 
     public YSMHeldItemLayer(YSMModelRender maidRenderer, ItemInHandRenderer pItemInHandRenderer) {
@@ -24,7 +24,7 @@ public class YSMHeldItemLayer extends RenderLayer<BaseMobEntity, BedrockModel<Ba
         this.itemInHandRenderer = pItemInHandRenderer;
     }
 
-    public void render(PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn, BaseMobEntity maid, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn, KFDBaseMob maid, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         ItemStack mainRightItem = maid.getMainHandItem();
         ItemStack offLeftItem = maid.getOffhandItem();
         BedrockModel<Mob> model = (BedrockModel)this.getParentModel();

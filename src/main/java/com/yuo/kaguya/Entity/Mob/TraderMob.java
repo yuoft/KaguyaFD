@@ -22,9 +22,12 @@ import net.minecraft.world.item.trading.Merchant;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.util.ITeleporter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 /**
  * 可交易的中立生物
@@ -52,6 +55,24 @@ public class TraderMob extends ModNeutralMob implements Merchant {
             // 清除攻击目标，防止它走开去攻击
             this.setTarget(null);
         }
+
+        if (level().isClientSide) return;
+
+        // ─── 早苗特殊能力：中立时治疗周围生物 ───
+        if (this.getType() == ModEntityTypes.KOCHIYA_SANAE.get() && !this.isTrading() && this.getRemainingPersistentAngerTime() <= 0
+                && this.getTarget() == null) {
+
+            Level level = this.level();
+            if (tickCount % 20 == 0) {
+                AABB aabb = this.getBoundingBox().inflate(6.0);
+                List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, aabb, e -> e != this && e.isAlive());
+                for (LivingEntity entity : entities) {
+                    if (entity.getHealth() < entity.getMaxHealth()) {
+                        entity.heal(4.0F);                         // 恢复 1 点生命（半颗心）
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -77,7 +98,7 @@ public class TraderMob extends ModNeutralMob implements Merchant {
     }
 
     protected void stopTrading() {
-        this.setTradingPlayer((Player)null);
+        this.setTradingPlayer((Player) null);
     }
 
     public boolean isTrading() {
@@ -89,15 +110,15 @@ public class TraderMob extends ModNeutralMob implements Merchant {
         return this.level().isClientSide;
     }
 
-    @Override
-    public void setTradingPlayer(@Nullable Player player) {
-        this.tradingPlayer = player;
-    }
-
     @Nullable
     @Override
     public Player getTradingPlayer() {
         return this.tradingPlayer;
+    }
+
+    @Override
+    public void setTradingPlayer(@Nullable Player player) {
+        this.tradingPlayer = player;
     }
 
     @Override
@@ -169,23 +190,24 @@ public class TraderMob extends ModNeutralMob implements Merchant {
             // 早苗：金苹果 -> 病平愈守
             ItemStack input = new ItemStack(ModItems.danmakuMaterial.get(), 16);
             ItemStack output = new ItemStack(ModItems.byoukiheiyuMamori.get());
-            this.offers.add(getMerchantOffer(input, output, 10,5, 0.05f));
+            this.offers.add(getMerchantOffer(input, output, 10, 5, 0.05f));
         } else if (this.getType() == ModEntityTypes.MORICHIKA_RINNOSUKE.get()) {
             // 霖之助：TNT -> 灵击符
             ItemStack talisman = new ItemStack(ModItems.spiritualStrikeTalisman.get());
-            this.offers.add(0, getMerchantOffer(new ItemStack(ModItems.danmakuMaterial.get(), 16), talisman, 8,3, 0.03f));
-            this.offers.add(1, getMerchantOffer(new ItemStack(ModItems.smallPotion.get(), 22), talisman, 8,3, 0.03f));
-            this.offers.add(2, getMerchantOffer(new ItemStack(Items.NETHER_STAR), new ItemStack(ModItems.magicBroom.get()), 2,6, 0.03f));
-            this.offers.add(3, getMerchantOffer(new ItemStack(Items.GOLD_INGOT, 2), new ItemStack(Items.ENDER_PEARL), 6,3, 0.03f));
-            this.offers.add(4, getMerchantOffer(new ItemStack(Items.LAPIS_BLOCK), new ItemStack(ModItems.thPotion.get(), 4), 12,2, 0.03f));
-            this.offers.add(5, getMerchantOffer(new ItemStack(Items.REDSTONE_BLOCK), new ItemStack(ModItems.smallPotion.get(), 2), 12,2, 0.03f));
+            this.offers.add(0, getMerchantOffer(new ItemStack(ModItems.danmakuMaterial.get(), 16), talisman, 8, 3, 0.03f));
+            this.offers.add(1, getMerchantOffer(new ItemStack(ModItems.smallPotion.get(), 22), talisman, 8, 3, 0.03f));
+            this.offers.add(2, getMerchantOffer(new ItemStack(Items.NETHER_STAR), new ItemStack(ModItems.magicBroom.get()), 2, 6, 0.03f));
+            this.offers.add(3, getMerchantOffer(new ItemStack(Items.GOLD_INGOT, 2), new ItemStack(Items.ENDER_PEARL), 6, 3, 0.03f));
+            this.offers.add(4, getMerchantOffer(new ItemStack(Items.LAPIS_BLOCK), new ItemStack(ModItems.thPotion.get(), 4), 12, 2, 0.03f));
+            this.offers.add(5, getMerchantOffer(new ItemStack(Items.REDSTONE_BLOCK), new ItemStack(ModItems.smallPotion.get(), 2), 12, 2, 0.03f));
         }
     }
 
     /**
      * 添加一个新交易项
-     * @param maxUses 最大交易次数
-     * @param villagerXp 商人获取经验
+     *
+     * @param maxUses         最大交易次数
+     * @param villagerXp      商人获取经验
      * @param priceMultiplier 涨降价幅度
      */
     private MerchantOffer getMerchantOffer(ItemStack intputA, ItemStack intputB, ItemStack output, int maxUses, int villagerXp, float priceMultiplier) {
@@ -194,8 +216,9 @@ public class TraderMob extends ModNeutralMob implements Merchant {
 
     /**
      * 添加一个新交易项
-     * @param maxUses 最大交易次数
-     * @param villagerXp 商人获取经验
+     *
+     * @param maxUses         最大交易次数
+     * @param villagerXp      商人获取经验
      * @param priceMultiplier 涨降价幅度
      */
     private MerchantOffer getMerchantOffer(ItemStack intputA, ItemStack output, int maxUses, int villagerXp, float priceMultiplier) {

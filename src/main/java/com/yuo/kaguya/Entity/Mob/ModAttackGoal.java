@@ -5,11 +5,11 @@ import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.player.Player;
 
 public class ModAttackGoal extends MeleeAttackGoal {
-    private final BaseMobEntity mob;
+    private final KFDBaseMob mob;
     private final double maxDistance; // 最大近战距离
     private int raiseArmTicks;
 
-    public ModAttackGoal(BaseMobEntity mob, double speedModifier, boolean followingTargetEvenIfNotSeen, double maxDistance) {
+    public ModAttackGoal(KFDBaseMob mob, double speedModifier, boolean followingTargetEvenIfNotSeen, double maxDistance) {
         super(mob, speedModifier, followingTargetEvenIfNotSeen);
         this.mob = mob;
         this.maxDistance = maxDistance;

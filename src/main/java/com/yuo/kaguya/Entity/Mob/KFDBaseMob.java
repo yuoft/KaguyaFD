@@ -1,7 +1,6 @@
 package com.yuo.kaguya.Entity.Mob;
 
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
-import com.github.tartaricacid.touhoulittlemaid.api.event.MaidPlaySoundEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.yuo.kaguya.Entity.*;
@@ -35,17 +34,16 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BaseMobEntity extends Monster implements IMaid, RangedAttackMob {
+public class KFDBaseMob extends Monster implements IMaid, RangedAttackMob {
     protected String modelId;
 
-    public BaseMobEntity(EntityType<? extends Monster> type, Level level) {
+    public KFDBaseMob(EntityType<? extends Monster> type, Level level) {
         super(type, level);
 //        this.setPersistenceRequired();
         this.setModelId(getRegId(type.getDescriptionId()));
@@ -71,7 +69,7 @@ public class BaseMobEntity extends Monster implements IMaid, RangedAttackMob {
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, EntityMaid.class, 8.0F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
         // 攻击目标选择
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::shouldAttackPlayer));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Animal.class, false));
     }
 
@@ -204,6 +202,10 @@ public class BaseMobEntity extends Monster implements IMaid, RangedAttackMob {
     @Override
     public int getExperienceReward() {
         return super.getExperienceReward() * 2;
+    }
+
+    protected boolean shouldAttackPlayer(LivingEntity living) {
+        return true;
     }
 
     public void setModelId(String modelId) {

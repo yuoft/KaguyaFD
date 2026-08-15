@@ -8,7 +8,7 @@ import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 
-public class Cirno extends BaseMobEntity{
+public class Cirno extends KFDBaseMob {
     public Cirno(EntityType<? extends Monster> type, Level level) {
         super(type, level);
     }

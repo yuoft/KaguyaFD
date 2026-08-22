@@ -43,6 +43,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.IceBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -254,10 +256,10 @@ public class ModEventHandler {
     @SubscribeEvent
     public static void onBlockBreak(BlockEvent.BreakEvent event){
         BlockState state = event.getState();
+        LevelAccessor level = event.getLevel();
+        BlockPos pos = event.getPos();
         if (state.getBlock() instanceof LeavesBlock){
-            LevelAccessor level = event.getLevel();
             ItemStack useItem = event.getPlayer().getMainHandItem();
-            BlockPos pos = event.getPos();
             if (useItem.getItem() == ModItems.hisouSword.get() && pos.getY() >= 128){ //物品掉落
                 RandomSource random = level.getRandom();
                 int looting = useItem.getEnchantmentLevel(Enchantments.MOB_LOOTING);
@@ -265,6 +267,14 @@ public class ModEventHandler {
                     ItemEntity itemEntity = new ItemEntity(event.getPlayer().level(), pos.getX(), pos.getY() + 0.5d, pos.getZ(), new ItemStack(ModItems.heavenlyPeach.get()));
                     level.addFreshEntity(itemEntity);
                 }
+            }
+        }
+
+        //碎冰掉落
+        if (state.getBlock() instanceof IceBlock){
+            if (RANDOM.nextFloat() < 0.45f){
+                ItemEntity itemEntity = new ItemEntity(event.getPlayer().level(), pos.getX(), pos.getY() + 0.5d, pos.getZ(), new ItemStack(ModItems.brokenIce.get()));
+                level.addFreshEntity(itemEntity);
             }
         }
     }

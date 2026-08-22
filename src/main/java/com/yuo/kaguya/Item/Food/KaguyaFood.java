@@ -43,6 +43,7 @@ public class KaguyaFood extends Item {
             .effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 20 * 10, 0), 1.0f).build();
     public static FoodProperties swallowCowrieShell = new FoodProperties.Builder().nutrition(10).saturationMod(0.6f)
             .effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 20 * 30, 1), 1.0f).build();
+    public static FoodProperties iceStick = new FoodProperties.Builder().nutrition(1).saturationMod(0.6f).fast().build();
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {

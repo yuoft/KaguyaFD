@@ -67,7 +67,7 @@ public class ModItems {
 
 	public static RegistryObject<Item> frozenFrog = ITEMS.register("frozen_frog", KaguyaMaterialItem::new);
 	public static RegistryObject<Item> brokenIce = ITEMS.register("broken_ice", KaguyaMaterialItem::new);
-	public static RegistryObject<Item> iceStick = ITEMS.register("ice_stick", KaguyaMaterialItem::new);
+	public static RegistryObject<Item> iceStick = ITEMS.register("ice_stick",  () -> new KaguyaFood(KaguyaFood.iceStick));
 
 	//盔甲
 	public static RegistryObject<Item> fireRatBobe = ITEMS.register("fire_rat_bobe", FireRatRobe::new);

@@ -22,10 +22,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Mod.EventBusSubscriber(modid = "kaguya", value = Dist.CLIENT)
 public class OutLineEvent {
-    private static final Map<BlockPos, BlockHighlightInfo> highlightedBlocks = new HashMap<>();
+    private static final Map<BlockPos, BlockHighlightInfo> highlightedBlocks = new ConcurrentHashMap<>();
 
     @SubscribeEvent
     public static void onRenderLevelStage(RenderLevelStageEvent event) {

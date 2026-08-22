@@ -14,6 +14,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.Tags.Blocks;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -250,6 +251,11 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', Items.ENDER_PEARL).define('y', ModItems.sukimaGap.get()).define('z', Items.STICK)
                 .pattern("xxx").pattern("xyx").pattern(" z ")
                 .unlockedBy("has_item", has(ModItems.gapFoldingUmbrella.get())).save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.brokenIce.get()).requires(Items.ICE)
+                .unlockedBy("has_item", has(ModItems.iceStick.get())).save(consumer);
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.iceStick.get()).requires(ModItems.brokenIce.get()).requires(Items.STICK)
+                .unlockedBy("has_item", has(ModItems.iceStick.get())).save(consumer);
 
         //女仆联动弹幕
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.smallPotion.get(), 5).requires(InitItems.POWER_POINT.get())

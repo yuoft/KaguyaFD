@@ -37,7 +37,6 @@ public class NazrinPendulum extends KaguyaPrpo {
         AABB aabb = new AABB(centerPos.offset(-box, -box, -box), centerPos.offset(box, box, box));
 
         if (!level.isClientSide) {
-            // 方法1：使用 toList() 复制所有坐标
             Stream<BlockPos> posStream = BlockPos.betweenClosedStream(aabb);
             posStream.map(BlockPos::immutable)  // 关键：将 mutable BlockPos 转换为 immutable
                     .forEach(pos -> {
@@ -50,7 +49,7 @@ public class NazrinPendulum extends KaguyaPrpo {
         }
 
         player.playSound(SoundEvents.PLAYER_LEVELUP);
-        player.getCooldowns().addCooldown(this, 20 * 10);
+        player.getCooldowns().addCooldown(this, 40 * 10);
         return super.use(level, player, hand);
     }
 

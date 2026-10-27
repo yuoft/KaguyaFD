@@ -13,4 +13,5 @@ public class ModEffects {
 
     public static final Supplier<MobEffect> diffusion = EFFECTS.register("diffusion", DiffusionEffect::new);
     public static final Supplier<MobEffect> homing = EFFECTS.register("homing", HomingEffect::new);
+    public static final Supplier<MobEffect> expand = EFFECTS.register("expand", ExpandEffect::new);
 }

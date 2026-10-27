@@ -22,7 +22,7 @@ public class DanmakuRender extends EntityRenderer<DanmakuBase> {
         super(renderManager);
     }
 
-    private static void renderQuad(MultiBufferSource bufferIn, PoseStack poseStack, DanmakuColor color, DanmakuType type, int packedLightIn) {
+    private static void renderQuad(MultiBufferSource bufferIn, PoseStack poseStack, DanmakuColor color, DanmakuType type, int expand, int packedLightIn) {
         ResourceLocation res = KaguyaUtils.fa("textures/entity/danmaku/" + type.getName() + ".png");
         RenderType renderType = RenderType.itemEntityTranslucentCull(res);
 
@@ -30,14 +30,15 @@ public class DanmakuRender extends EntityRenderer<DanmakuBase> {
         PoseStack.Pose poseStackLast = poseStack.last();
         Matrix4f pose = poseStackLast.pose();
         Matrix3f normal = poseStackLast.normal();
+        double size = type.getSize() * expand;
 
-        vertex(buffer, pose, normal, -type.getSize(), type.getSize(), 0, 0, color, packedLightIn);
-        vertex(buffer, pose, normal, -type.getSize(), -type.getSize(), 0, 1, color, packedLightIn);
-        vertex(buffer, pose, normal, type.getSize(), -type.getSize(), 1, 1, color, packedLightIn);
-        vertex(buffer, pose, normal, type.getSize(), type.getSize(), 1, 0, color, packedLightIn);
+        vertex(buffer, pose, normal, -size, size, 0, 0, color, packedLightIn);
+        vertex(buffer, pose, normal, -size, -size, 0, 1, color, packedLightIn);
+        vertex(buffer, pose, normal, size, -size, 1, 1, color, packedLightIn);
+        vertex(buffer, pose, normal, size, size, 1, 0, color, packedLightIn);
     }
 
-    private static void renderGlowQuad(MultiBufferSource bufferIn, PoseStack poseStack, DanmakuColor color, DanmakuType type) {
+    private static void renderGlowQuad(MultiBufferSource bufferIn, PoseStack poseStack, DanmakuColor color, DanmakuType type, int expand) {
         ResourceLocation res = KaguyaUtils.fa("textures/entity/danmaku/" + type.getName() + ".png");
 
         // 使用发光渲染类型
@@ -55,11 +56,12 @@ public class DanmakuRender extends EntityRenderer<DanmakuBase> {
         float red = Math.min(1.0f, color.getFloatRed() * glowFactor);
         float green = Math.min(1.0f, color.getFloatGreen() * glowFactor);
         float blue = Math.min(1.0f, color.getFloatBlue() * glowFactor);
+        double size = type.getSize() * expand;
 
-        vertexGlow(buffer, pose, normal, -type.getSize(), type.getSize(), 0, 0, red, green, blue, glowLight);
-        vertexGlow(buffer, pose, normal, -type.getSize(), -type.getSize(), 0, 1, red, green, blue, glowLight);
-        vertexGlow(buffer, pose, normal, type.getSize(), -type.getSize(), 1, 1, red, green, blue, glowLight);
-        vertexGlow(buffer, pose, normal, type.getSize(), type.getSize(), 1, 0, red, green, blue, glowLight);
+        vertexGlow(buffer, pose, normal, -size, size, 0, 0, red, green, blue, glowLight);
+        vertexGlow(buffer, pose, normal, -size, -size, 0, 1, red, green, blue, glowLight);
+        vertexGlow(buffer, pose, normal, size, -size, 1, 1, red, green, blue, glowLight);
+        vertexGlow(buffer, pose, normal, size, size, 1, 0, red, green, blue, glowLight);
     }
 
     private static void vertex(VertexConsumer bufferIn, Matrix4f pose, Matrix3f normal, double x, double y, float u, float v, DanmakuColor color, int packedLight) {
@@ -74,6 +76,7 @@ public class DanmakuRender extends EntityRenderer<DanmakuBase> {
     public void render(DanmakuBase entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
         DanmakuColor color = entity.getColor();
         DanmakuType type = entity.getDanmakuType();
+        int expand = entity.getExpand();
 
         poseStack.pushPose();
         poseStack.translate(0, 0.1, 0);
@@ -81,11 +84,11 @@ public class DanmakuRender extends EntityRenderer<DanmakuBase> {
         poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
 
         // 渲染主体
-        renderQuad(bufferIn, poseStack, color, type, packedLightIn);
+        renderQuad(bufferIn, poseStack, color, type, expand, packedLightIn);
 
         // 渲染发光层（使用更高的亮度）
         if (isLightType(type))
-            renderGlowQuad(bufferIn, poseStack, color, type);
+            renderGlowQuad(bufferIn, poseStack, color, type, expand);
 
         poseStack.popPose();
     }

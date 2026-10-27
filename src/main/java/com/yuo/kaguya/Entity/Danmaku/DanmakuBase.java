@@ -52,6 +52,7 @@ public class DanmakuBase extends ThrowableProjectile {
     private static final int HOMING_COOLDOWN = 4; // 每4 tick更新一次方向
     protected static final EntityDataAccessor<Integer> DANMAKU_TYPE = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.INT); //弹幕类型--圆，方，星。。。
     protected static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.INT); //弹幕颜色
+    protected static final EntityDataAccessor<Integer> EXPAND = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.INT); //弹幕大小
     protected static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.FLOAT); //弹幕攻击伤害
     protected static final EntityDataAccessor<Float> GRAVITY = SynchedEntityData.defineId(DanmakuBase.class, EntityDataSerializers.FLOAT); //重力
 
@@ -72,6 +73,9 @@ public class DanmakuBase extends ThrowableProjectile {
         this.danmakuType = danmakuType;
         this.danmakuColor = danmakuColor;
         this.setDanmakuType(this.danmakuType);
+        MobEffectInstance effect = living.getEffect(ModEffects.expand.get());
+        if (effect != null)
+            this.setExpand(effect.getAmplifier() + 2);
         this.setColor(this.danmakuColor);
         this.setGravityVelocity(0);
         this.setMaxTicksExisted(DEF_MAX_TICKS_EXISTED);
@@ -206,6 +210,7 @@ public class DanmakuBase extends ThrowableProjectile {
     protected void defineSynchedData() {
         this.entityData.define(DANMAKU_TYPE, DanmakuType.TINY_BALL.ordinal());
         this.entityData.define(COLOR, DanmakuColor.GREEN.ordinal());
+        this.entityData.define(EXPAND, 1);
         this.entityData.define(DAMAGE, DanmakuType.TINY_BALL.getDamage());
         this.entityData.define(GRAVITY, 0f); //默认无重力
     }
@@ -248,8 +253,16 @@ public class DanmakuBase extends ThrowableProjectile {
         return this;
     }
 
+    public int getExpand() {
+        return this.entityData.get(EXPAND);
+    }
+
+    public void setExpand(int expand) { //最小为1
+        this.entityData.set(EXPAND, Math.max(1, expand));
+    }
+
     public float getDamage() {
-        return this.entityData.get(DAMAGE);
+        return this.entityData.get(DAMAGE) * getExpand();
     }
 
     public DanmakuBase setDamage(float damage) {

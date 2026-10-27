@@ -4,6 +4,7 @@ import com.yuo.kaguya.Item.KaguyaWeapon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -19,31 +20,38 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 绯想之剑
  */
 public class HisouSword extends KaguyaWeapon {
-    private Entity targetEntity;  // 用于记录第一次攻击的实体（原逻辑保留）
+    private final Weakness weakness;  // 气质记录
 
     public HisouSword() {
         super(Tiers.NETHERITE, 5, new Properties().defaultDurability(200).rarity(Rarity.UNCOMMON));
+        this.weakness = new Weakness(null, 0);
     }
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
         super.appendHoverText(stack, level, components, flag);
-        if (targetEntity != null) {
-            components.add(Component.translatable("info.kaguya.hisou_sword").append(targetEntity.getDisplayName()));
+        if (!weakness.isEmpty()) {
+            components.add(Component.translatable("info.kaguya.hisou_sword").append(weakness.getEntity().getDisplayName())
+                    .append(" x " + weakness.getNumber()));
         }
     }
 
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity mob, LivingEntity player) {
-        if (targetEntity == null) {
-            targetEntity = mob;
+        if (weakness.isEmpty()) {
+            weakness.setEntity(mob);
+            weakness.setNumber(1);
         } else {
-            mob.hurt(player.damageSources().playerAttack((Player) player), this.getDamage() * 2);
+            if (weakness.getEntity().getType() == mob.getType()){ //对气质同种生物加伤
+                mob.hurt(player.damageSources().playerAttack((Player) player), this.getDamage() * ( 1 + 0.05f * weakness.getNumber()));
+                weakness.addNumber();
+            }else mob.hurt(player.damageSources().playerAttack((Player) player), this.getDamage());
         }
         return super.hurtEnemy(stack, mob, player);
     }
@@ -51,16 +59,24 @@ public class HisouSword extends KaguyaWeapon {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (player.experienceLevel >= 5 || player.isCreative()) {
-            if (!level.isClientSide) {
-                if (!player.getAbilities().instabuild) {
-                    player.giveExperienceLevels(-5);
-                    stack.hurtAndBreak(5, player, (p) -> p.broadcastBreakEvent(hand));
+        if (!level.isClientSide) {
+            if (player.isCrouching()) {
+                weakness.clear();
+                player.playSound(SoundEvents.BUCKET_EMPTY);
+                return InteractionResultHolder.pass(stack);
+            }else {
+                if (player.experienceLevel >= 5 || player.isCreative()) {
+                    if (!player.getAbilities().instabuild) {
+                        player.giveExperienceLevels(-5);
+                        stack.hurtAndBreak(5, player, (p) -> p.broadcastBreakEvent(hand));
+                    }
+                    performShockwave(level, player);
+                    weakness.clear();
+                    player.getCooldowns().addCooldown(this, 200);
+                    return InteractionResultHolder.success(stack);
                 }
-                performShockwave(level, player);
-                player.getCooldowns().addCooldown(this, 200);
+
             }
-            return InteractionResultHolder.success(stack);
         }
         return InteractionResultHolder.fail(stack);
     }
@@ -72,13 +88,13 @@ public class HisouSword extends KaguyaWeapon {
      */
     private void performShockwave(Level level, LivingEntity shooter) {
         // 参数配置
-        double maxDistance = 32.0;          // 最大作用距离（格）
+        double maxDistance = 24 + 24 * weakness.getNumber() * 0.2;          // 最大作用距离（格）
         double startRadius = 0.5;           // 起始半径（格）
         double endRadius = startRadius + maxDistance * 0.5;             // 末端半径（格）
-        float damage = 12.0f;               // 对实体的直接伤害
+        float damage = 10.0f + 10 * weakness.getNumber() * 0.5f;               // 对实体的直接伤害
         float knockback = 1.5f;             // 击退力度
         int explosionCount = 8;             // 额外随机爆炸数量
-        float explosionPower = 2.5f;        // 爆炸威力
+        float explosionPower = 2.5f + weakness.getNumber() * 0.1f;        // 爆炸威力
         boolean causeFire = false;          // 是否引发火焰
 
         Vec3 origin = shooter.getEyePosition();
@@ -180,5 +196,43 @@ public class HisouSword extends KaguyaWeapon {
 
         // 起点大爆炸粒子
         level.addParticle(ParticleTypes.EXPLOSION_EMITTER, origin.x, origin.y, origin.z, 0, 0, 0);
+    }
+
+    private static class Weakness{
+        private Entity entity;
+        private Integer number;
+        public Weakness(Entity entity, Integer number) {
+            this.entity = entity;
+            this.number = number;
+        }
+
+        public void clear(){
+            this.entity = null;
+            this.number = 0;
+        }
+
+        public boolean isEmpty(){
+            return entity == null && number <= 0;
+        }
+
+        public Entity getEntity() {
+            return entity;
+        }
+
+        public Integer getNumber() {
+            return number;
+        }
+
+        public void setEntity(Entity entity) {
+            this.entity = entity;
+        }
+
+        public void setNumber(Integer number) {
+            this.number = number;
+        }
+
+        public void addNumber() {
+            this.number += 1;
+        }
     }
 }

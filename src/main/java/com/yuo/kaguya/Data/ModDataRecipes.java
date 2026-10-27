@@ -251,6 +251,14 @@ public class ModDataRecipes extends RecipeProvider {
                 .define('x', Items.ENDER_PEARL).define('y', ModItems.sukimaGap.get()).define('z', Items.STICK)
                 .pattern("xxx").pattern("xyx").pattern(" z ")
                 .unlockedBy("has_item", has(ModItems.gapFoldingUmbrella.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.magicBroom.get(), 1)
+                .define('x', Items.REDSTONE_BLOCK).define('y', Items.STICK).define('z', Items.WHEAT).define('a', ModItems.miniHakkero.get())
+                .pattern(" xy").pattern("zyx").pattern("az ")
+                .unlockedBy("has_item", has(ModItems.magicBroom.get())).save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.uchidenoKoduchi.get(), 1)
+                .define('x', Items.GOLD_BLOCK).define('y', Items.REDSTONE_BLOCK).define('z', Items.STICK)
+                .pattern("xxx").pattern("yzy").pattern(" z ")
+                .unlockedBy("has_item", has(ModItems.uchidenoKoduchi.get())).save(consumer);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.brokenIce.get()).requires(Items.ICE)
                 .unlockedBy("has_item", has(ModItems.iceStick.get())).save(consumer);

@@ -26,7 +26,7 @@
 	"item.kaguya.aja_red_stone": "艾哲红石",
 	"item.kaguya.byoukiheiyu_mamori": "病气平愈守",
 	"item.kaguya.closed_third_eye": "闭上的第三只眼",
-	"item.kaguya.cursed_decoy_doll": "被诅咒的诱饵人偶（WIP）",
+	"item.kaguya.cursed_decoy_doll": "被诅咒的诱饵人偶",
 	"item.kaguya.death_scythe": "死神的大镰刀",
 	"item.kaguya.diffusion_amulet": "扩散灵符",
 	"item.kaguya.gap_folding_umbrella": "隙间的折叠伞",
@@ -47,7 +47,7 @@
 	"item.kaguya.kinkakuzi": "金阁寺的一块天花板",
 	"item.kaguya.koyasugai": "燕的子安贝",
 	"item.kaguya.laevateinn": "莱瓦汀",
-	"item.kaguya.magic_broom": "魔法扫帚（WIP）",
+	"item.kaguya.magic_broom": "魔法扫帚",
 	"item.kaguya.mazin_kyoukan": "魔人经卷",
 	"item.kaguya.miko_stick": "风祝的驱魔棒",
 	"item.kaguya.mini_hakkero": "迷你八卦炉",
@@ -64,7 +64,7 @@
 	"item.kaguya.tengu_fan": "天狗的团扇",
 	"item.kaguya.third_eye": "第三只眼",
 	"item.kaguya.toyosatomimi_sword": "丰聪耳的宝剑",
-	"item.kaguya.uchideno_koduchi": "万宝槌（WIP）",
+	"item.kaguya.uchideno_koduchi": "万宝槌",
 	"item.kaguya.yuuka_parasol": "幽香的阳伞",
 	"item.kaguya.yuyuko_ougi": "幽幽子的扇子",
 	"item.kaguya.blood_onmyoudama": "渴望鲜血的阴阳玉",
@@ -127,6 +127,7 @@
 
 	"effect.kaguya.diffusion": "扩散",
 	"effect.kaguya.homing": "追踪",
+	"effect.kaguya.expand": "魔涌",
 
 	"container.kaguya.danmaku_craft": "弹幕工作台",
 
@@ -230,6 +231,11 @@
 	"info.kaguya.color.light_green": "亮绿色",
 	"info.kaguya.color.red": "红色",
 	"info.kaguya.color.black": "黑色",
+
+	"info.kaguya.cursed_decoy_doll.wolf_name": "魔偶狼",
+	"info.kaguya.cursed_decoy_doll.wolf_clear": "魔偶狼已消失",
+	"info.kaguya.cursed_decoy_doll.wolf_did": "魔偶狼替你承受了致命伤害",
+
 	"kaguya.message.login":"§b欢迎游玩本模组[辉夜姬的五难题·重置]，问题反馈§a点击此处!",
 	"kaguya.message.login0":"§ahttps://space.bilibili.com/21854371",
 

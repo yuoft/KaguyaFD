@@ -42,6 +42,9 @@ public class ModItems {
 	public static RegistryObject<Item> onmyoudama = ITEMS.register("onmyoudama", KaguyaMaterialItem::new);
 	public static RegistryObject<Item> smallPotion = ITEMS.register("small_potion", KaguyaMaterialItem::new);
 	public static RegistryObject<Item> thPotion = ITEMS.register("th_potion", KaguyaMaterialItem::new);
+	public static RegistryObject<Item> frozenFrog = ITEMS.register("frozen_frog", KaguyaMaterialItem::new);
+	public static RegistryObject<Item> brokenIce = ITEMS.register("broken_ice", KaguyaMaterialItem::new);
+	public static RegistryObject<Item> iceStick = ITEMS.register("ice_stick",  () -> new KaguyaFood(KaguyaFood.iceStick));
 
 	//道具
 	public static RegistryObject<Item> aja_red_stone = ITEMS.register("aja_red_stone", AjaRedStone::new);
@@ -57,17 +60,15 @@ public class ModItems {
 	public static RegistryObject<Item> soulTorch = ITEMS.register("soul_torch", KaguyaPrpo::new);
 	public static RegistryObject<Item> spiritualStrikeTalisman = ITEMS.register("spiritual_strike_talisman", SpiritStrikeCard::new);
 	public static RegistryObject<Item> closedThirdEye = ITEMS.register("closed_third_eye", CloseEye3rd::new);
-	public static RegistryObject<Item> cursedDecoyDoll = ITEMS.register("cursed_decoy_doll", KaguyaPrpo::new);
+	public static RegistryObject<Item> cursedDecoyDoll = ITEMS.register("cursed_decoy_doll", CursedDecoyDoll::new);
 	public static RegistryObject<Item> hotokeHachi = ITEMS.register("hotoke_hachi", StoneBowl::new);
 	public static RegistryObject<Item> sukimaGap = ITEMS.register("sukima_gap", SukimaGap::new);
 	public static RegistryObject<Item> thirdEye = ITEMS.register("third_eye", Eye3rd::new);
 	public static RegistryObject<Item> pendulum = ITEMS.register("pendulum", NazrinPendulum::new);
 	public static RegistryObject<Item> miniHakkero = ITEMS.register("mini_hakkero", MiniHakkero::new);
 	public static RegistryObject<Item> bloodOnmyoudama = ITEMS.register("blood_onmyoudama", YinYangOrb::new);
-
-	public static RegistryObject<Item> frozenFrog = ITEMS.register("frozen_frog", KaguyaMaterialItem::new);
-	public static RegistryObject<Item> brokenIce = ITEMS.register("broken_ice", KaguyaMaterialItem::new);
-	public static RegistryObject<Item> iceStick = ITEMS.register("ice_stick",  () -> new KaguyaFood(KaguyaFood.iceStick));
+	public static RegistryObject<Item> magicBroom = ITEMS.register("magic_broom", MagicBroom::new);
+	public static RegistryObject<Item> uchidenoKoduchi = ITEMS.register("uchideno_koduchi", WanbaoHammer::new);
 
 	//盔甲
 	public static RegistryObject<Item> fireRatBobe = ITEMS.register("fire_rat_bobe", FireRatRobe::new);
@@ -94,10 +95,8 @@ public class ModItems {
 	public static RegistryObject<Item> gapFoldingUmbrella = ITEMS.register("gap_folding_umbrella", GapFoldingUmbrella::new);
 	public static RegistryObject<Item> hisyaku = ITEMS.register("hisyaku", Hisyaku::new);
 	public static RegistryObject<Item> kappaWaterPistol = ITEMS.register("kappa_water_pistol", KappaWaterPistol::new);
-	public static RegistryObject<Item> magicBroom = ITEMS.register("magic_broom", () -> new KaguyaWeapon(Tiers.DIAMOND));
 	public static RegistryObject<Item> nuclearControlRod = ITEMS.register("nuclear_control_rod", NuclearControlRod::new);
 	public static RegistryObject<Item> tenguFan = ITEMS.register("tengu_fan", TenguFan::new);
-	public static RegistryObject<Item> uchidenoKoduchi = ITEMS.register("uchideno_koduchi", () -> new KaguyaWeapon(Tiers.DIAMOND));
 	public static RegistryObject<Item> mikoStick = ITEMS.register("miko_stick", WindStick::new);
 
 	//食物

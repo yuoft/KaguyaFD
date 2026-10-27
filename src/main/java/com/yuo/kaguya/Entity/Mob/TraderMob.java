@@ -190,7 +190,8 @@ public class TraderMob extends ModNeutralMob implements Merchant {
             // 早苗：金苹果 -> 病平愈守
             ItemStack input = new ItemStack(ModItems.danmakuMaterial.get(), 16);
             ItemStack output = new ItemStack(ModItems.byoukiheiyuMamori.get());
-            this.offers.add(getMerchantOffer(input, output, 10, 5, 0.05f));
+            this.offers.add(0, getMerchantOffer(input, output, 10, 5, 0.05f));
+            this.offers.add(1, getMerchantOffer(new ItemStack(Items.TOTEM_OF_UNDYING), new ItemStack(ModItems.cursedDecoyDoll.get()), 1, 20, 0));
         } else if (this.getType() == ModEntityTypes.MORICHIKA_RINNOSUKE.get()) {
             // 霖之助：TNT -> 灵击符
             ItemStack talisman = new ItemStack(ModItems.spiritualStrikeTalisman.get());

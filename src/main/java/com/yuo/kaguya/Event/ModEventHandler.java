@@ -8,6 +8,7 @@ import com.yuo.kaguya.Entity.ModEntityTypes;
 import com.yuo.kaguya.Item.ModColorItemUtils;
 import com.yuo.kaguya.Item.ModItems;
 import com.yuo.kaguya.Item.Prpo.Hisyaku;
+import com.yuo.kaguya.Item.Prpo.MagicBroom;
 import com.yuo.kaguya.Kaguya;
 import com.yuo.kaguya.KaguyaUtils;
 import com.yuo.kaguya.NetWork.NetWorkHandler;
@@ -51,6 +52,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -68,89 +70,16 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = Kaguya.MOD_ID)
 public class ModEventHandler {
     private static final RandomSource RANDOM = RandomSource.create();
-    private static MobSpawnSettings.SpawnerData SPAWNER_DATA0;
-    private static MobSpawnSettings.SpawnerData SPAWNER_DATA1;
-    private static MobSpawnSettings.SpawnerData SPAWNER_DATA2;
-    private static MobSpawnSettings.SpawnerData SPAWNER_DATA3;
-    private static MobSpawnSettings.SpawnerData SPAWNER_DATA4;
-    private static MobSpawnSettings.SpawnerData SPAWNER_DATA5;
 
-//    @SubscribeEvent
-    public static void addMobSpawnInfo(LevelEvent.PotentialSpawns event) {
-        LevelAccessor var2 = event.getLevel();
-        if (var2 instanceof ServerLevel level) {
+    @SubscribeEvent
+    public static void onLivingFall(LivingFallEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            boolean holdingBroom = player.getMainHandItem().getItem() instanceof MagicBroom ||
+                            player.getOffhandItem().getItem() instanceof MagicBroom;
 
-            ResourceLocation dimension = level.dimension().location();
-            if (event.getMobCategory() == MobCategory.MONSTER && dimensionIsOkay(dimension)) {
-                List<SpawnerData> spawnerData = event.getSpawnerDataList();
-                boolean canZombieSpawn = spawnerData.stream().anyMatch((data) -> data.type.equals(EntityType.ZOMBIE));
-                if (SPAWNER_DATA0 == null){
-                    SPAWNER_DATA0 = new MobSpawnSettings.SpawnerData(ModEntityTypes.HAKUREI_REIMU.get(), 2, 0, 1);
-                }
-                if (SPAWNER_DATA1 == null){
-                    SPAWNER_DATA1 = new MobSpawnSettings.SpawnerData(ModEntityTypes.KIRISAME_MARISA.get(), 2, 0, 1);
-                }
-                if (SPAWNER_DATA2 == null){
-                    SPAWNER_DATA2 = new MobSpawnSettings.SpawnerData(ModEntityTypes.RUMIA.get(), 2, 0, 1);
-                }
-//                if (SPAWNER_DATA3 == null){
-//                    SPAWNER_DATA3 = new MobSpawnSettings.SpawnerData(ModEntityTypes.CIRNO.get(), 2, 0, 1);
-//                }
-                if (canZombieSpawn) {
-                    event.addSpawnerData(SPAWNER_DATA0);
-                    event.addSpawnerData(SPAWNER_DATA1);
-                    event.addSpawnerData(SPAWNER_DATA2);
-//                    event.addSpawnerData(SPAWNER_DATA3);
-                }
-            }else if (event.getMobCategory() == MobCategory.CREATURE && dimensionIsOverworld(dimension)){
-                List<SpawnerData> spawnerData = event.getSpawnerDataList();
-                boolean canSpawn = spawnerData.stream().anyMatch((data) -> data.type.equals(EntityType.WANDERING_TRADER));
-                if (SPAWNER_DATA4 == null){
-                    SPAWNER_DATA4 = new MobSpawnSettings.SpawnerData(ModEntityTypes.KOCHIYA_SANAE.get(), 5, 1, 1);
-                }
-                if (SPAWNER_DATA5 == null){
-                    SPAWNER_DATA5 = new MobSpawnSettings.SpawnerData(ModEntityTypes.MORICHIKA_RINNOSUKE.get(), 10, 1, 1);
-                }
-                if (canSpawn){
-                    event.addSpawnerData(SPAWNER_DATA0);
-                    event.addSpawnerData(SPAWNER_DATA5);
-                }
-            }
-        }
-
-    }
-
-    // 1. 群系添加
-//    @SubscribeEvent
-//    public static void onBiomeLoad(biomee event) {
-//        if (event.getCategory() == Biome.BiomeCategory.ICY
-//                || event.getCategory() == Biome.BiomeCategory.TAIGA) {
-//            event.getSpawns().getSpawner(MobCategory.MONSTER)
-//                    .add(new MobSpawnSettings.SpawnerData(ModEntityTypes.CIRNO.get(), 2, 0, 1));
-//        }
-//    }
-
-    // 2. 注册放置条件（在 CommonSetup 中调用）
-    public static void registerSpawnPlacements() {
-        SpawnPlacements.register(ModEntityTypes.CIRNO.get(),
-                SpawnPlacements.Type.ON_GROUND,
-                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                (type, level, spawnType, pos, random) -> {
-                    // 亮度 < 7 且 脚下为冰/雪
-                    return level.getRawBrightness(pos, 0) <= 6
-                            && (level.getBlockState(pos.below()).is(BlockTags.ICE)
-                            || level.getBlockState(pos.below()).is(BlockTags.SNOW));
-                });
-    }
-
-    // 3. 运行时额外条件（可选）
-//    @SubscribeEvent
-    public static void onFinalizeSpawn(MobSpawnEvent.FinalizeSpawn event) {
-        if (event.getEntity() instanceof Cirno) {
-            Level level = event.getEntity().level();
-            // 只在夜晚生成
-            if (!level.isNight()) {
-                event.setSpawnCancelled(true);
+            if (holdingBroom) {
+                // 减少 80% 摔落距离（即伤害变为原来的 20%）
+                event.setDistance(event.getDistance() * 0.2F);
             }
         }
     }

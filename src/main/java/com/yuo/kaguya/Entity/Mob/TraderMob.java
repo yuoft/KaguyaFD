@@ -1,15 +1,11 @@
 package com.yuo.kaguya.Entity.Mob;
 
-import com.github.tartaricacid.touhoulittlemaid.client.entity.GeckoMaidEntity;
-import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.yuo.kaguya.Entity.ModEntityTypes;
 import com.yuo.kaguya.Item.ModItems;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -42,6 +38,11 @@ public class TraderMob extends ModNeutralMob implements Merchant {
     public TraderMob(EntityType<? extends Monster> type, Level level) {
         super(type, level);
         this.setPersistenceRequired();
+    }
+
+    @Override
+    public boolean shouldDespawnInPeaceful() {
+        return false; // 指示此实体不应在和平模式下消失
     }
 
     @Override

@@ -12,6 +12,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.NeutralMob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MoveTowardsTargetGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -22,6 +24,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
@@ -55,6 +58,17 @@ public class ModNeutralMob extends KFDBaseMob implements NeutralMob {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::isAngryAt));
     }
 
+    @NotNull
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 128.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.3D)
+                .add(Attributes.ATTACK_DAMAGE, 10.0D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.5D)
+                .add(Attributes.FOLLOW_RANGE, 32.0D)
+                .add(Attributes.ARMOR, 16.0d);
+    }
+
     @Override
     public boolean hurt(DamageSource source, float value) {
         if (!this.level().isClientSide) {
@@ -65,7 +79,7 @@ public class ModNeutralMob extends KFDBaseMob implements NeutralMob {
                 this.alertOthers(livingAttacker);
             }
         }
-        if (this.getType() == ModEntityTypes.KOCHIYA_SANAE.get()) //早苗减免75%伤害
+        if (this.getType() == ModEntityTypes.KOCHIYA_SANAE.get()) //早苗减免25%伤害
             value *= 0.75f;
         return super.hurt(source, value);
     }

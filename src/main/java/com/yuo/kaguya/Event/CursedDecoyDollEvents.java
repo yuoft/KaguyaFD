@@ -1,23 +1,24 @@
 package com.yuo.kaguya.Event;
 
 import com.yuo.kaguya.Kaguya;
+import com.yuo.kaguya.Entity.Mob.MerchantSpawner;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Mod.EventBusSubscriber(modid = Kaguya.MOD_ID)
 public class CursedDecoyDollEvents {
@@ -25,6 +26,18 @@ public class CursedDecoyDollEvents {
     private static final String TIMER_KEY = "CursedDecoyDespawnTimer";
     private static final String FLAG_KEY = "IsCursedDecoyWolf";
     private static final String SPAWN_TIME_KEY = "CursedDecoySpawnTime";
+
+    private static final Map<ServerLevel, MerchantSpawner> SPAWNERS = new HashMap<>();
+
+    @SubscribeEvent
+    public static void onWorldTick(TickEvent.LevelTickEvent event) {
+        if (event.phase != TickEvent.Phase.END || event.level.isClientSide()) return;
+
+        ServerLevel level = (ServerLevel) event.level;
+        MerchantSpawner spawner = SPAWNERS.computeIfAbsent(level, k -> new MerchantSpawner());
+
+        spawner.tick(level, event.level.getDifficulty() != Difficulty.PEACEFUL, true);
+    }
 
     // ── 到期消失 + 提示主人 ──
     @SubscribeEvent

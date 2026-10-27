@@ -77,7 +77,7 @@ public class MagicBroom extends KaguyaPrpo {
             }
 
             if (cleaned > 0) {
-                player.getCooldowns().addCooldown(this, 60);
+                player.getCooldowns().addCooldown(this, 20);
             }
         }
 

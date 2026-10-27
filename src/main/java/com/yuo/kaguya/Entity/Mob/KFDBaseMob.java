@@ -88,7 +88,7 @@ public class KFDBaseMob extends Monster implements IMaid, RangedAttackMob {
     @Override
     public boolean hurt(DamageSource source, float value) {
         if (DanmakuDamageTypes.isDanmaku(source)){
-            value *= 1.5f;
+            value *= 1.25f;
         }else {
             value *= 0.75f;
         }
